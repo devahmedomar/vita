@@ -1,0 +1,37 @@
+.green{
+  min-height: 540px;
+background-image: url("../../../../../assets/images/green.png");
+position: relative;
+background-attachment: fixed;
+}
+.green div div{
+  width: 80%;
+}
+.green span{
+  color: #fff;
+  font-size: 22px;
+  font-family: "Marcellus", serif;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 17px;
+
+}
+.green h3{
+  margin-top: 25px;
+  color: #fff;
+  font-size: 80px;
+  letter-spacing: 12px;
+}
+.green div div{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+@media (max-width:767px) {
+  .green h3{
+
+    font-size: 60px;
+    width: 90% !important;
+
+  }
+}

@@ -1,1 +1,86 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
+@import "primeicons/primeicons.css";
+
+:root {
+  --mainColor: #80AA27;
+  --blackColor: #000000;
+  --purpleColor: #F43A3A;
+  --secondaryColor: #2C2C2C;
+  --whiteGray: #f3f3f3;
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  background-color: var(--whiteGray);
+  overflow-x: hidden;
+}
+
+.btn-main{
+  text-transform: uppercase;
+  background-color: var(--mainColor);
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 4px;
+  line-height: 3px;
+  text-align: center;
+  font-weight: 400;
+  padding: 18px 25px;
+  text-decoration: none;
+  display: inline-block;
+  border: 0;
+  box-shadow: none;
+}
+.btn-main:hover,.btn-main:focus{
+  box-shadow: none;
+}
+
+.btn-second{
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 4px;
+  line-height: 3px;
+  text-align: center;
+  font-weight: 400;
+  padding: 18px 25px;
+  text-decoration: none;
+  display: inline-block;
+  border: 1px solid var(--mainColor);
+  color: var(--mainColor);
+  box-shadow: none;
+  margin: 10px 48px;
+}
+.main-section {
+  padding: 60px 0 56px 0;
+}
+
+/* Reset Card primeng */
+.p-card {
+  border: 0;
+  box-shadow: none;
+}
+
+.p-card-body {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.p-card .p-card-footer {
+  padding:  4px !important;
+}
+
+.p-card .p-card-content {
+  padding: 7px 0 !important;
+}
+
+/*  */
+.p-rating .p-rating-item.p-rating-item-active .p-rating-icon {
+  color: #FFAA8F !important; /* Change this to your desired color */
+}
+.p-rating .p-rating-item .p-rating-icon:not(.p-rating-icon-active) {
+  color: #FFAA8F5E !important;
+  fill: rgba(255, 170, 143, 0.37) !important;
+}
+
+

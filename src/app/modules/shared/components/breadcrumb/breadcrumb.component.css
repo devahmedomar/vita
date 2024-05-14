@@ -1,0 +1,60 @@
+.breadcrumb-all {
+  height: 290px;
+  position: relative;
+}
+.content {
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(208, 189, 175, 1);
+  z-index: 1;
+}
+
+.overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../../../../../assets/images/bgfooter.jpeg");
+  background-repeat: repeat-x;
+  background-size: cover;
+  opacity: 5%;
+  z-index: -1;
+}
+
+.breadcrumb-all .content h2{
+  font-size: 54px;
+  font-weight: 300;
+  text-align: center;
+}
+
+ol.breadcrumb{
+  justify-content: center;
+}
+ol.breadcrumb a,ol.breadcrumb .active
+{
+  color: #fff !important;
+  font-size: 14px;
+  text-decoration: none;
+
+}
+ol.breadcrumb .active
+{
+  margin-top: 3px;
+
+}
+.breadcrumb-item+.breadcrumb-item::before {
+  color: #fff !important;
+  content: ">" !important;
+  font-size: 14px;
+  font-weight: 500;
+}

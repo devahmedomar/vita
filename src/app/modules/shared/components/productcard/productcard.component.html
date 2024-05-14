@@ -1,0 +1,20 @@
+
+<div class="card flex justify-content-center product-card position-relative mb-5">
+
+  <p-card [header]="productCardData.productName" [style]="{color:'var(--secondaryColor)',margin:'0',paddingTop:'0'}" [subheader]="productCardData.productDescription" styleClass="product-card">
+
+      <ng-template pTemplate="header">
+          <img alt="Card" [src]="productCardData.imgURL" />
+      </ng-template>
+      <div class="sale" *ngIf="productCardData.haveSale">-{{productCardData.sale}}%</div>
+      <div>
+        <p-rating [(ngModel)]="productCardData.productRate"  [cancel]="false" starStyleClass="custom-stars"/>
+        <div class="price">{{productCardData.productPrice | currency:'USD'}}</div>
+      </div>
+      <ng-template pTemplate="footer">
+          <div class="flex gap-3 mt-1">
+            <button class="btn-main">Add To cart</button>
+          </div>
+      </ng-template>
+  </p-card>
+</div>

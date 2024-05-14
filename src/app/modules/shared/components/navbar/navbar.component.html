@@ -1,0 +1,87 @@
+<section class="sticky-top top-0 w-100 navsticky">
+  <section id="topbar" class="d-flex align-items-center">
+    <div class="container d-block d-sm-flex justify-content-between justify-content-md-between ">
+      <div class="contact-info d-flex align-items-center">
+        <i class="pi pi-envelope d-flex align-items-center"></i><a
+          href="mailto:contact@example.com">contact@example.com</a>
+        <i class="pi pi-phone d-flex align-items-center ms-4"></i><span>+1 5589 55488 55</span>
+      </div>
+      <div class="social-links d-md-flex align-items-center">
+        <!-- Example single danger button -->
+        <select class="form-select">
+          <option value="english" selected>English</option>
+          <option value="french">French</option>
+          <option value="arabic">Arabic</option>
+        </select>
+        <a class="text-white" routerLinkActive="active" routerLink="/auth">Login/Register</a>
+      </div>
+    </div>
+  </section>
+
+  <nav class="navbar navbar-expand-lg bg-white">
+    <div class="container">
+      <a class="navbar-brand" routerLink="/home" routerLinkActive="active">
+        <img src="assets/images/logo.svg" alt="">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/about" routerLinkActive="active">About us</a>
+          </li>
+          <li class="dropdown nav-item"><a href="#" class="nav-link"><span>categories</span> <i
+                class="pi pi-chevron-down"></i></a>
+            <ul>
+              <li><a href="#" class="nav-link">Drop Down 1</a></li>
+              <li class="dropdown"><a href="#" class="nav-link"><span>Deep Drop Down</span> <i
+                    class="pi pi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="#" class="nav-link">Deep Drop Down 1</a></li>
+                  <li><a href="#" class="nav-link">Deep Drop Down 2</a></li>
+                  <li><a href="#" class="nav-link">Deep Drop Down 3</a></li>
+                  <li><a href="#" class="nav-link">Deep Drop Down 4</a></li>
+                  <li><a href="#" class="nav-link">Deep Drop Down 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#" class="nav-link">Drop Down 2</a></li>
+              <li><a href="#" class="nav-link">Drop Down 3</a></li>
+              <li><a href="#" class="nav-link">Drop Down 4</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/shop" routerLinkActive="active">Shop</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/blog" routerLinkActive="active">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contact us</a>
+          </li>
+        </ul>
+        <section class="d-flex right">
+          <a>
+            <i class="pi pi-search text-3xl"></i>
+          </a>
+          <a>
+            <i class="pi pi-bell text-3xl"></i>
+          </a>
+          <a>
+            <i class="pi pi-user text-3xl"></i>
+          </a>
+          <a>
+            <i class="pi pi-shopping-cart text-3xl" pBadge value="1"></i>
+          </a>
+
+        </section>
+      </div>
+    </div>
+  </nav>
+
+</section>

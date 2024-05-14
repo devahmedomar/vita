@@ -1,0 +1,43 @@
+.hero{
+  height: calc(100vh - 130px);
+  background-image: url("../../../../../assets/images/banner.png");
+  background-size: cover;
+  background-position: center;
+}
+.hero .hero-content{
+padding: 50px;
+text-align: center;
+}
+.hero .hero-content .for{
+  margin: 35px 0 23px 0;
+  font-size: 16px;
+  font-family: "Marcellus", serif;
+  font-weight: 400;
+  line-height: 20px;
+}
+.hero .hero-content .heading{
+  font-family: "Rubik", sans-serif;
+  font-size: 60px;
+  font-weight: 300;
+  width: 70%;
+  margin: auto;
+  color: var(--secondaryColor);
+}
+
+@media (max-width:767px) {
+.hero{
+  min-height: calc(100vh - 100px);
+}
+}
+
+@media (max-width:530px) {
+  .hero{
+    min-height: calc(100vh - 130px);
+
+  }
+  .hero .hero-content .heading{
+    font-size: 40px;
+    width: 80%;
+  }
+}
+

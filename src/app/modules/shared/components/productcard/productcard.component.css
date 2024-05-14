@@ -1,0 +1,39 @@
+.card{
+  background-color: white !important;
+}
+.product-card{
+  box-shadow: rgba(99, 99, 99, 0.137) 0px 2px 8px 0px;
+  padding: 10px;
+  text-align: center;
+  border: 0;
+
+}
+
+
+.sale{
+  width: 60px;
+  height: 40px;
+  position: absolute;
+  top: -20px;
+  left: 0;
+  background-color: var(--blackColor);
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  line-height: 40px;
+  font-size: 14px;
+}
+@media (max-width:890px) {
+  .sale{
+    left: 0;
+    top: 0;
+  }
+}
+
+.price{
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 10px;
+
+}
+

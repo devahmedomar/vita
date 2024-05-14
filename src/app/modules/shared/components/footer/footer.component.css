@@ -1,0 +1,16 @@
+footer{
+  min-height: 360px;
+  background-image: url("../../../../../assets/images/bgfooter.jpeg");
+  background-size: cover;
+  background-color: rgba(0, 0, 0, .92);
+  background-blend-mode: overlay;
+  overflow: hidden;
+}
+
+@media (max-width:1024px) {
+  footer{
+    min-height: auto;
+
+  }
+
+}

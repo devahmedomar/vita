@@ -1,0 +1,52 @@
+.latest{
+  font-family: "Marcellus", serif;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 20px;
+  letter-spacing: 12px;
+  color: var(--blackColor);
+  margin-bottom: 20px;
+
+}
+h2{
+  font-weight: 400;
+  font-size: 36px;
+  letter-spacing: 5px;
+  margin-bottom: 62px;
+
+}
+h4{
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 28px;
+}
+ul{
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 13px;
+}
+ul li{
+  margin-right: 31px;
+  color: #616161;
+  font-size: 14px;
+}
+ul li:first-child{
+  list-style: none;
+
+}
+
+.article-image img{
+  width: 100%;
+  object-fit: cover;
+}
+
+.read{
+  color: var(--mainColor);
+  text-decoration: none;
+  font-size: 16px;
+  letter-spacing: 3px;
+  line-height: 20px;
+  font-weight: 400;
+}

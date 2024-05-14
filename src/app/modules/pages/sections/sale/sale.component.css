@@ -1,0 +1,31 @@
+.sale{
+  min-height: 650px;
+background-image: url("../../../../../assets/images/sale.png");
+position: relative;
+}
+.sale div div{
+  width: 80%;
+}
+.sale h3{
+  color: var(--purpleColor);
+  font-size: 54px;
+  font-weight: 700;
+  letter-spacing: 4px;
+}
+.sale div div{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media (max-width:1171px) {
+  .sale h3{
+    font-size: 44px;
+
+  }
+p{
+  width: 95% !important;
+}
+
+}
+
