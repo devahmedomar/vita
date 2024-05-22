@@ -20,7 +20,7 @@
 
   <nav class="navbar navbar-expand-lg bg-white">
     <div class="container">
-      <a class="navbar-brand" routerLink="/home" routerLinkActive="active">
+      <a class="navbar-brand" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <img src="assets/images/logo.svg" alt="">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -75,7 +75,7 @@
           <a>
             <i class="pi pi-user text-3xl"></i>
           </a>
-          <a>
+          <a routerLink="/cart" class="text-black">
             <i class="pi pi-shopping-cart text-3xl" pBadge value="1"></i>
           </a>
 

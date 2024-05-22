@@ -1,0 +1,165 @@
+<app-navbar></app-navbar>
+<div class="single-product">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-5 position-relative">
+        <div class="sale-pos">22 %</div>
+        <img src="assets/images/product.png" alt="">
+      </div>
+      <div class="col-md-7 px-3 py-2">
+        <h3>Airbrush Matte</h3>
+        <p class="subhead text-muted">
+          Skin-perfecting bronzed filter for the face.
+        </p>
+        <div class="d-flex align-items-center">
+          <p-rating [(ngModel)]="rate" [cancel]="false" starStyleClass="custom-stars" />
+          <p class="numreview text-muted m-0 p-0 ms-3">(1 customer review)</p>
+        </div>
+        <div class="d-flex mt-3 mb-2">
+          <div class="old-price me-4 text-decoration-line-through text-muted">{{45| currency:'USD'}}</div>
+          <div class="price text-black">{{30 | currency:'USD'}}</div>
+        </div>
+        <p class="text-muted desc">
+          First firmament He evening second, for creature. Said male.
+          Them he every lesser he cattle also divide good days
+          second upon after Yielding lesser tree dominion form
+          beginning tree. Is gathering good shall for made. Saw. That
+          and wherein shall is kind beginning man.
+        </p>
+        <div class="d-flex bg-white py-3">
+          <p-inputNumber [(ngModel)]="prodNumber" [showButtons]="true" buttonLayout="horizontal"
+            spinnerMode="horizontal" inputId="integeronly" [min]="1" [max]="1000" inputId="horizontal"
+            decrementButtonClass="p-button-incdec" incrementButtonClass="p-button-incdec"
+            incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
+          <button class="btn-main ms-3">Add To cart</button>
+        </div>
+        <div class="d-flex align-items-center mt-2 wish">
+          <div style="cursor: pointer;"><i class="pi pi-heart me-3"></i></div>
+          <p class="m-0 p-0" style="cursor: pointer;">Add to Wishlist</p>
+        </div>
+        <div class="category my-3">
+          <span class="fs-5 text-muted">Category: </span>
+          <span class="fs-6 ms-2">{{"skin care"}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="additional-tab" data-bs-toggle="tab" data-bs-target="#additional-tab-pane"
+              type="button" role="tab" aria-controls="additional-tab-pane" aria-selected="true">ADDITIONAL DETAILS</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews-tab-pane"
+              type="button" role="tab" aria-controls="reviews-tab-pane" aria-selected="false">REVIEWS</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="additional-tab-pane" role="tabpanel" aria-labelledby="additional-tab"
+            tabindex="0">
+            <div class="d-flex">
+              <p class="additional-head me-2">CAPACITY :</p>
+              <p class="additional-details">40 mL</p>
+            </div>
+            <div class="d-flex">
+              <p class="additional-head me-2">BRAND :</p>
+              <p class="additional-details">Diadermine</p>
+            </div>
+            <div class="d-flex">
+              <p class="additional-head me-2">BRAND :</p>
+              <p class="additional-details">Diadermine</p>
+            </div>
+            <div class="d-flex">
+              <p class="additional-head me-2">BRAND :</p>
+              <p class="additional-details">Diadermine</p>
+            </div>
+            <div class="d-flex">
+              <p class="additional-head me-2">BRAND :</p>
+              <p class="additional-details">Diadermine</p>
+            </div>
+
+          </div>
+          <div class="tab-pane fade" id="reviews-tab-pane" role="tabpanel" aria-labelledby="reviews-tab" tabindex="0">
+            <div class="review my-2">
+              <div class="d-flex align-items-center">
+                <div class="me-4">
+                  <div class="image-review">
+                    <div><img src="assets/images/review.jpeg" loading="lazy" alt="review"></div>
+                    <p class="mb-0 text-uppercase">my review</p>
+                  </div>
+                </div>
+                <div class="review-details">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-0 me-3">NOVEMBER 8, 2020</p>
+                    <p-rating [(ngModel)]="rate" [cancel]="false" starStyleClass="custom-stars" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 ps-5 my-4 text-review">
+                  Amazing 😍
+                </div>
+              </div>
+            </div>
+            <div class="review my-2">
+              <div class="d-flex align-items-center">
+                <div class="me-4">
+                  <div class="image-review">
+                    <div><img src="assets/images/review.jpeg" loading="lazy" alt="review"></div>
+                    <p class="mb-0 text-uppercase">my review</p>
+                  </div>
+                </div>
+                <div class="review-details">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-0 me-3">NOVEMBER 8, 2020</p>
+                    <p-rating [(ngModel)]="rate" [cancel]="false" starStyleClass="custom-stars" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 ps-5 my-4 text-muted text-uppercase text-review">
+                  Aliquet dictum hac gravida neque, sit faucibus eleifend vel velit. Ultricies sed a aenean quis. Pharetra platea ultricies quis suspendisse ipsum morbi. Pharetra, vivamus amet bibendum placerat vestibulum pulvinar viverra quis vitae. Pellentesque nec hac tincidunt molestie ut donec pretium tristique.
+                </div>
+              </div>
+            </div>
+            <div class="review my-2">
+              <div class="d-flex align-items-center">
+                <div class="me-4">
+                  <div class="image-review">
+                    <div><img src="assets/images/review.jpeg" loading="lazy" alt="review"></div>
+                    <p class="mb-0 text-uppercase">my review</p>
+                  </div>
+                </div>
+                <div class="review-details">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-0 me-3">NOVEMBER 8, 2020</p>
+                    <p-rating [(ngModel)]="rate" [cancel]="false" starStyleClass="custom-stars" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 ps-5 my-4 text-review">
+                  Aliquet dictum hac gravida neque, sit faucibus eleifend vel velit. Ultricies sed a aenean quis. Pharetra platea ultricies quis suspendisse ipsum morbi. Pharetra, vivamus amet bibendum placerat vestibulum pulvinar viverra quis vitae. Pellentesque nec hac tincidunt molestie ut donec pretium tristique.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row related">
+        <h2>Related products</h2>
+        <div class="row">
+          <div class="col-lg-4 col-md-6" *ngFor="let relatedItem of relatedProducts">
+            <app-productcard [productCardData]="relatedItem" origin="single-product"></app-productcard>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+  <app-footer></app-footer>

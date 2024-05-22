@@ -11,6 +11,7 @@ export class OffersalesComponent implements OnInit {
   ngOnInit(): void {
     this.offersales=[
       {
+        id:1,
         haveSale: true,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",
@@ -20,6 +21,7 @@ export class OffersalesComponent implements OnInit {
         sale: 15
       },
       {
+        id:2,
         haveSale: true,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",
@@ -29,6 +31,7 @@ export class OffersalesComponent implements OnInit {
         sale: 14
       },
       {
+        id:3,
         haveSale: true,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",
@@ -38,6 +41,7 @@ export class OffersalesComponent implements OnInit {
         sale: 10
       },
       {
+        id:4,
         haveSale: true,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",
@@ -47,6 +51,7 @@ export class OffersalesComponent implements OnInit {
         sale: 15
       },
       {
+        id:5,
         haveSale: true,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",
@@ -56,6 +61,7 @@ export class OffersalesComponent implements OnInit {
         sale: 14
       },
       {
+        id:6,
         haveSale: true,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",

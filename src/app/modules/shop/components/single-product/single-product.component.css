@@ -1,0 +1,99 @@
+
+.single-product h3{
+  font-family: "Marcellus", "Helvetica Neue";
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 38px;
+  letter-spacing: 10px;
+}
+.single-product .subhead{
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 30px;
+  color: #000;
+}
+.single-product .numreview{
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000;
+}
+
+
+.old-price{
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 20px;
+}
+
+
+.price{
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 20px;
+}
+
+.single-product .desc{
+  font-family: "Rubik", sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 27px;
+}
+
+.single-product .wish{
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+
+.single-product .nav-tabs{
+  display :flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+
+.related h2{
+  font-family: "Rubik", sans-serif;
+  color: #000;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28px;
+  text-align: center;
+  letter-spacing: 4px;
+  margin-bottom: 40px;
+}
+
+.image-review{
+  display: flex;
+  align-items: center;
+}
+.image-review div{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 20px;
+
+}
+.image-review img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+
+.review-details p{
+  font-size: 14px;
+}
+
+.text-review{
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 24px;
+}
+

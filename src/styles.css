@@ -1,8 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 @import "primeicons/primeicons.css";
-
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a{
+  text-decoration: none;
+}
 :root {
   --mainColor: #80AA27;
   --blackColor: #000000;
@@ -84,3 +92,45 @@ body {
 }
 
 
+.sale-pos{
+  width: 60px;
+  height: 40px;
+  position: absolute;
+  top: -20px;
+  left: 0;
+  background-color: var(--blackColor);
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  line-height: 40px;
+  font-size: 14px;
+}
+@media (max-width:890px) {
+  .sale-pos{
+    left: 0;
+    top: 0;
+  }
+}
+
+.p-button-incdec{
+  border: 1px solid var(--mainColor);
+  color: var(--mainColor);
+  background-color: transparent;
+}
+
+.p-inputtext
+{
+  width: 40px;
+  text-align: center;
+  height: 39px;
+}
+
+
+
+.login input[type="email"] ,
+.login input[type="password"],
+.login  input[type="text"]
+{
+  background-color: var(--whiteGray);
+  border: 0;
+}

@@ -1,0 +1,19 @@
+.prodimage {
+  width: 100px;
+  height: 70px;
+}
+table tr,table th, table td{
+  background-color: var(--whiteGray) !important;
+}
+table h3 {
+  font-size: 18px;
+  color: #000;
+  line-height: 22px;
+  font-weight: 400;
+}
+
+table td
+,table th
+{
+  vertical-align: middle !important;
+}

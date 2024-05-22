@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Ibreadcrumb } from 'src/app/models/ibreadcrumb';
 
 @Component({
   selector: 'app-register',
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
+  registerBreadCrumbData:Ibreadcrumb={
+    prev:"home",
+    title:"my account"
+  }
 
+  public isPasswordVisible: boolean = false;
+
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
+  }
 }

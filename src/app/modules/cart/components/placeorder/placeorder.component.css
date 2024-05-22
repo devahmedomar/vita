@@ -1,0 +1,21 @@
+.order-confirmation {
+  text-align: center;
+  margin-top: 50px;
+}
+.order-confirmation img {
+  width: 50px;
+  margin-bottom: 20px;
+}
+.order-details {
+  margin-top: 30px;
+}
+.order-summary {
+  margin-top: 20px;
+}
+.order-summary th, .order-summary td {
+  padding: 10px;
+  border-top: none;
+}
+.order-summary .total-row {
+  font-weight: bold;
+}

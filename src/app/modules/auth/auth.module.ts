@@ -10,6 +10,7 @@ import { ResetpasswordComponent } from './components/resetpassword/resetpassword
 import { SharedModule } from '../shared/shared.module';
 
 
+
 @NgModule({
   declarations: [
     LoginComponent,
@@ -21,7 +22,8 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     AuthRoutingModule,
-    SharedModule
+    SharedModule,
+
   ]
 })
 export class AuthModule { }

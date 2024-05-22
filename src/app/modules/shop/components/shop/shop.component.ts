@@ -12,10 +12,15 @@ export class ShopComponent implements OnInit {
     title: "shop",
     prev: "home"
   }
-  products:Iproductcard[]=[]
+  products: Iproductcard[] = []
+
+
+
+
   ngOnInit(): void {
-    this.products=[
+    this.products = [
       {
+        id:1,
         haveSale: true,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",
@@ -25,6 +30,7 @@ export class ShopComponent implements OnInit {
         sale: 15
       },
       {
+        id:2,
         haveSale: true,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",
@@ -34,6 +40,7 @@ export class ShopComponent implements OnInit {
         sale: 14
       },
       {
+        id:3,
         haveSale: false,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",
@@ -42,6 +49,7 @@ export class ShopComponent implements OnInit {
         productRate: 2,
       },
       {
+        id:4,
         haveSale: true,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",
@@ -51,6 +59,7 @@ export class ShopComponent implements OnInit {
         sale: 15
       },
       {
+        id:5,
         haveSale: false,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",
@@ -59,6 +68,7 @@ export class ShopComponent implements OnInit {
         productRate: 3,
       },
       {
+        id:6,
         haveSale: true,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",
@@ -69,6 +79,7 @@ export class ShopComponent implements OnInit {
       },
 
     ]
+
   }
 
 

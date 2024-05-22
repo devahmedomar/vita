@@ -16,6 +16,12 @@ import { GreenComponent } from './sections/green/green.component';
 import { LatestArticlesComponent } from './sections/latest-articles/latest-articles.component';
 import { AdsComponent } from './sections/ads/ads.component';
 import { CarouselModule } from 'primeng/carousel';
+import { MissionComponent } from './sections/mission/mission.component';
+import { FeaturesComponent } from './sections/features/features.component';
+
+import { AccordionModule } from 'primeng/accordion';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -30,13 +36,18 @@ import { CarouselModule } from 'primeng/carousel';
     BestsellerComponent,
     GreenComponent,
     LatestArticlesComponent,
-    AdsComponent
+    AdsComponent,
+    MissionComponent,
+    FeaturesComponent,
   ],
   imports: [
     CommonModule,
     PagesRoutingModule,
     SharedModule,
-    CarouselModule
+    CarouselModule,
+    // BrowserModule,
+    // BrowserAnimationsModule,
+    AccordionModule
   ]
 })
 export class PagesModule { }

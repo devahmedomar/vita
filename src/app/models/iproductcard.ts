@@ -1,4 +1,5 @@
 export interface Iproductcard {
+  id:number;
   imgURL:string;
   productName:string;
   productDescription:string;

@@ -1,0 +1,20 @@
+.mission h2
+{
+  font-size: 36px;
+  line-height: 46px;
+  letter-spacing: 5px;
+}
+
+.mission h2 span {
+  font-size: 17px;
+  line-height: 20px;
+  letter-spacing: 13px;
+  display: block;
+  margin-bottom: 10px;
+}
+.mission p{
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 400;
+
+}

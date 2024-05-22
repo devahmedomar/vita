@@ -2,8 +2,21 @@
 <app-breadcrumb [breadcrumbData]="shopBreadCrumbData"></app-breadcrumb>
 <div class="container my-5">
   <div class="row">
+    <div class="col-md-6 mb-5">Showing 1-12 of 21 results</div>
+    <div class="col-md-6 mb-5 d-flex justify-content-md-end">
+      <div>
+        <select name="" id="" class="form-control" >
+          <option value="">Default Sorting</option>
+          <option value="">Default Sorting</option>
+          <option value="">Default Sorting</option>
+          <option value="">Default Sorting</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-lg-4 col-md-6" *ngFor="let product of products">
-      <app-productcard [productCardData]="product"></app-productcard>
+      <app-productcard [productCardData]="product" origin="shop"></app-productcard>
     </div>
   </div>
 </div>

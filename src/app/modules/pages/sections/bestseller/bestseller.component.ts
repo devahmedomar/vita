@@ -11,6 +11,7 @@ export class BestsellerComponent implements OnInit {
   ngOnInit(): void {
     this.bestSeller=[
       {
+        id:1,
         haveSale: false,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",
@@ -20,6 +21,7 @@ export class BestsellerComponent implements OnInit {
 
       },
       {
+        id:2,
         haveSale: false,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",
@@ -29,6 +31,7 @@ export class BestsellerComponent implements OnInit {
         sale: 14
       },
       {
+        id:3,
         haveSale: false,
         imgURL: "assets/images/product.png",
         productName: "Airbrush Matte",

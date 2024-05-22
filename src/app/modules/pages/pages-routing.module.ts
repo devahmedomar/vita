@@ -7,12 +7,13 @@ import { FaqComponent } from './components/faq/faq.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 
 const routes: Routes = [
-  {path:"",redirectTo:"home",pathMatch:"full"},
-  {path:"home",component:HomeComponent,title:"Home"},
+  {path:"home",redirectTo:"",pathMatch:"full"},
+  {path:"",component:HomeComponent,title:"Home"},
   {path:"about",component:AboutComponent,title:"About Us"},
   {path:"contact",component:ContactComponent,title:"Contact Us"},
   {path:"faq",component:FaqComponent,title:"FAQ"},
   {path:"privacy",component:PrivacyComponent,title:"Privacy"},
+
 ];
 
 @NgModule({

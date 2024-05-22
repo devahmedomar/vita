@@ -1,0 +1,70 @@
+
+<app-navbar></app-navbar>
+
+<app-breadcrumb [breadcrumbData]="placeorderBread"></app-breadcrumb>
+<div class="container">
+  <div class="bg-white p-5">
+    <div class="order-confirmation">
+      <img src="assets/images/icons/placeorder.png" alt="Order Icon">
+      <h3>Thank you. Your order has been received.</h3>
+  </div>
+  <div class="row order-details">
+      <div class="col-md-3 text-center">
+          <strong>Order Number:</strong><br>3046
+      </div>
+      <div class="col-md-3 text-center">
+          <strong>Date:</strong><br>March 27, 2024
+      </div>
+      <div class="col-md-3 text-center">
+          <strong>Total:</strong><br>$119.00
+      </div>
+      <div class="col-md-3 text-center">
+          <strong>Payment Method:</strong><br>Direct bank transfer
+      </div>
+  </div>
+  <div class="order-summary mt-4">
+      <h5 class="text-left">Order Details</h5>
+      <table class="table">
+          <thead>
+              <tr>
+                  <th>Product</th>
+                  <th class="text-right">Total</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>Extra Lip Tint × 1</td>
+                  <td class="text-right">$29.00</td>
+              </tr>
+              <tr>
+                  <td>Airbrush Matte × 1</td>
+                  <td class="text-right">$40.00</td>
+              </tr>
+              <tr>
+                  <td>Priming Filter Face × 1</td>
+                  <td class="text-right">$50.00</td>
+              </tr>
+              <tr>
+                  <td class="text-right"><strong>Subtotal:</strong></td>
+                  <td class="text-right">$119.00</td>
+              </tr>
+              <tr>
+                  <td class="text-right"><strong>Shipping:</strong></td>
+                  <td class="text-right">Local pickup</td>
+              </tr>
+              <tr>
+                  <td class="text-right"><strong>Payment Method:</strong></td>
+                  <td class="text-right">Direct bank transfer</td>
+              </tr>
+              <tr class="total-row">
+                  <td class="text-right"><strong>Total:</strong></td>
+                  <td class="text-right">$119.00</td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+  </div>
+</div>
+
+
+<app-footer></app-footer>

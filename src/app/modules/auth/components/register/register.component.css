@@ -1,0 +1,26 @@
+input::placeholder,
+textarea::placeholder {
+    color: #616161; /* Change the color of the placeholder text */
+    font-weight: 400; /* Make the placeholder text italic */
+    font-size: 14px; /* Change the font size of the placeholder text */
+}
+
+
+
+.passcontainer{
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passcontainer button {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.fa {
+  font-size: 1.2em;
+}
