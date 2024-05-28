@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Iproductcard } from 'src/app/models/iproductcard';
+import { iOfferProductsObj } from '../../../../models/iproduct';
+import { OfferProductsService } from 'src/app/services/home/offer-products.service';
 
 @Component({
   selector: 'app-offersales',
@@ -7,71 +8,28 @@ import { Iproductcard } from 'src/app/models/iproductcard';
   styleUrls: ['./offersales.component.css']
 })
 export class OffersalesComponent implements OnInit {
-  offersales:Iproductcard[]=[];
-  ngOnInit(): void {
-    this.offersales=[
-      {
-        id:1,
-        haveSale: true,
-        imgURL: "assets/images/product.png",
-        productName: "Airbrush Matte",
-        productDescription: "Skin-perfecting bronzed filter for the face.",
-        productPrice: 50.00,
-        productRate: 4,
-        sale: 15
-      },
-      {
-        id:2,
-        haveSale: true,
-        imgURL: "assets/images/product.png",
-        productName: "Airbrush Matte",
-        productDescription: "Skin-perfecting bronzed filter for the face.",
-        productPrice: 60.00,
-        productRate: 3,
-        sale: 14
-      },
-      {
-        id:3,
-        haveSale: true,
-        imgURL: "assets/images/product.png",
-        productName: "Airbrush Matte",
-        productDescription: "Skin-perfecting bronzed filter for the face.",
-        productPrice: 100.00,
-        productRate: 2,
-        sale: 10
-      },
-      {
-        id:4,
-        haveSale: true,
-        imgURL: "assets/images/product.png",
-        productName: "Airbrush Matte",
-        productDescription: "Skin-perfecting bronzed filter for the face.",
-        productPrice: 50.00,
-        productRate: 4,
-        sale: 15
-      },
-      {
-        id:5,
-        haveSale: true,
-        imgURL: "assets/images/product.png",
-        productName: "Airbrush Matte",
-        productDescription: "Skin-perfecting bronzed filter for the face.",
-        productPrice: 60.00,
-        productRate: 3,
-        sale: 14
-      },
-      {
-        id:6,
-        haveSale: true,
-        imgURL: "assets/images/product.png",
-        productName: "Airbrush Matte",
-        productDescription: "Skin-perfecting bronzed filter for the face.",
-        productPrice: 100.00,
-        productRate: 2,
-        sale: 10
-      },
+  offerProducts:iOfferProductsObj={message:'',success:false,data:{count:0,products:[]}};
 
-    ]
+  constructor(private _OfferProductsService:OfferProductsService){}
+  getOfferProducts(){
+    this._OfferProductsService.getOfferProducts().subscribe({
+    next:(data:iOfferProductsObj)=>{
+      this.offerProducts = data;
+      console.log(this.offerProducts);
+
+    },
+    error:(err:any)=>{
+      console.log(err);
+
+    },
+    complete:()=>{}
+
+    })
+  }
+  ngOnInit(): void {
+    this.getOfferProducts();
+
+
   }
 
 }

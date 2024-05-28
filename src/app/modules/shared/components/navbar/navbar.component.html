@@ -7,7 +7,6 @@
         <i class="pi pi-phone d-flex align-items-center ms-4"></i><span>+1 5589 55488 55</span>
       </div>
       <div class="social-links d-md-flex align-items-center">
-        <!-- Example single danger button -->
         <select class="form-select">
           <option value="english" selected>English</option>
           <option value="french">French</option>
@@ -27,8 +26,23 @@
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      <section class="d-flex right">
+        <a>
+          <i class="pi pi-search text-3xl"></i>
+        </a>
+        <a>
+          <i class="pi pi-bell text-3xl"></i>
+        </a>
+        <a>
+          <i class="pi pi-user text-3xl"></i>
+        </a>
+        <a routerLink="/cart" class="text-black">
+          <i class="pi pi-shopping-cart text-3xl" pBadge value="1"></i>
+        </a>
+
+      </section>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav mb-2 mb-lg-0">
 
           <li class="nav-item">
             <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
@@ -65,22 +79,8 @@
             <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contact us</a>
           </li>
         </ul>
-        <section class="d-flex right">
-          <a>
-            <i class="pi pi-search text-3xl"></i>
-          </a>
-          <a>
-            <i class="pi pi-bell text-3xl"></i>
-          </a>
-          <a>
-            <i class="pi pi-user text-3xl"></i>
-          </a>
-          <a routerLink="/cart" class="text-black">
-            <i class="pi pi-shopping-cart text-3xl" pBadge value="1"></i>
-          </a>
-
-        </section>
       </div>
+
     </div>
   </nav>
 

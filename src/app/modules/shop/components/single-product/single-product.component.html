@@ -4,27 +4,22 @@
     <div class="row">
       <div class="col-md-5 position-relative">
         <div class="sale-pos">22 %</div>
-        <img src="assets/images/product.png" alt="">
+        <img [src]="singleProduct?.pictures[0]" alt="" class="w-100">
       </div>
       <div class="col-md-7 px-3 py-2">
-        <h3>Airbrush Matte</h3>
-        <p class="subhead text-muted">
-          Skin-perfecting bronzed filter for the face.
+        <h3>{{singleProduct.name}}</h3>
+        <p class="subhead text-muted" [innerHTML]="safeProductDescription">
         </p>
         <div class="d-flex align-items-center">
-          <p-rating [(ngModel)]="rate" [cancel]="false" starStyleClass="custom-stars" />
+          <p-rating [(ngModel)]="singleProduct.rating" [cancel]="false" starStyleClass="custom-stars" />
           <p class="numreview text-muted m-0 p-0 ms-3">(1 customer review)</p>
         </div>
         <div class="d-flex mt-3 mb-2">
-          <div class="old-price me-4 text-decoration-line-through text-muted">{{45| currency:'USD'}}</div>
-          <div class="price text-black">{{30 | currency:'USD'}}</div>
+          <div class="old-price me-4 text-decoration-line-through text-muted">{{singleProduct.priceBeforeDiscount| currency:'USD'}}</div>
+          <div class="price text-black">{{singleProduct.priceAfterDiscount| currency:'USD'}}</div>
         </div>
         <p class="text-muted desc">
-          First firmament He evening second, for creature. Said male.
-          Them he every lesser he cattle also divide good days
-          second upon after Yielding lesser tree dominion form
-          beginning tree. Is gathering good shall for made. Saw. That
-          and wherein shall is kind beginning man.
+         {{singleProduct.about}}
         </p>
         <div class="d-flex bg-white py-3">
           <p-inputNumber [(ngModel)]="prodNumber" [showButtons]="true" buttonLayout="horizontal"
@@ -39,7 +34,7 @@
         </div>
         <div class="category my-3">
           <span class="fs-5 text-muted">Category: </span>
-          <span class="fs-6 ms-2">{{"skin care"}}</span>
+          <!-- <span class="fs-6 ms-2">{{"skin care"}}</span> -->
         </div>
       </div>
     </div>
@@ -149,7 +144,7 @@
         </div>
 
       </div>
-      <div class="row related">
+      <!-- <div class="row related">
         <h2>Related products</h2>
         <div class="row">
           <div class="col-lg-4 col-md-6" *ngFor="let relatedItem of relatedProducts">
@@ -157,7 +152,7 @@
           </div>
         </div>
 
-      </div>
+      </div> -->
 
 
     </div>

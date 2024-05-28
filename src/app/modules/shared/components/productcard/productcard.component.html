@@ -1,17 +1,17 @@
 
 <div class="card flex justify-content-center product-card position-relative mb-5">
 
-  <p-card [header]="productCardData.productName" [style]="{color:'var(--secondaryColor)',margin:'0',paddingTop:'0'}" [subheader]="productCardData.productDescription" styleClass="product-card">
+  <p-card [header]="productCardData.name | slice:0:20" [style]="{color:'var(--secondaryColor)',margin:'0',paddingTop:'0'}" [subheader]="(productCardData.about| slice:0:100)" styleClass="product-card">
 
       <ng-template pTemplate="header">
           <a [routerLink]="getRouterLink()">
-            <img alt="Card" [src]="productCardData.imgURL" />
+            <img alt="Card" [src]="productCardData.pictures[0]" />
           </a>
       </ng-template>
-      <div class="sale-pos" *ngIf="productCardData.haveSale">-{{productCardData.sale}}%</div>
+      <div class="sale-pos" *ngIf="productCardData.discount">-{{(((productCardData.priceBeforeDiscount - productCardData.priceAfterDiscount )/productCardData.priceBeforeDiscount)*100)| floor}}%</div>
       <div>
-        <p-rating [(ngModel)]="productCardData.productRate"  [cancel]="false" starStyleClass="custom-stars"/>
-        <div class="price">{{productCardData.productPrice | currency:'USD'}}</div>
+        <p-rating [(ngModel)]="productCardData.reviews"  [cancel]="false" starStyleClass="custom-stars"/>
+        <div class="price">{{productCardData.priceAfterDiscount| currency:'USD'}}</div>
       </div>
       <ng-template pTemplate="footer">
           <div class="flex gap-3 mt-1">

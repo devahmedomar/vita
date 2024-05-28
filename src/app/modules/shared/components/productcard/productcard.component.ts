@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Iproductcard } from 'src/app/models/iproductcard';
+import { iProduct } from '../../../../models/iproduct';
 
 @Component({
   selector: 'app-productcard',
@@ -7,15 +7,25 @@ import { Iproductcard } from 'src/app/models/iproductcard';
   styleUrls: ['./productcard.component.css']
 })
 export class ProductcardComponent implements OnInit {
-  @Input() productCardData:Iproductcard={
-    id:0,
-    haveSale:false,
-    imgURL:"",
-    productDescription:"",
-    productName:"",
-    productPrice:0,
-    productRate:0,
-    sale:0
+  @Input() productCardData:iProduct={
+    name:'',
+    description:'',
+    about:'',
+    categoryId:0,
+    discount:true,
+    inCart:false,
+    inWishlist:true,
+    mainCategoryId:0,
+    pictures:[],
+    priceBeforeDiscount:0,
+    priceAfterDiscount:0,
+    productId : 1,
+    rating:0,
+    reviews:0,
+    stockQuantity:0,
+    tags:[],
+    weight:0
+
   }
   @Input() origin: string="";
   constructor() { }
@@ -25,12 +35,12 @@ export class ProductcardComponent implements OnInit {
 
   getRouterLink(): string {
     if (this.origin === 'home') {
-      return `shop/${this.productCardData.id}`;
+      return `shop/${this.productCardData.productId}`;
     } else if (this.origin === 'shop') {
-      return `${this.productCardData.id}`;
+      return `${this.productCardData.productId}`;
     }
     else if (this.origin === 'single-product') {
-      return `../${this.productCardData.id}`;
+      return `../${this.productCardData.productId}`;
     }
     else {
       return `shop`; // default route

@@ -82,6 +82,10 @@ body {
   padding: 7px 0 !important;
 }
 
+.p-card .p-card-title {
+  font-size: 22px !important;
+}
+
 /*  */
 .p-rating .p-rating-item.p-rating-item-active .p-rating-icon {
   color: #FFAA8F !important; /* Change this to your desired color */

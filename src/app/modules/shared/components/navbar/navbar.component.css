@@ -163,3 +163,44 @@ nav section.right i{
   }
 
 }
+
+
+/* Responsive Navbar */
+
+
+
+
+
+
+
+
+
+
+/* ==================== */
+@media (max-width: 991.98px) { /* Mobile screens */
+  #topbar{
+    display: none !important;
+  }
+  .navbar-brand {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-left: 0;
+  }
+  .navbar-toggler {
+      order: 1;
+  }
+  .right {
+      margin-left: auto;
+      order: 2;
+      display: flex;
+      align-items: center;
+  }
+}
+@media (min-width: 992px) {
+  .right {
+      display: flex;
+      align-items: center;
+      order: 3;
+  }
+}

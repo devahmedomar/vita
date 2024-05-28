@@ -13,6 +13,7 @@ import { RatingModule } from 'primeng/rating';
 import { CardModule } from 'primeng/card';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { FloorPipe } from '../../pipes/floor.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
     FooterComponent,
     ButtonComponent,
     ProductcardComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    FloorPipe
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,7 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
     ButtonModule,
     RatingModule,
     CardModule,
-    BreadcrumbModule
+    BreadcrumbModule,
 
   ],
   exports:[

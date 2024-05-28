@@ -1,6 +1,9 @@
 import { Iproductcard } from './../../../../models/iproductcard';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { iProduct } from '../../../../models/iproduct';
+import { ProductService } from 'src/app/services/product/product.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-single-product',
@@ -12,50 +15,31 @@ export class SingleProductComponent implements OnInit {
   prodNumber:number=1;
   activeIndex:number=0;
   productId:string="";
+  singleProduct:any;
+  safeProductDescription: SafeHtml = '';
 
-  constructor(private route:ActivatedRoute) { }
+  constructor(private route:ActivatedRoute,private _ProductService:ProductService, private sanitizer: DomSanitizer) { }
   relatedProducts:Iproductcard[]=[]
+
+  getSingleProduct(){
+    this._ProductService.getSingleProduct(+this.productId).subscribe({
+      next:(res)=>{
+        this.singleProduct = res.data.product;
+        this.safeProductDescription = this.sanitizer.bypassSecurityTrustHtml(this.singleProduct.description);
+
+      },
+      error:(err:any)=>{
+        console.log(err);
+      }
+    })
+  }
   ngOnInit(): void {
 
     this.route.paramMap.subscribe(params=>{
       this.productId=params.get('id')!;
-      this.relatedProducts=[
-        {
-          id:10,
-          haveSale: false,
-          imgURL: "assets/images/product.png",
-          productName: "Airbrush Matte",
-          productDescription: "Skin-perfecting bronzed filter for the face.",
-          productPrice: 50.00,
-          productRate: 4,
-
-        },
-        {
-          id:11,
-          haveSale: false,
-          imgURL: "assets/images/product.png",
-          productName: "Airbrush Matte",
-          productDescription: "Skin-perfecting bronzed filter for the face.",
-          productPrice: 60.00,
-          productRate: 3,
-          sale: 14
-        },
-        {
-          id:12,
-          haveSale: false,
-          imgURL: "assets/images/product.png",
-          productName: "Airbrush Matte",
-          productDescription: "Skin-perfecting bronzed filter for the face.",
-          productPrice: 100.00,
-          productRate: 2,
-          sale: 10
-        }
-
-      ]
-      console.log(this.productId);
-
     })
 
+    this.getSingleProduct()
 
   }
 

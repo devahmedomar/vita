@@ -23,6 +23,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
 @NgModule({
   declarations: [
     AboutComponent,
@@ -39,6 +40,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AdsComponent,
     MissionComponent,
     FeaturesComponent,
+
   ],
   imports: [
     CommonModule,
