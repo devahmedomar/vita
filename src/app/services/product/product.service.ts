@@ -15,9 +15,8 @@ export class ProductService {
     this.apiUrl = environment.baseUrl + 'v4/public/product/'+id;
     return this._HttpClient.get<any>(this.apiUrl)
   }
-
   getCategoryListOfProduct(id:number):Observable<any>{
-    this.apiUrl = environment.baseUrl + 'v4/public/product/'+id;
+    this.apiUrl = environment.baseUrl + 'v1/public/category/all-lang/'+id;
     return this._HttpClient.get<any>(this.apiUrl)
   }
 }

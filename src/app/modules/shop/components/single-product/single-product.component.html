@@ -7,19 +7,19 @@
         <img [src]="singleProduct?.pictures[0]" alt="" class="w-100">
       </div>
       <div class="col-md-7 px-3 py-2">
-        <h3>{{singleProduct.name}}</h3>
+        <h3>{{singleProduct?.name}}</h3>
         <p class="subhead text-muted" [innerHTML]="safeProductDescription">
         </p>
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center" *ngIf="singleProduct">
           <p-rating [(ngModel)]="singleProduct.rating" [cancel]="false" starStyleClass="custom-stars" />
           <p class="numreview text-muted m-0 p-0 ms-3">(1 customer review)</p>
         </div>
         <div class="d-flex mt-3 mb-2">
-          <div class="old-price me-4 text-decoration-line-through text-muted">{{singleProduct.priceBeforeDiscount| currency:'USD'}}</div>
-          <div class="price text-black">{{singleProduct.priceAfterDiscount| currency:'USD'}}</div>
+          <div class="old-price me-4 text-decoration-line-through text-muted">{{singleProduct?.priceBeforeDiscount| currency:'USD'}}</div>
+          <div class="price text-black">{{singleProduct?.priceAfterDiscount| currency:'USD'}}</div>
         </div>
         <p class="text-muted desc">
-         {{singleProduct.about}}
+         {{singleProduct?.about}}
         </p>
         <div class="d-flex bg-white py-3">
           <p-inputNumber [(ngModel)]="prodNumber" [showButtons]="true" buttonLayout="horizontal"
@@ -34,7 +34,7 @@
         </div>
         <div class="category my-3">
           <span class="fs-5 text-muted">Category: </span>
-          <!-- <span class="fs-6 ms-2">{{"skin care"}}</span> -->
+          <span class="fs-6 ms-2">{{category?.name}}</span>
         </div>
       </div>
     </div>

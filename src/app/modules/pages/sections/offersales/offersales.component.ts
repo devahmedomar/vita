@@ -15,7 +15,6 @@ export class OffersalesComponent implements OnInit {
     this._OfferProductsService.getOfferProducts().subscribe({
     next:(data:iOfferProductsObj)=>{
       this.offerProducts = data;
-      console.log(this.offerProducts);
 
     },
     error:(err:any)=>{

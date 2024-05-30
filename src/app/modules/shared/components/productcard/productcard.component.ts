@@ -31,6 +31,7 @@ export class ProductcardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
   getRouterLink(): string {

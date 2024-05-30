@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { iProduct } from '../../../../models/iproduct';
 import { ProductService } from 'src/app/services/product/product.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Icategory } from 'src/app/models/icategory';
 
 @Component({
   selector: 'app-single-product',
@@ -15,8 +16,10 @@ export class SingleProductComponent implements OnInit {
   prodNumber:number=1;
   activeIndex:number=0;
   productId:string="";
+  categoryId:number=0;
   singleProduct:any;
   safeProductDescription: SafeHtml = '';
+  category:Icategory|undefined;
 
   constructor(private route:ActivatedRoute,private _ProductService:ProductService, private sanitizer: DomSanitizer) { }
   relatedProducts:Iproductcard[]=[]
@@ -25,8 +28,21 @@ export class SingleProductComponent implements OnInit {
     this._ProductService.getSingleProduct(+this.productId).subscribe({
       next:(res)=>{
         this.singleProduct = res.data.product;
+
+        this.categoryId = this.singleProduct.categoryId;
+        this.getCategoriesById();
         this.safeProductDescription = this.sanitizer.bypassSecurityTrustHtml(this.singleProduct.description);
 
+      },
+      error:(err:any)=>{
+        console.log(err);
+      }
+    })
+  }
+  getCategoriesById(){
+    this._ProductService.getCategoryListOfProduct(this.categoryId).subscribe({
+      next:(res:any)=>{
+        this.category = res.data.category;
       },
       error:(err:any)=>{
         console.log(err);
@@ -40,6 +56,7 @@ export class SingleProductComponent implements OnInit {
     })
 
     this.getSingleProduct()
+
 
   }
 
