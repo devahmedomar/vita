@@ -7,13 +7,20 @@ import { CheckemailComponent } from './components/checkemail/checkemail.componen
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 
 const routes: Routes = [
-  {path:"",redirectTo:"login",pathMatch:"full"},
-  {path:"login",component:LoginComponent,title:"Login"},
-  {path:"register",component:RegisterComponent,title:"Sign Up"},
-  {path:"forget-password",component:ForgotpasswordComponent,title:"Forget Password"},
-  {path:"check-email",component:CheckemailComponent,title:"Check Email"},
-  {path:"reset-password",component:ResetpasswordComponent,title:"Reset Password"},
-
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent, title: 'Login' },
+  { path: 'register', component: RegisterComponent, title: 'Sign Up' },
+  {
+    path: 'forget-password',
+    component: ForgotpasswordComponent,
+    title: 'Forget Password',
+  },
+  { path: 'check-email', component: CheckemailComponent, title: 'Check Email' },
+  {
+    path: 'reset-password',
+    component: ResetpasswordComponent,
+    title: 'Reset Password',
+  },
 ];
 
 @NgModule({

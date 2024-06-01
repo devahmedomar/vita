@@ -3,40 +3,86 @@
 <div class="main-section login">
   <div class="container">
     <div class="row">
-      <form class="col-12 col-lg-6  m-auto bg-white px-5 py-3">
-
-        <h3 class="fw-normal mb-3 pb-3 text-center text-uppercase" style="letter-spacing: 1px;font-weight: 500;font-size: 29px;letter-spacing: 11px;line-height: 30px; ">
+      <form
+        class="col-12 col-lg-6 m-auto bg-white px-5 py-3"
+        [formGroup]="registerForm"
+        (ngSubmit)="handleForm()"
+      >
+        <h3
+          class="fw-normal mb-3 pb-3 text-center text-uppercase"
+          style="
+            letter-spacing: 1px;
+            font-weight: 500;
+            font-size: 29px;
+            letter-spacing: 11px;
+            line-height: 30px;
+          "
+        >
           sign up
         </h3>
 
         <div data-mdb-input-init class="form-outline mb-4">
           <label class="form-label" for="form2Example18">Email address *</label>
-          <input type="email" id="form2Example18" class="form-control form-control-lg" placeholder="Username or email address *" />
+          <input
+            type="email"
+            id="form2Example18"
+            class="form-control form-control-lg"
+            placeholder="Username or email address *"
+            formControlName="email"
+          />
+        </div>
+        <div
+          class="alert alert-danger"
+          *ngIf="
+            registerForm.get('email')?.errors &&
+            registerForm.get('email')?.touched">
+          <p *ngIf="registerForm.get('email')?.getError('required')"> Email is Required</p>
+          <p *ngIf="registerForm.get('email')?.getError('email')">Email is invalied</p>
         </div>
 
         <label class="form-label" for="form2Example28">Password *</label>
         <div data-mdb-input-init class="form-outline mb-4 passcontainer">
-
-          <input [type]="isPasswordVisible ? 'text' : 'password'" id="form2Example28" class="form-control form-control-lg" placeholder="Password *" />
+          <input
+            [type]="isPasswordVisible ? 'text' : 'password'"
+            id="form2Example28"
+            class="form-control form-control-lg"
+            placeholder="Password *"
+            formControlName="password"
+          />
           <button type="button" (click)="togglePasswordVisibility()">
-            <i [ngClass]="isPasswordVisible ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+            <i
+              [ngClass]="isPasswordVisible ? 'pi pi-eye-slash' : 'pi pi-eye'"
+            ></i>
           </button>
         </div>
-
+<!-- <div class="alert alert-danger" *ngIf="registerForm.get('password')?.errors && registerForm.get('password')?.touched">
+      <p *ngIf="registerForm.get('password')?.getError('required')">password is Required</p>
+      <p *ngIf="registerForm.get('password')?.getError('pattern')">password's MinLength is 8 and MaxLength is 32 
+      the password muststart with upper case , not conain space , and contain at least one special character.  </p>
+    </div> -->
         <div data-mdb-input-init class="form-outline mb-4">
           <label class="form-label" for="phone">Your phone number *</label>
-          <input type="password" id="phone" class="form-control form-control-lg" placeholder="Your phone number *" />
+          <input
+            type="password"
+            id="phone"
+            class="form-control form-control-lg"
+            placeholder="Your phone number *"
+            formControlName="phone"
+          />
         </div>
-
 
         <div class="pt-1 mb-4">
-          <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg d-block w-100 text-white" type="button"
-            style="background-color: var(--mainColor);">Sign up</button>
+          <button
+            data-mdb-button-init
+            data-mdb-ripple-init
+            class="btn btn-lg d-block w-100 text-white"
+            type="submit"
+            style="background-color: var(--mainColor)"
+            
+          >
+            Sign up
+          </button>
         </div>
-
-
-
-
       </form>
     </div>
   </div>
