@@ -15,6 +15,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { FloorPipe } from '../../pipes/floor.pipe';
 
+
 @NgModule({
   declarations: [
     NavbarComponent,
@@ -33,6 +34,8 @@ import { FloorPipe } from '../../pipes/floor.pipe';
     RatingModule,
     CardModule,
     BreadcrumbModule,
+
+
 
   ],
   exports:[
