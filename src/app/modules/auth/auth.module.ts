@@ -9,6 +9,9 @@ import { ResetpasswordComponent } from './components/resetpassword/resetpassword
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ActivateaccountComponent } from './components/activateaccount/activateaccount.component';
+
 
 
 
@@ -19,6 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
     ForgotpasswordComponent,
     CheckemailComponent,
     ResetpasswordComponent,
+    ActivateaccountComponent,
   ],
   imports: [
     CommonModule,
@@ -26,7 +30,14 @@ import { HttpClientModule } from '@angular/common/http';
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
-  ]
+    HttpClientModule,
+    NgxSpinnerModule.forRoot({type:'ball-scale-multiple'}),
+
+
+
+  ],
+
 })
-export class AuthModule { }
+export class AuthModule {
+
+ }
