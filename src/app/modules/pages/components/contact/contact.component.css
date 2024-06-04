@@ -107,5 +107,9 @@
 .contact .php-email-form button[type=submit]:hover {
   background: var(--mainColor);
 }
-
+@media (min-width :320px) {
+  iframe{
+   width: 100% !important;
+  }
+}
 

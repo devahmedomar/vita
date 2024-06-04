@@ -552,3 +552,38 @@
 .read-more{
   margin-bottom: 20px;
 }
+@media (min-width:320px) {
+  .blog .layer{
+    position: absolute;
+    left:10%;
+    width: 50%;
+  }
+}
+@media (min-width:375px) {
+  .blog .layer{
+    position: absolute;
+    left:10%;
+    width: 40%;
+  }
+}
+@media (min-width:425px) {
+  .blog .layer{
+    position: absolute;
+    left:10%;
+    width:36%;
+  }
+}
+@media (min-width:768px) {
+  .blog .layer{
+    position: absolute;
+    left:10%;
+    width:65%;
+  }
+}
+@media (min-width:1024px) {
+  .blog .layer{
+    position: absolute;
+    left:10%;
+    width:75%;
+  }
+}

@@ -1,9 +1,10 @@
 /*--------------------------------------------------------------
 # Top Bar
 --------------------------------------------------------------*/
-.navsticky{
+.navsticky {
   z-index: 10000;
 }
+
 #topbar {
   background: var(--mainColor);
   padding: 10px 0;
@@ -40,19 +41,21 @@
   box-shadow: none;
 
 }
-.navbar-brand{
+
+.navbar-brand {
   margin-right: 110px;
 }
-nav ul li{
+
+nav ul li {
   margin-left: 24px;
 }
 
 .navbar ul .nav-link.active,
-.navbar ul .nav-link:hover
-{
+.navbar ul .nav-link:hover {
   background-color: var(--mainColor);
   color: #fff;
 }
+
 nav ul a {
   color: var(--secondaryColor);
   font-weight: 400;
@@ -62,14 +65,14 @@ nav ul a {
   transition: all .3s ease-in-out;
 }
 
-nav section.right i{
+nav section.right i {
   font-size: 19px;
   margin-right: 10px;
 
 }
 
 
-.navbar .dropdown i{
+.navbar .dropdown i {
   margin: 0px 0px 0px 11px;
   font-weight: 500;
 }
@@ -137,27 +140,28 @@ nav section.right i{
 
 /* breakpoints */
 @media (max-width:1024px) {
-  nav ul li{
+  nav ul li {
     margin-left: 0px;
   }
+
   nav ul a {
     color: var(--secondaryColor);
 
     padding: 10px 16px;
   }
 }
-@media (max-width:767px) {
 
-}
-@media (max-width:640px) {
+@media (max-width:767px) {}
 
-}
+@media (max-width:640px) {}
+
 @media (max-width:575px) {
-  select{
+  select {
     width: 33%;
     margin: 10px auto;
   }
-  .social-links a{
+
+  .social-links a {
     display: block;
     text-align: center;
   }
@@ -177,30 +181,42 @@ nav section.right i{
 
 
 /* ==================== */
-@media (max-width: 991.98px) { /* Mobile screens */
-  #topbar{
+@media (max-width: 991.98px) {
+
+  /* Mobile screens */
+  #topbar {
     display: none !important;
   }
+
   .navbar-brand {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      margin-left: 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: 0;
   }
+
   .navbar-toggler {
-      order: 1;
+    order: 1;
   }
+
   .right {
-      margin-left: auto;
-      order: 2;
-      display: flex;
-      align-items: center;
+    margin-left: auto;
+    order: 2;
+    display: flex;
+    align-items: center;
   }
 }
+
 @media (min-width: 992px) {
   .right {
-      display: flex;
-      align-items: center;
-      order: 3;
+    display: flex;
+    align-items: center;
+    order: 3;
+  }
+}
+
+@media (max-width: 375px) {
+  .right i {
+    font-size: 11px !important;
   }
 }

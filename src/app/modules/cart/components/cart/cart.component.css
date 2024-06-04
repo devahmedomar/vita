@@ -17,3 +17,22 @@ table td
 {
   vertical-align: middle !important;
 }
+
+@media (min-width:320px) {
+  .contain{
+    display: flex;
+        justify-content: center;
+        flex-direction: column;
+  }
+  .prodimage{
+    width: 80px;
+    height: 50px;
+   text-align: center;
+  }
+  .desc h3{
+ font-size: 10px;
+  }
+  .desc p{
+ font-size: 12px;
+  }
+}
