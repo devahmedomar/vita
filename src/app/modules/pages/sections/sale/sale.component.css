@@ -28,4 +28,10 @@ p{
 }
 
 }
+@media (max-width:320px) {
+ .btn-second{
+  font-size: 10px !important;
+
+ }
+}
 
