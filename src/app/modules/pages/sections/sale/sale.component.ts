@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Ibutton } from 'src/app/models/ibutton';
 
 @Component({
   selector: 'app-sale',

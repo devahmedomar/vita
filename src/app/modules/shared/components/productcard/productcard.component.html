@@ -15,7 +15,8 @@
       </div>
       <ng-template pTemplate="footer">
           <div class="flex gap-3 mt-1">
-            <button class="btn-main">Add To cart</button>
+            <!-- <button class="btn-main" [routerLink]="['/cart']">Add To cart</button> -->
+            <button class="btn-main" [disabled]="!isLoggedIn" [routerLink]="['/cart']">Add To cart</button>
           </div>
       </ng-template>
   </p-card>

@@ -10,6 +10,9 @@ export class LoginService {
 
   constructor(private _HttpClient: HttpClient) { }
   userDataa: any;
+  isUserLoggedIn(): boolean {
+    return localStorage.getItem('eToken') !== null;
+  }
   getUserDecodedData() {
     if (localStorage.getItem('eToken') != null) {
       let encodedToken: any = localStorage.getItem('eToken')
