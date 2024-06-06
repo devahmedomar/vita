@@ -8,12 +8,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
+import { MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
     BrowserModule,
+    MatPaginatorModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     CommonModule,
@@ -22,8 +24,6 @@ import { ToastrModule } from 'ngx-toastr';
     ToastrModule.forRoot({
       positionClass :'toast-top-right'
     }),
-
-
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
   providers: [],

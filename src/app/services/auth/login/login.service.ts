@@ -4,15 +4,17 @@ import { Observable } from 'rxjs';
 import { IloginForm } from 'src/app/models/ilogin-form';
 import { environment } from 'src/environments/environment';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
-
-  constructor(private _HttpClient: HttpClient) { }
+  constructor(private _HttpClient: HttpClient) {}
   userDataa: any;
+  isUserLoggedIn(): boolean {
+    return localStorage.getItem('eToken') !== null;
+  }
   getUserDecodedData() {
     if (localStorage.getItem('eToken') != null) {
-      let encodedToken: any = localStorage.getItem('eToken')
+      let encodedToken: any = localStorage.getItem('eToken');
       let decodecTken = jwtDecode(encodedToken);
       this.userDataa = decodecTken;
       console.log(decodecTken);
@@ -21,7 +23,7 @@ export class LoginService {
   apiUrl: string = environment.baseUrl + 'v2/auth/login';
 
   login(userData: IloginForm): Observable<any> {
-    return this._HttpClient.post(this.apiUrl, userData)
+    return this._HttpClient.post(this.apiUrl, userData);
   }
 }
 function jwtDecode(encodedToken: any) {
@@ -32,4 +34,3 @@ function jwtDecode(encodedToken: any) {
   //   return null;
   // }
 }
-
