@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { iProduct } from '../../../../models/iproduct';
+import { LoginService } from 'src/app/services/auth/login/login.service';
+
 
 @Component({
   selector: 'app-productcard',
@@ -7,6 +9,8 @@ import { iProduct } from '../../../../models/iproduct';
   styleUrls: ['./productcard.component.css']
 })
 export class ProductcardComponent implements OnInit {
+  isLoggedIn: boolean = false;
+  constructor(private loginService: LoginService) { }
   @Input() productCardData:iProduct={
     name:'',
     description:'',
@@ -28,10 +32,10 @@ export class ProductcardComponent implements OnInit {
 
   }
   @Input() origin: string="";
-  constructor() { }
-
+ 
   ngOnInit() {
-
+    this.isLoggedIn = this.loginService.isUserLoggedIn();
+    console.log('Is user logged in?', this.isLoggedIn);
   }
 
   getRouterLink(): string {
@@ -44,7 +48,7 @@ export class ProductcardComponent implements OnInit {
       return `../${this.productCardData.productId}`;
     }
     else {
-      return `shop`; // default route
+      return `shop`;
     }
   }
 
