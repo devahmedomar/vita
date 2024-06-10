@@ -4,26 +4,168 @@
 <!-- ======= Blog Section ======= -->
 <section id="blog" class="blog">
   <div class="container" data-aos="fade-up">
+
     <div class="row">
+
       <div class="col-lg-8 entries">
-        <article class="entry row" *ngFor="let post of blogArr ; let i = index">
+
+        <article class="entry row">
+
           <div class="entry-img col-md-4 position-relative">
-            <img [src]="post.pictureUrl" alt="" class="img-fluid h-100" />
+            <img src="assets/images/blogpost.png" alt="" class="img-fluid h-100">
             <div class="layer">
-              {{ post.creation }}
+              October 20, 2020
             </div>
           </div>
 
           <div class="right col-md-8">
             <h2 class="entry-title">
-              <a [routerLink]="'/blog/' + post.blogPostId">{{ post.title }}</a>
+              <a routerLink="/blog/1">
+                Gallery post
+              </a>
+
             </h2>
-            <div class="entry-content" [innerHTML]="safeBlogContent[i]"></div>
-            <div class="read-more">
-              <a [routerLink]="'/blog/' + post.blogPostId">Read More</a>
+
+
+
+            <div class="entry-content">
+              <p>
+                The beauty industry has long been criticized for its lack of
+                inclusivity and diversity.
+              </p>
+              <div class="read-more">
+                <a routerLink="/blog/1">Read More</a>
+              </div>
             </div>
           </div>
-        </article>
+
+        </article><!-- End blog entry -->
+        <article class="entry row">
+
+          <div class="entry-img col-md-4 position-relative">
+            <img src="assets/images/blogpost.png" alt="" class="img-fluid h-100">
+            <div class="layer">
+              October 20, 2020
+            </div>
+          </div>
+
+          <div class="right col-md-8">
+            <h2 class="entry-title">
+              <a routerLink="/blog/1">
+                Gallery post
+              </a>
+
+            </h2>
+
+
+
+            <div class="entry-content">
+              <p>
+                The beauty industry has long been criticized for its lack of
+                inclusivity and diversity.
+              </p>
+              <div class="read-more">
+                <a routerLink="/blog/1">Read More</a>
+              </div>
+            </div>
+          </div>
+
+        </article><!-- End blog entry -->
+        <article class="entry row">
+
+          <div class="entry-img col-md-4 position-relative">
+            <img src="assets/images/blogpost.png" alt="" class="img-fluid h-100">
+            <div class="layer">
+              October 20, 2020
+            </div>
+          </div>
+
+          <div class="right col-md-8">
+            <h2 class="entry-title">
+              <a routerLink="/blog/1">
+                Gallery post
+              </a>
+
+            </h2>
+
+
+
+            <div class="entry-content">
+              <p>
+                The beauty industry has long been criticized for its lack of
+                inclusivity and diversity.
+              </p>
+              <div class="read-more">
+                <a routerLink="/blog/1">Read More</a>
+              </div>
+            </div>
+          </div>
+
+        </article><!-- End blog entry -->
+        <article class="entry row">
+
+          <div class="entry-img col-md-4 position-relative">
+            <img src="assets/images/blogpost.png" alt="" class="img-fluid h-100">
+            <div class="layer">
+              October 20, 2020
+            </div>
+          </div>
+
+          <div class="right col-md-8">
+            <h2 class="entry-title">
+              <a routerLink="/blog/1">
+                Gallery post
+              </a>
+
+            </h2>
+
+
+
+            <div class="entry-content">
+              <p>
+                The beauty industry has long been criticized for its lack of
+                inclusivity and diversity.
+              </p>
+              <div class="read-more">
+                <a routerLink="/blog/1">Read More</a>
+              </div>
+            </div>
+          </div>
+
+        </article><!-- End blog entry -->
+        <article class="entry row">
+
+          <div class="entry-img col-md-4 position-relative">
+            <img src="assets/images/blogpost.png" alt="" class="img-fluid h-100">
+            <div class="layer">
+              October 20, 2020
+            </div>
+          </div>
+
+          <div class="right col-md-8">
+            <h2 class="entry-title">
+              <a routerLink="/blog/1">
+                Gallery post
+              </a>
+
+            </h2>
+
+
+
+            <div class="entry-content">
+              <p>
+                The beauty industry has long been criticized for its lack of
+                inclusivity and diversity.
+              </p>
+              <div class="read-more">
+                <a routerLink="/blog/1">Read More</a>
+              </div>
+            </div>
+          </div>
+
+        </article><!-- End blog entry -->
+
+
 
         <div class="blog-pagination">
           <ul class="justify-content-center">
@@ -32,19 +174,20 @@
             <li><a href="#">3</a></li>
           </ul>
         </div>
-      </div>
-      <!-- End blog entries list -->
+
+      </div><!-- End blog entries list -->
 
       <div class="col-lg-4">
-        <div class="sidebar" *ngFor="let post of blogArr | search : term ">
+
+        <div class="sidebar">
+
           <h3 class="sidebar-title">Search</h3>
           <div class="sidebar-item search-form">
             <form action="">
-                 <input type="text" [(ngModel)]="term" [ngModelOptions]="{ standalone: true }">
+              <input type="text" placeholder="Search ...">
               <button type="submit"><i class="pi pi-search"></i></button>
             </form>
-          </div>
-          <!-- End sidebar search formn-->
+          </div><!-- End sidebar search formn-->
 
           <!-- <h3 class="sidebar-title">Categories</h3>
           <div class="sidebar-item categories">
@@ -62,35 +205,32 @@
           <h3 class="sidebar-title text-uppercase">Latest Articles</h3>
           <div class="sidebar-item recent-posts">
             <div class="post-item clearfix">
-              <img  [src]="post.pictureUrl" alt="" height="70" />
-              <h4>
-                <a [routerLink]="'/blog/' + post.blogPostId">{{ post.title }}</a>
-              </h4>
-              <time >{{ post.creation }}</time>
-            </div>
-            <!-- <div class="post-item clearfix">
-              <img src="assets/images/sideblog.png" alt="" height="70" />
-              <h4>
-                <a routerLink="/blog/1">Nihil blanditiis at in nihil autem</a>
-              </h4>
+              <img src="assets/images/sideblog.png" alt="" height="70">
+              <h4><a routerLink="/blog/1">Nihil blanditiis at in nihil autem</a></h4>
               <time datetime="2020-01-01">Jan 1, 2020</time>
             </div>
             <div class="post-item clearfix">
-              <img src="assets/images/sideblog.png" alt="" height="70" />
-              <h4>
-                <a routerLink="/blog/1">Nihil blanditiis at in nihil autem</a>
-              </h4>
+              <img src="assets/images/sideblog.png" alt="" height="70">
+              <h4><a routerLink="/blog/1">Nihil blanditiis at in nihil autem</a></h4>
               <time datetime="2020-01-01">Jan 1, 2020</time>
             </div>
             <div class="post-item clearfix">
-              <img src="assets/images/sideblog.png" alt="" height="70" />
-              <h4>
-                <a routerLink="/blog/1">Nihil blanditiis at in nihil autem</a>
-              </h4>
+              <img src="assets/images/sideblog.png" alt="" height="70">
+              <h4><a routerLink="/blog/1">Nihil blanditiis at in nihil autem</a></h4>
               <time datetime="2020-01-01">Jan 1, 2020</time>
-            </div> -->
-          </div>
-          <!-- End sidebar recent posts-->
+            </div>
+            <div class="post-item clearfix">
+              <img src="assets/images/sideblog.png" alt="" height="70">
+              <h4><a routerLink="/blog/1">Nihil blanditiis at in nihil autem</a></h4>
+              <time datetime="2020-01-01">Jan 1, 2020</time>
+            </div>
+
+
+
+
+
+
+          </div><!-- End sidebar recent posts-->
 
           <h3 class="sidebar-title">Tags</h3>
           <div class="sidebar-item tags">
@@ -107,15 +247,17 @@
               <li><a href="#">Tips</a></li>
               <li><a href="#">Marketing</a></li>
             </ul>
-          </div>
-          <!-- End sidebar tags-->
-        </div>
-        <!-- End sidebar -->
-      </div>
-      <!-- End blog sidebar -->
+          </div><!-- End sidebar tags-->
+
+        </div><!-- End sidebar -->
+
+      </div><!-- End blog sidebar -->
+
     </div>
+
   </div>
-</section>
-<!-- End Blog Section -->
+</section><!-- End Blog Section -->
+
+
 
 <app-footer></app-footer>
