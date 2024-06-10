@@ -1,13 +1,22 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { iProduct } from '../../../../models/iproduct';
+
 import { ProductServiseService } from 'src/app/product-servise.service';
+
+import { LoginService } from 'src/app/services/auth/login/login.service';
+
+
 @Component({
   selector: 'app-productcard',
   templateUrl: './productcard.component.html',
   styleUrls: ['./productcard.component.css']
 })
 export class ProductcardComponent implements OnInit {
+
+
   DataOfProduct:any=[];
+  isLoggedIn: boolean = false;
+  constructor(private loginService: LoginService) { }
 
   @Input() productCardData:iProduct={
     name:'',
@@ -41,19 +50,17 @@ export class ProductcardComponent implements OnInit {
     sale: 0
   }
   @Input() origin: string="";
+
   constructor(public _ProductServiseService:ProductServiseService ) {
    }
-
+ 
   ngOnInit() {
-    // this._ProductServiseService.GetDataOfProduct(this.DataOfProduct).subscribe((data) =>
-    //   {
-    //     this.DataOfProduct=data.results;
-    //   });
     console.log(this.CardData)
     console.log(localStorage.getItem('eToken'))
+    this.isLoggedIn = this.loginService.isUserLoggedIn();
+    console.log('Is user logged in?', this.isLoggedIn);
 
   }
-//////!
   getRouterLink(): string {
     if (this.origin === 'home') {
       return `shop/${this.productCardData.productId}`;
@@ -64,7 +71,7 @@ export class ProductcardComponent implements OnInit {
       return `../${this.productCardData.productId}`;
     }
     else {
-      return `shop`; // default route
+      return `shop`;
     }
   }
 

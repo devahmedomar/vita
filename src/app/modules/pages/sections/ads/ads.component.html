@@ -1,17 +1,39 @@
-<div id="carouselExample" class="carousel slide overflow-hidden">
+<div
+  id="carouselExample"
+  class="carousel slide overflow-hidden"
+  data-bs-ride="carousel"
+>
   <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="assets/images/ads.png" class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="assets/images/ads2.png" class="d-block w-100" alt="">
+    <div
+      *ngFor="let ad of advertisements; let i = index"
+      [class.active]="i === 0"
+      class="carousel-item"
+    >
+      <a [href]="ad.targetUrl" target="_blank">
+        <img [src]="ad.imgUrl" class="d-block w-100" [alt]="ad.title" />
+      </a>
+      <!-- <div class="carousel-caption d-none d-md-block">
+        <h5>{{ ad.title }}</h5>
+        <p [innerHTML]="ad.description"></p>
+        <a [href]="ad.targetUrl" class="btn">Learn more</a>
+      </div> -->
     </div>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#carouselExample"
+    data-bs-slide="prev"
+  >
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
   </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#carouselExample"
+    data-bs-slide="next"
+  >
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
