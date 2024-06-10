@@ -92,15 +92,13 @@ export class ShopComponent implements OnInit {
     this._ProductServiseService.GetDataOfProduct(requestOptions).subscribe((data) =>
       {
         console.log(data.data)
-      
+
         this.products=data.data.products;
       });
-    // (Error));
-    //   // console.log(localStorage.getItem('eToken'))
-    //   console.log(this.products)
+ 
 
-  
-  
+
+
     }
 
 }

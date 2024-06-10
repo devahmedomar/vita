@@ -16,7 +16,7 @@ export class ProductcardComponent implements OnInit {
 
   DataOfProduct:any=[];
   isLoggedIn: boolean = false;
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService,public _ProductServiseService:ProductServiseService) { }
 
   @Input() productCardData:iProduct={
     name:'',
@@ -51,9 +51,8 @@ export class ProductcardComponent implements OnInit {
   }
   @Input() origin: string="";
 
-  constructor(public _ProductServiseService:ProductServiseService ) {
-   }
- 
+
+
   ngOnInit() {
     console.log(this.CardData)
     console.log(localStorage.getItem('eToken'))
