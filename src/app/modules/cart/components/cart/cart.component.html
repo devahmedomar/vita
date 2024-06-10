@@ -1,15 +1,15 @@
 <app-navbar></app-navbar>
 <app-breadcrumb [breadcrumbData]="cartBreadCrumbData"></app-breadcrumb>
-<div class=" my-4 container">
+<div class="container my-4">
   <div class="row">
     <div class="col-md-8">
       <table class="table">
         <thead>
           <tr>
-            <th scope="col" class="text-muted th-head fw-light">PRODUCT</th>
+            <th scope="col" class="text-muted fs-6 fw-light">PRODUCT</th>
             <th></th>
-            <th scope="col" class="text-muted th-head fw-light">QUANTITY</th>
-            <th scope="col" class="text-muted th-head fw-light">SUBTOTAL</th>
+            <th scope="col" class="text-muted fs-6 fw-light">QUANTITY</th>
+            <th scope="col" class="text-muted fs-6 fw-light">SUBTOTAL</th>
           </tr>
         </thead>
         <tbody>
@@ -17,11 +17,7 @@
             <td colspan="2">
               <div class="row contain">
                 <div class="col-3">
-                  <img
-                    src="assets/images/product.png"
-                    class="prodimage"
-                    alt=""
-                  />
+                  <img src="assets/images/product.png" class="prodimage" alt="">
                 </div>
                 <div class="col-9 px-4 py-2 desc">
                   <h3>Airbrush Matte</h3>
@@ -31,23 +27,13 @@
             </td>
             <td>
               <div class="bg-white py-3">
-                <p-inputNumber
-                  [(ngModel)]="prodNumber"
-                  [showButtons]="true"
-                  buttonLayout="horizontal"
-                  spinnerMode="horizontal"
-                  inputId="integeronly"
-                  [min]="1"
-                  [max]="1000"
-                  inputId="horizontal"
-                  decrementButtonClass="p-button-incdec"
-                  incrementButtonClass="p-button-incdec"
-                  incrementButtonIcon="pi pi-plus"
-                  decrementButtonIcon="pi pi-minus"
-                />
+                <p-inputNumber [(ngModel)]="prodNumber" [showButtons]="true" buttonLayout="horizontal"
+                  spinnerMode="horizontal" inputId="integeronly" [min]="1" [max]="1000" inputId="horizontal"
+                  decrementButtonClass="p-button-incdec" incrementButtonClass="p-button-incdec"
+                  incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
               </div>
             </td>
-            <td class="py-3">
+            <td class="py-3" >
               <div>$40.00</div>
             </td>
           </tr>
@@ -55,11 +41,7 @@
             <td colspan="2">
               <div class="row contain">
                 <div class="col-3">
-                  <img
-                    src="assets/images/product.png"
-                    class="prodimage"
-                    alt=""
-                  />
+                  <img src="assets/images/product.png" class="prodimage" alt="">
                 </div>
                 <div class="col-9 px-4 py-2 desc">
                   <h3>Airbrush Matte</h3>
@@ -69,28 +51,21 @@
             </td>
             <td>
               <div class="bg-white py-3">
-                <p-inputNumber
-                  [(ngModel)]="prodNumber"
-                  [showButtons]="true"
-                  buttonLayout="horizontal"
-                  spinnerMode="horizontal"
-                  inputId="integeronly"
-                  [min]="1"
-                  [max]="1000"
-                  inputId="horizontal"
-                  decrementButtonClass="p-button-incdec"
-                  incrementButtonClass="p-button-incdec"
-                  incrementButtonIcon="pi pi-plus"
-                  decrementButtonIcon="pi pi-minus"
-                />
+                <p-inputNumber [(ngModel)]="prodNumber" [showButtons]="true" buttonLayout="horizontal"
+                  spinnerMode="horizontal" inputId="integeronly" [min]="1" [max]="1000" inputId="horizontal"
+                  decrementButtonClass="p-button-incdec" incrementButtonClass="p-button-incdec"
+                  incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
               </div>
             </td>
-            <td class="py-3">
+            <td class="py-3" >
               <div>$40.00</div>
             </td>
           </tr>
+
         </tbody>
       </table>
+
+
     </div>
     <div class="col-md-4 bg-white p-4">
       <div class="row border-bottom pb-3">
@@ -99,16 +74,14 @@
       </div>
       <h4 class="my-4 fs-6">SHIPPING</h4>
       <div class="row border-bottom pb-5">
-        <div class="col-6 fw-light">Shipping cost</div>
+        <div class="col-6  fw-light">Shipping cost</div>
         <div class="col-6 d-flex justify-content-end fw-bolder">$30.00</div>
       </div>
       <div class="row pb-3 pt-3">
-        <div class="col-6 fw-light">TOTAL</div>
+        <div class="col-6  fw-light">TOTAL</div>
         <div class="col-6 d-flex justify-content-end fw-bolder">$99.00</div>
       </div>
-      <div class="d-flex justify-content-center">
-        <button (click)="checkout()" class="btn-main">CHECKOUT</button>
-      </div>
+      <div class="d-flex justify-content-center"><button (click)="checkout()" class="btn-main">CHECKOUT</button></div>
     </div>
   </div>
 </div>
