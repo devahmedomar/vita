@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Blog, posts } from 'src/app/models/blog';
 import { BlogService } from 'src/app/services/blog/blog.service';
@@ -10,7 +11,7 @@ import { BlogService } from 'src/app/services/blog/blog.service';
 export class LatestArticlesComponent implements OnInit {
   blogPosts: posts[] = [];
 
-  constructor(private _BlogService:BlogService){}
+  constructor(private _BlogService:BlogService, private router: Router){}
   getBlogs(){
     this._BlogService.getBlogs().subscribe({
       next:(res) => {
@@ -26,5 +27,7 @@ export class LatestArticlesComponent implements OnInit {
   ngOnInit(): void {
     this.getBlogs();
   }
-
+  navigateToBlog(blogPostId: number) {
+    this.router.navigate(['/blog', blogPostId]);
+  }
 }
