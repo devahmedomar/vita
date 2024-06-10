@@ -27,8 +27,6 @@ export class OffersalesComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getOfferProducts();
-
-
   }
 
 }
