@@ -37,7 +37,7 @@ export class LoginComponent {
       Validators.pattern(this.passwordPattern),
     ]),
   });
-  login() {
+  login(){
     this._LoginService.login(this.loginForm.value).subscribe({
       next: (res) => {
         if (res.success == true) {
@@ -52,8 +52,9 @@ export class LoginComponent {
         this.errorMsg = err.error.message;
       },
     });
-
   }
+
+  Islogin = this.login();
 }
 
 
