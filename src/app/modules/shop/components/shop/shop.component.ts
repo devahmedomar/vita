@@ -124,8 +124,8 @@ export class ShopComponent implements OnInit {
     if (event && event.target && event.target.value) {
       this.selectedSortOption = event.target.value;
       this.sortProducts();
-      this.pageIndex = 0;
-      this.paginate();
+      // this.pageIndex = 0;
+      // this.paginate();
     }
   }
   
