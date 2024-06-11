@@ -1,0 +1,9 @@
+button{
+    background-color: #80AA27;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+}
+button:hover, button:focus{
+    opacity: 0.9;
+}

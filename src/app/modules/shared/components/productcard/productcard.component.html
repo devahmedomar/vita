@@ -8,7 +8,7 @@
             <img alt="Card" [src]="productCardData.pictures[0]" />
           </a>
       </ng-template>
-      <div class="sale-pos" *ngIf="productCardData.discount">-{{(((productCardData.priceBeforeDiscount - productCardData.priceAfterDiscount )/productCardData.priceBeforeDiscount)*100)| floor}}%</div>
+      <div *ngIf="DisplaySalePos()" class="sale-pos">-{{(((productCardData.priceBeforeDiscount - productCardData.priceAfterDiscount )/productCardData.priceBeforeDiscount)*100)| floor}}%</div>
       <div>
         <p-rating [(ngModel)]="productCardData.reviews"  [cancel]="false" starStyleClass="custom-stars"/>
         <div class="price">{{productCardData.priceAfterDiscount| currency:'USD'}}</div>
