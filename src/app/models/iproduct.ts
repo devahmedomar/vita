@@ -25,4 +25,5 @@ export interface iProduct {
   inWishlist: boolean;
   inCart: boolean;
   discount: boolean;
+  price: number;
 }
