@@ -35,8 +35,7 @@ export class ProductcardComponent implements OnInit {
     reviews:0,
     stockQuantity:0,
     tags:[],
-    weight:0,
-    price: 0
+    weight:0
 
   }
   @Input() CardData=
@@ -55,10 +54,10 @@ export class ProductcardComponent implements OnInit {
 
 
   ngOnInit() {
-    // console.log(this.CardData)
-    // console.log(localStorage.getItem('eToken'))
+    console.log(this.CardData)
+    console.log(localStorage.getItem('eToken'))
     this.isLoggedIn = this.loginService.isUserLoggedIn();
-    // console.log('Is user logged in?', this.isLoggedIn);
+    console.log('Is user logged in?', this.isLoggedIn);
 
   }
   getRouterLink(): string {
@@ -75,13 +74,4 @@ export class ProductcardComponent implements OnInit {
     }
   }
 
-  DisplaySalePos(): boolean {
-    if (this.origin !== 'shop' && this.productCardData.discount) {
-      const discountPercentage = (((this.productCardData.priceBeforeDiscount - this.productCardData.priceAfterDiscount ) / this.productCardData.priceBeforeDiscount) * 100);
-      if (!isNaN(discountPercentage)) {
-        return true;
-      }
-    }
-    return false;
-  }
 }
