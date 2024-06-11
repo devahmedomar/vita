@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
     this.categoryService.getMainandSubCategories().subscribe((data: any) => {
       if (data && data.success) {
         this.mainCategories = data.data.mainCategories;
-        // console.log(this.mainCategories); 
+        console.log(this.mainCategories); 
       }
     });
   }
