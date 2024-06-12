@@ -1,5 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Ibreadcrumb } from 'src/app/models/ibreadcrumb';
 import { Iproductcard } from 'src/app/models/iproductcard';
 import { ProductServiseService } from 'src/app/product-servise.service';
@@ -11,7 +12,7 @@ import { ProductServiseService } from 'src/app/product-servise.service';
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
-  constructor(public _ProductServiseService:ProductServiseService){}
+  constructor(public _ProductServiseService:ProductServiseService,private spinner: NgxSpinnerService){}
   shopBreadCrumbData: Ibreadcrumb = {
     title: "shop",
     prev: "home"
@@ -22,6 +23,7 @@ export class ShopComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.spinner.show();
   //   this.products = [
   //     {
   //       id:1,
@@ -91,11 +93,17 @@ export class ShopComponent implements OnInit {
 
     this._ProductServiseService.GetDataOfProduct(requestOptions).subscribe((data) =>
       {
+        this.spinner.show(); // Show spinner
         console.log(data.data)
 
         this.products=data.data.products;
+
+        this.spinner.hide();
+
+      },(err)=>{
+        this.spinner.hide();
       });
- 
+
 
 
 
