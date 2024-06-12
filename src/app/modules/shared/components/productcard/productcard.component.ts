@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { iProduct } from '../../../../models/iproduct';
-
 import { ProductServiseService } from 'src/app/product-servise.service';
-
 import { LoginService } from 'src/app/services/auth/login/login.service';
+import { CartService } from 'src/app/services/cart/cart.service';
 
 
 @Component({
@@ -13,10 +12,11 @@ import { LoginService } from 'src/app/services/auth/login/login.service';
 })
 export class ProductcardComponent implements OnInit {
 
-
   DataOfProduct:any=[];
   isLoggedIn: boolean = false;
-  constructor(private loginService: LoginService,public _ProductServiseService:ProductServiseService) { }
+  notificationMessage: string | null = null;
+  notificationType: 'success' | 'error' = 'success';
+  constructor(private loginService: LoginService,public _ProductServiseService:ProductServiseService, private cartService: CartService) { }
 
   @Input() productCardData:iProduct={
     name:'',
@@ -84,4 +84,39 @@ export class ProductcardComponent implements OnInit {
     }
     return false;
   }
+
+  onAddToCart(productId: number) {
+    if (!this.isLoggedIn) {
+      this.showNotification('Please login first.', 'error');
+      return;
+    }
+
+    this.cartService.updateCart(productId, 1).subscribe(
+      (response) => {
+        if (response.success) {
+          this.showNotification('Product added to cart successfully.', 'success');
+        } else {
+          this.showNotification('Failed to add product to cart.', 'error');
+        }
+      },
+      (error) => {
+        console.error("Error adding product to cart", error);
+        this.showNotification('An error occurred while adding the product to the cart.', 'error');
+      }
+    );
+  }
+
+  showNotification(message: string, type: 'success' | 'error') {
+    this.notificationMessage = message;
+    this.notificationType = type;
+
+    setTimeout(() => {
+      this.clearNotification();
+    }, 3000);
+  }
+
+  clearNotification() {
+    this.notificationMessage = null;
+  }
 }
+

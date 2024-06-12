@@ -10,6 +10,15 @@ export class LoginService {
 
   constructor(private _HttpClient: HttpClient) { }
   userDataa: any;
+
+  setAuthToken(token: string): void {
+    localStorage.setItem('eToken', token);
+  }
+
+  getAuthToken(): string | null {
+    return localStorage.getItem('eToken');
+  }
+
   isUserLoggedIn(): boolean {
     return localStorage.getItem('eToken') !== null;
   }
