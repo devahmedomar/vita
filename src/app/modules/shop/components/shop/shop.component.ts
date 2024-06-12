@@ -10,6 +10,7 @@ import { iProduct } from 'src/app/models/iproduct';
   styleUrls: ['./shop.component.css'],
 })
 export class ShopComponent implements OnInit {
+  constructor(public _ProductServiseService:ProductServiseService){}
   shopBreadCrumbData: Ibreadcrumb = {
     title: 'shop',
     prev: 'home',

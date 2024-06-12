@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TabViewModule } from 'primeng/tabview';
 import { ButtonModule } from 'primeng/button';
+import { NgxSpinnerModule } from 'ngx-spinner';
 @NgModule({
   declarations: [
     ShopComponent,
@@ -23,7 +24,8 @@ import { ButtonModule } from 'primeng/button';
     FormsModule,
     InputNumberModule,
     TabViewModule,
-    ButtonModule
+    ButtonModule,
+    NgxSpinnerModule // import NgxSpinnerModule
 
   ]
 })
