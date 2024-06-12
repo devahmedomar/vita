@@ -3,6 +3,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Ibreadcrumb } from 'src/app/models/ibreadcrumb';
 import { Iproductcard } from 'src/app/models/iproductcard';
 import { iProduct } from 'src/app/models/iproduct';
+import { ProductServiseService } from 'src/app/product-servise.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-shop',
@@ -10,26 +12,25 @@ import { iProduct } from 'src/app/models/iproduct';
   styleUrls: ['./shop.component.css'],
 })
 export class ShopComponent implements OnInit {
+  constructor(public _ProductServiseService:ProductServiseService,private spinner: NgxSpinnerService,private productService: ProductService){}
   shopBreadCrumbData: Ibreadcrumb = {
     title: 'shop',
     prev: 'home',
   };
   products: iProduct[] | undefined;
   paginatedProducts: iProduct[] = [];
-  loading: boolean = false; 
+  loading: boolean = false;
   pageIndex: number = 0;
   pageSize: number = 12;
   totalItems: number = 0;
   selectedSortOption: string = 'default';
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-    this.loading = true; 
+    this.loading = true;
 
     this.productService.getAllProducts().subscribe(
-      (data: any) => { 
+      (data: any) => {
         if (data && data.success) {
           this.products = data.data.products;
           if(this.products){
@@ -41,11 +42,11 @@ export class ShopComponent implements OnInit {
         } else {
           // console.error('Error fetching products:', data.message);
         }
-        this.loading = false; 
+        this.loading = false;
       },
       (error) => {
         // console.error('Error fetching products', error);
-        this.loading = false; 
+        this.loading = false;
       }
     );
   }
@@ -91,7 +92,7 @@ export class ShopComponent implements OnInit {
   sortByPriceLowToHigh(): void {
     this.paginatedProducts = this.paginatedProducts.sort((a, b) => a.price - b.price);
   }
-  
+
   sortByPriceHighToLow(): void {
     this.paginatedProducts.sort((a, b) => b.price - a.price);
   }
@@ -127,7 +128,7 @@ export class ShopComponent implements OnInit {
       this.paginate();
     }
   }
-  
+
   get sortedProducts(): iProduct[] {
     return this.paginatedProducts;
   }
