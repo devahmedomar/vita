@@ -8,7 +8,7 @@
             <img alt="Card" [src]="productCardData.pictures[0]" />
           </a>
       </ng-template>
-      <div class="sale-pos" *ngIf="productCardData.discount">-{{(((productCardData.priceBeforeDiscount - productCardData.priceAfterDiscount )/productCardData.priceBeforeDiscount)*100)| floor}}%</div>
+      <div *ngIf="DisplaySalePos()" class="sale-pos">-{{(((productCardData.priceBeforeDiscount - productCardData.priceAfterDiscount )/productCardData.priceBeforeDiscount)*100)| floor}}%</div>
       <div>
         <p-rating [(ngModel)]="productCardData.reviews"  [cancel]="false" starStyleClass="custom-stars"/>
         <div class="price">{{productCardData.priceAfterDiscount| currency:'USD'}}</div>
@@ -16,8 +16,12 @@
       <ng-template pTemplate="footer">
           <div class="flex gap-3 mt-1">
             <!-- <button class="btn-main" [routerLink]="['/cart']">Add To cart</button> -->
-            <button class="btn-main" [disabled]="!isLoggedIn" [routerLink]="['/cart']">Add To cart</button>
+            <button class="btn-main" [disabled]="!isLoggedIn" (click)="onAddToCart(productCardData.productId)">Add To cart</button>
           </div>
       </ng-template>
   </p-card>
+  <div *ngIf="notificationMessage" class="custom-notification" [ngClass]="{'success': notificationType === 'success', 'error': notificationType === 'error'}">
+    <div class="message">{{ notificationMessage }}</div>
+    <button class="close-button" (click)="clearNotification()">Close</button>
+  </div>
 </div>

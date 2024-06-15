@@ -1,15 +1,24 @@
 <app-navbar></app-navbar>
 <app-breadcrumb [breadcrumbData]="shopBreadCrumbData"></app-breadcrumb>
-<div class="container my-5">
+<div class="container my-5" id="products">
   <div class="row">
-    <div class="col-md-6 mb-5">Showing 1-12 of 21 results</div>
+    <div class="col-md-6 mb-5">
+      Showing {{ pageIndex * pageSize + 1 }}-{{
+        (pageIndex + 1) * pageSize > totalItems
+          ? totalItems
+          : (pageIndex + 1) * pageSize
+      }}
+      of {{ totalItems }} results
+    </div>
     <div class="col-md-6 mb-5 d-flex justify-content-md-end">
       <div>
-        <select name="" id="" class="form-control" >
-          <option value="">Default Sorting</option>
-          <option value="">Default Sorting</option>
-          <option value="">Default Sorting</option>
-          <option value="">Default Sorting</option>
+        <select [(ngModel)]="selectedSortOption" (change)="onSortOptionChange($event)" class="form-control">
+          <option value="default">Default Sorting</option>
+          <option value="popularity">Sort by Popularity</option>
+          <option value="rating">Sort by Average Rating</option>
+          <option value="latest">Sort by Latest</option>
+          <option value="lowToHigh">Sort by Price Low to High</option>
+          <option value="highToLow">Sort by Price High to Low</option>
         </select>
       </div>
     </div>
@@ -20,9 +29,31 @@
   </ngx-spinner>
   <div class="row">
 
+    <app-productcard
+      class="col-md-4 col-sm-6"
+      *ngFor="let product of paginatedProducts"
+      [productCardData]="product"
+      origin="shop"
+    >
+    </app-productcard>
+  </div>
+  <div class="row">
+    <div class="col-12 d-flex justify-content-between">
+      <button
+        class=""
+        (click)="prevPage()"
+        [disabled]="pageIndex === 0"
+      >
+      &lt;&lt;
+      </button>
+      <button
+        class=""
+        (click)="nextPage()"
+        [disabled]="pageIndex >= totalPages - 1"
+      >
+      &gt;&gt;
+      </button>
 
-    <div class="col-lg-4 col-md-6" *ngFor="let product of products">
-      <app-productcard [productCardData]="product" origin="shop"></app-productcard>
     </div>
   </div>
 </div>

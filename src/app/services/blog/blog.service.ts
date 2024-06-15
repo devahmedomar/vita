@@ -14,4 +14,16 @@ export class BlogService {
     return this._HttpClient.get<Blog>(this.apiUrl)
   }
 
+
+  getSingleBlog(blogId: any): Observable<any> {
+    return this._HttpClient.get(
+      `https://api.vitaparapharma.com/api/v1/public/post/${blogId}`
+    );
+  }
+
+  // getBlogPostById(postId: number): Observable<Blog> {
+  //   const url = `${this.blogByIdUrl}${postId}`;
+  //   return this._HttpClient.get<Blog>(url);
+  // }
+
 }

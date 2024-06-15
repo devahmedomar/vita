@@ -9,161 +9,25 @@
 
       <div class="col-lg-8 entries">
 
-        <article class="entry row">
+       <article class="entry row" *ngFor="let post of blogArr; let i = index">
 
-          <div class="entry-img col-md-4 position-relative">
-            <img src="assets/images/blogpost.png" alt="" class="img-fluid h-100">
-            <div class="layer">
-              October 20, 2020
-            </div>
-          </div>
+    <div class="entry-img col-md-4 position-relative">
+      <img [src]="post.picture" alt="" class="img-fluid h-100">
+      <div class="layer">
+        {{ post.creation }}
+      </div>
+    </div>
 
-          <div class="right col-md-8">
-            <h2 class="entry-title">
-              <a routerLink="/blog/1">
-                Gallery post
-              </a>
+    <div class="right col-md-8">
+      <h2 class="entry-title"><a [routerLink]="'/blog/' + post.blogPostId">{{post.title}}</a></h2>
+      <div class="entry-content" [innerHTML]="safeBlogContent[i]">
+      </div>
+      <div class="read-more">
+        <a [routerLink]="'/blog/' + post.blogPostId">Read More</a>
+      </div>
+    </div>
+</article>
 
-            </h2>
-
-
-
-            <div class="entry-content">
-              <p>
-                The beauty industry has long been criticized for its lack of
-                inclusivity and diversity.
-              </p>
-              <div class="read-more">
-                <a routerLink="/blog/1">Read More</a>
-              </div>
-            </div>
-          </div>
-
-        </article><!-- End blog entry -->
-        <article class="entry row">
-
-          <div class="entry-img col-md-4 position-relative">
-            <img src="assets/images/blogpost.png" alt="" class="img-fluid h-100">
-            <div class="layer">
-              October 20, 2020
-            </div>
-          </div>
-
-          <div class="right col-md-8">
-            <h2 class="entry-title">
-              <a routerLink="/blog/1">
-                Gallery post
-              </a>
-
-            </h2>
-
-
-
-            <div class="entry-content">
-              <p>
-                The beauty industry has long been criticized for its lack of
-                inclusivity and diversity.
-              </p>
-              <div class="read-more">
-                <a routerLink="/blog/1">Read More</a>
-              </div>
-            </div>
-          </div>
-
-        </article><!-- End blog entry -->
-        <article class="entry row">
-
-          <div class="entry-img col-md-4 position-relative">
-            <img src="assets/images/blogpost.png" alt="" class="img-fluid h-100">
-            <div class="layer">
-              October 20, 2020
-            </div>
-          </div>
-
-          <div class="right col-md-8">
-            <h2 class="entry-title">
-              <a routerLink="/blog/1">
-                Gallery post
-              </a>
-
-            </h2>
-
-
-
-            <div class="entry-content">
-              <p>
-                The beauty industry has long been criticized for its lack of
-                inclusivity and diversity.
-              </p>
-              <div class="read-more">
-                <a routerLink="/blog/1">Read More</a>
-              </div>
-            </div>
-          </div>
-
-        </article><!-- End blog entry -->
-        <article class="entry row">
-
-          <div class="entry-img col-md-4 position-relative">
-            <img src="assets/images/blogpost.png" alt="" class="img-fluid h-100">
-            <div class="layer">
-              October 20, 2020
-            </div>
-          </div>
-
-          <div class="right col-md-8">
-            <h2 class="entry-title">
-              <a routerLink="/blog/1">
-                Gallery post
-              </a>
-
-            </h2>
-
-
-
-            <div class="entry-content">
-              <p>
-                The beauty industry has long been criticized for its lack of
-                inclusivity and diversity.
-              </p>
-              <div class="read-more">
-                <a routerLink="/blog/1">Read More</a>
-              </div>
-            </div>
-          </div>
-
-        </article><!-- End blog entry -->
-        <article class="entry row">
-
-          <div class="entry-img col-md-4 position-relative">
-            <img src="assets/images/blogpost.png" alt="" class="img-fluid h-100">
-            <div class="layer">
-              October 20, 2020
-            </div>
-          </div>
-
-          <div class="right col-md-8">
-            <h2 class="entry-title">
-              <a routerLink="/blog/1">
-                Gallery post
-              </a>
-
-            </h2>
-
-
-
-            <div class="entry-content">
-              <p>
-                The beauty industry has long been criticized for its lack of
-                inclusivity and diversity.
-              </p>
-              <div class="read-more">
-                <a routerLink="/blog/1">Read More</a>
-              </div>
-            </div>
-          </div>
-
-        </article><!-- End blog entry -->
 
 
 

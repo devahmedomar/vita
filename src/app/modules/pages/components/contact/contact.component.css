@@ -113,3 +113,18 @@
   }
 }
 
+
+/* Add this to your contact.component.css */
+.spinner-border {
+  margin-right: 5px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.sent-message {
+  color: green;
+  margin-top: 10px;
+}

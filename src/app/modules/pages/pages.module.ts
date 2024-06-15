@@ -18,7 +18,7 @@ import { AdsComponent } from './sections/ads/ads.component';
 import { CarouselModule } from 'primeng/carousel';
 import { MissionComponent } from './sections/mission/mission.component';
 import { FeaturesComponent } from './sections/features/features.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccordionModule } from 'primeng/accordion';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -49,7 +49,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CarouselModule,
     // BrowserModule,
     // BrowserAnimationsModule,
-    AccordionModule
+    AccordionModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class PagesModule { }
