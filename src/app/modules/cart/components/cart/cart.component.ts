@@ -19,7 +19,7 @@ export class CartComponent {
   cartProducts: Icart[] = [];
   subtotal: number = 0;
   cartSubtotal: number = 0;
-  shippingCost: number = 30;
+  shippingCost: number = 0;
   cartTotal: number = 0;
 
   ngOnInit(): void {
@@ -49,8 +49,8 @@ export class CartComponent {
       }
     );
   }
-  
-  
+
+
 
   calculateSubtotal() {
     this.subtotal = this.cartProducts.reduce((total, item) => {
