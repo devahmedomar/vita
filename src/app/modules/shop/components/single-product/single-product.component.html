@@ -26,7 +26,11 @@
             spinnerMode="horizontal" inputId="integeronly" [min]="1" [max]="1000" inputId="horizontal"
             decrementButtonClass="p-button-incdec" incrementButtonClass="p-button-incdec"
             incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
-          <button class="btn-main ms-3">Add To cart</button>
+            <button class="btn-main" [disabled]="!isLoggedIn" (click)="onAddToCart(singleProduct.productId)">Add To cart</button>
+        </div>
+        <div *ngIf="notificationMessage" class="custom-notification" [ngClass]="{'success': notificationType === 'success', 'error': notificationType === 'error'}">
+          <div class="message">{{ notificationMessage }}</div>
+          <button class="close-button" (click)="clearNotification()">Close</button>
         </div>
         <div class="d-flex align-items-center mt-2 wish">
           <div style="cursor: pointer;"><i class="pi pi-heart me-3"></i></div>

@@ -27,12 +27,26 @@
               </div>
             </td>
             <td>
-              <div class="bg-white py-3">
+              <!-- <div class="bg-white py-3">
                 <p-inputNumber [(ngModel)]="product.quantity" [showButtons]="true" buttonLayout="horizontal"
                   spinnerMode="horizontal" inputId="integeronly" [min]="1" [max]="1000" inputId="horizontal"
                   decrementButtonClass="p-button-incdec" incrementButtonClass="p-button-incdec"
                   incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" 
                   (ngModelChange)="updateSubtotal(product)" />
+              </div> -->
+              <div class="bg-white py-3">
+                <p-inputNumber [(ngModel)]="product.quantity"
+                               [showButtons]="true"
+                               buttonLayout="horizontal"
+                               spinnerMode="horizontal"
+                               [min]="1"
+                               [max]="1000"
+                               inputId="horizontal"
+                               decrementButtonClass="p-button-incdec"
+                               incrementButtonClass="p-button-incdec"
+                               incrementButtonIcon="pi pi-plus"
+                               decrementButtonIcon="pi pi-minus"
+                               (ngModelChange)="updateSubtotal(product)" />
               </div>
             </td>
             <td class="py-3">

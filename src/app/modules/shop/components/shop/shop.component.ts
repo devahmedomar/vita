@@ -1,8 +1,5 @@
 import { ProductService } from 'src/app/services/product/product.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { Ibreadcrumb } from 'src/app/models/ibreadcrumb';
 import { Iproductcard } from 'src/app/models/iproductcard';
 import { iProduct } from 'src/app/models/iproduct';
@@ -15,7 +12,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./shop.component.css'],
 })
 export class ShopComponent implements OnInit {
-
   constructor(public _ProductServiseService:ProductServiseService,private spinner: NgxSpinnerService,private productService: ProductService){}
   shopBreadCrumbData: Ibreadcrumb = {
     title: 'shop',
@@ -69,7 +65,6 @@ export class ShopComponent implements OnInit {
     }
   }
 
-
   prevPage(): void {
     if (this.pageIndex > 0) {
       this.pageIndex--;
@@ -85,7 +80,6 @@ export class ShopComponent implements OnInit {
   sortByPopularity(): void {
     this.paginatedProducts.sort((a, b) => b.stockQuantity - a.stockQuantity);
   }
-
 
   sortByAverageRating(): void {
     this.paginatedProducts.sort((a, b) => b.rating - a.rating);

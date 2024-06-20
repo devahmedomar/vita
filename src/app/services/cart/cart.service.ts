@@ -54,6 +54,7 @@ export class CartService {
       })
     );
   }
+
   updateCart(productId: number, quantity: number): Observable<any> {
     const authToken = localStorage.getItem('eToken');
     if (!authToken) {
@@ -72,6 +73,7 @@ export class CartService {
       map((response: any) => {
         if (response.success) {
           this.loadCartCount(); 
+          localStorage.setItem(`product_${productId}_quantity`, quantity.toString());
         }
         return response;
       }),
@@ -105,5 +107,15 @@ export class CartService {
           throw new Error('Error removing from cart: ' + error.message);
         })
       );
+  }
+
+  calculateSubtotal(cartItems: Icart[]): number {
+    return cartItems.reduce((total, item) => {
+      return total + (item.subtotal || 0);
+    }, 0);
+  }
+  
+  calculateCartTotal(subtotal: number, shippingCost: number): number {
+    return subtotal + shippingCost;
   }
 }

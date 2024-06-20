@@ -19,7 +19,7 @@ export class CartComponent {
   cartProducts: Icart[] = [];
   subtotal: number = 0;
   cartSubtotal: number = 0;
-  shippingCost: number = 0;
+  shippingCost: number = 30;
   cartTotal: number = 0;
 
   ngOnInit(): void {
@@ -38,8 +38,7 @@ export class CartComponent {
             }
             product.subtotal = product.quantity * product.productPrice;
           });
-          this.calculateSubtotal();
-          this.calculateCartTotal();
+          this.calculateCartValues();
         } else {
           console.error('Failed to fetch cart data:', response.message);
         }
@@ -49,34 +48,34 @@ export class CartComponent {
       }
     );
   }
-
-
-
-  calculateSubtotal() {
-    this.subtotal = this.cartProducts.reduce((total, item) => {
-      return total + item.quantity * item.productPrice;
-    }, 0);
-  }
-
-  calculateCartTotal() {
-    this.cartSubtotal = this.subtotal;
-    this.cartTotal = this.cartSubtotal + this.shippingCost;
+  
+  calculateCartValues() {
+    this.cartSubtotal = this.cartService.calculateSubtotal(this.cartProducts);
+    this.cartTotal = this.cartService.calculateCartTotal(this.cartSubtotal, this.shippingCost);
   }
 
   updateSubtotal(product: Icart) {
     product.subtotal = product.quantity * product.productPrice;
-    this.calculateSubtotal();
-    this.calculateCartTotal();
-    localStorage.setItem(`product_${product.productId}_quantity`, product.quantity.toString());
+    this.calculateCartValues();
+    this.cartService.updateCart(product.productId, product.quantity).subscribe(
+      (response) => {
+        if (!response.success) {
+          console.error('Failed to update product quantity in cart:', response.message);
+        }
+      },
+      (error) => {
+        console.error('Error updating product quantity in cart:', error);
+      }
+    );
   }
+
 
   removeFromCart(productId: number) {
     this.cartService.removeFromCart(productId).subscribe(
       (response) => {
         if (response.success) {
           this.cartProducts = this.cartProducts.filter((product) => product.productId !== productId);
-          this.calculateSubtotal();
-          this.calculateCartTotal();
+          this.calculateCartValues();
         } else {
           console.error('Failed to remove product from cart:', response.message);
         }
