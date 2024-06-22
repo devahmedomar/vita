@@ -23,7 +23,7 @@
         </p>
         <div class="d-flex bg-white py-3">
           <p-inputNumber [(ngModel)]="prodNumber" [showButtons]="true" buttonLayout="horizontal"
-            spinnerMode="horizontal" inputId="integeronly" [min]="1" [max]="1000" inputId="horizontal"
+            spinnerMode="horizontal" inputId="integeronly" [min]="1" [max]="singleProduct.stockQuantity" inputId="horizontal"
             decrementButtonClass="p-button-incdec" incrementButtonClass="p-button-incdec"
             incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
             <button class="btn-main" [disabled]="!isLoggedIn" (click)="onAddToCart(singleProduct.productId)">Add To cart</button>

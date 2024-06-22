@@ -27,26 +27,19 @@
               </div>
             </td>
             <td>
-              <!-- <div class="bg-white py-3">
-                <p-inputNumber [(ngModel)]="product.quantity" [showButtons]="true" buttonLayout="horizontal"
-                  spinnerMode="horizontal" inputId="integeronly" [min]="1" [max]="1000" inputId="horizontal"
-                  decrementButtonClass="p-button-incdec" incrementButtonClass="p-button-incdec"
-                  incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" 
-                  (ngModelChange)="updateSubtotal(product)" />
-              </div> -->
               <div class="bg-white py-3">
                 <p-inputNumber [(ngModel)]="product.quantity"
-                               [showButtons]="true"
-                               buttonLayout="horizontal"
-                               spinnerMode="horizontal"
-                               [min]="1"
-                               [max]="1000"
-                               inputId="horizontal"
-                               decrementButtonClass="p-button-incdec"
-                               incrementButtonClass="p-button-incdec"
-                               incrementButtonIcon="pi pi-plus"
-                               decrementButtonIcon="pi pi-minus"
-                               (ngModelChange)="updateSubtotal(product)" />
+                [showButtons]="true"
+                buttonLayout="horizontal"
+                spinnerMode="horizontal"
+                [min]="1"
+                [max]="product.stockQuantity" 
+                inputId="horizontal"
+                decrementButtonClass="p-button-incdec"
+                incrementButtonClass="p-button-incdec"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus"
+                (ngModelChange)="updateSubtotal(product)" />
               </div>
             </td>
             <td class="py-3">
@@ -74,8 +67,14 @@
         <div class="col-6 fw-light">TOTAL</div>
         <div class="col-6 d-flex justify-content-end fw-bolder">{{ cartTotal | currency }}</div>
       </div>
-      <div class="d-flex justify-content-center"><button (click)="checkout()" class="btn-main">CHECKOUT</button></div>
-    </div>
+      <div class="d-flex justify-content-center">
+        <button (click)="checkout()" class="btn-main">CHECKOUT</button>
+      </div>
+      </div>      
   </div>
+</div>
+<div *ngIf="showCheckoutError" class="custom-notification error">
+  <p class="message">Please add products to your cart first.</p>
+  <button class="close-button" (click)="closeNotification()">Close</button>
 </div>
 <app-footer></app-footer>

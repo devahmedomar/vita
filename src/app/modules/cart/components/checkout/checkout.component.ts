@@ -198,44 +198,104 @@ export class CheckoutComponent implements OnInit {
 
   placeOrder(): void {
     if (!this.selectedAddressId) {
-      console.error('No address selected for delivery.');
+      this.showTemporaryMessage('Please select a shipping address.');
       return;
     }
   
     const orderItems = this.cartProducts.map(item => ({
-          productId: item.productId,
-          quantity: item.quantity
-        }));
+      productId: item.productId,
+      quantity: item.quantity
+    }));
   
     const coupon = this.couponForm.get('couponCode')?.value || '';
-    console.log('Order Items:', orderItems);
-    console.log('Coupon:', coupon);
-    console.log('Selected Address ID:', this.selectedAddressId);
   
     if (this.authToken) {
-      this.orderService.addOrder(this.authToken, this.selectedAddressId.toString(), orderItems, coupon).subscribe(
-        (response: any) => {
-          console.log('Order placed successfully:', response);
-          // this.router.navigate(['/cart/placeorder']);
-          this.router.navigate(['/cart/placeorder']);
-        },
-        (error: HttpErrorResponse) => {
-          console.error('Error placing order:', error);
-          if (error.error && error.error.message) {
-            if (error.error.message === 'Entity Product have no sufficient amount') {
-              this.errorMessage = 'One or more products in your order have insufficient quantity available.';
-            } else {
-              this.errorMessage = error.error.message;
-            }
-          } else {
-            this.errorMessage = 'Failed to place order. Please try again later.';
-          }
-          console.error('Order Error:', this.errorMessage);
-        }
-      );
+      this.checkOrder(orderItems, coupon);
     } else {
-      console.error('Authentication token not found.');
+      this.showTemporaryMessage('Authentication token not found. Please log in and try again.');
     }
   }
-    
+  
+  private checkOrder(orderItems: any[], coupon: string): void {
+    this.orderService.checkOrder(this.authToken!, orderItems, coupon).subscribe(
+      (checkResponse: any) => {
+        console.log('Order checked successfully:', checkResponse);
+        this.addOrder(orderItems, coupon);
+      },
+      (error: HttpErrorResponse) => {
+        this.handleCheckOrderError(error);
+      }
+    );
+  }
+  
+  private addOrder(orderItems: any[], coupon: string): void {
+    this.orderService.addOrder(this.authToken!, this.selectedAddressId.toString(), orderItems, coupon).subscribe(
+      (response: any) => {
+        console.log('Order placed successfully:', response);
+        this.cartProducts.forEach(product => {
+          this.cartService.removeFromCart(product.productId).subscribe(
+            () => {
+              console.log(`Removed product ${product.productId} from cart.`);
+            },
+            (error: any) => {
+              console.error(`Error removing product ${product.productId} from cart:`, error);
+            }
+          );
+        });
+        this.router.navigate(['/cart/placeorder']);
+      },
+      (error: HttpErrorResponse) => {
+        this.handleAddOrderError(error);
+      }
+    );
+  }
+  
+  private handleCheckOrderError(error: HttpErrorResponse): void {
+    if (error.status === 400) {
+      if (error.error && error.error.message) {
+        let userFriendlyMessage = '';
+        switch (error.error.message) {
+          case 'Entity Product have no sufficient amount':
+            userFriendlyMessage = 'One or more products in your order are out of stock. Please adjust the quantity or try again later.';
+            break;
+          default:
+            userFriendlyMessage = 'Failed to check order. Please try again later.';
+            break;
+        }
+        this.showTemporaryMessage(userFriendlyMessage);
+      } else {
+        this.showTemporaryMessage('Failed to check order due to a bad request. Please try again later.');
+      }
+    } else {
+      this.showTemporaryMessage('Failed to check order. Please try again later.');
+    }
+  }
+  
+  private handleAddOrderError(error: HttpErrorResponse): void {
+    if (error.status === 400) {
+      if (error.error && error.error.message) {
+        let userFriendlyMessage = '';
+        switch (error.error.message) {
+          case 'Entity Product have no sufficient amount':
+            userFriendlyMessage = 'One or more products in your order are out of stock. Please adjust the quantity or try again later.';
+            break;
+          default:
+            userFriendlyMessage = 'Failed to place order. Please try again later.';
+            break;
+        }
+        this.showTemporaryMessage(userFriendlyMessage);
+      } else {
+        this.showTemporaryMessage('Failed to place order due to a bad request. Please try again later.');
+      }
+    } else {
+      this.showTemporaryMessage('Failed to place order. Please try again later.');
+    }
+  }
+  
+  showTemporaryMessage(message: string) {
+    this.errorMessage = message;
+    setTimeout(() => {
+      this.errorMessage = '';
+    }, 3000); 
+  }  
 }

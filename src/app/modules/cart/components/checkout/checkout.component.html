@@ -72,6 +72,9 @@
         data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
          Add New Address   <i class="pi pi-plus ms-2"></i>
         </div>
+        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+          {{ errorMessage }}
+        </div>
         <button type="button" class="place-order-btn" (click)="placeOrder()">Place Order</button>
       </div>
     </div>
