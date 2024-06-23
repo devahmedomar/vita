@@ -21,6 +21,7 @@ export class CartComponent {
   cartSubtotal: number = 0;
   shippingCost: number = 30;
   cartTotal: number = 0;
+  showCheckoutError: boolean = false;
 
   ngOnInit(): void {
     this.loadCart();
@@ -87,7 +88,17 @@ export class CartComponent {
   }
 
   checkout(): void {
-    this._Router.navigate(['/cart/checkout']);
-    // console.log('Checkout');
+    if (this.cartProducts.length === 0) {
+      this.showCheckoutError = true; 
+      setTimeout(() => {
+        this.showCheckoutError = false;
+      }, 3000);
+    } else {
+      this._Router.navigate(['/cart/checkout']); 
+    }
+  }
+
+  closeNotification(): void {
+    this.showCheckoutError = false; 
   }
 }
