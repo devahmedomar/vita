@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Icart } from 'src/app/models/icart';
 
@@ -12,7 +13,9 @@ export class CartService {
   private cartCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   public cartCount$: Observable<number> = this.cartCountSubject.asObservable();
 
-  constructor(private http: HttpClient) { this.loadCartCount(); }
+  constructor(private http: HttpClient, private router: Router) {
+    this.loadCartCount();
+  }
 
   private loadCartCount() {
     this.getCart().subscribe(
@@ -31,10 +34,17 @@ export class CartService {
     this.cartCountSubject.next(count);
   }
 
+  private handleAuthError() {
+    // Redirect to login page
+    this.router.navigate(['/']);
+    // Return an observable that completes immediately
+    return of(null);
+  }
+
   getCart(): Observable<any> {
     const authToken = localStorage.getItem('eToken');
     if (!authToken) {
-      throw new Error('Authentication token not found.');
+      return this.handleAuthError();
     }
 
     const headers = new HttpHeaders({
@@ -50,7 +60,7 @@ export class CartService {
       }),
       catchError(error => {
         console.error('Error fetching cart:', error);
-        throw new Error('Error fetching cart: ' + (error.message || 'Unknown error'));
+        return throwError('Error fetching cart: ' + (error.message || 'Unknown error'));
       })
     );
   }
@@ -58,7 +68,7 @@ export class CartService {
   updateCart(productId: number, quantity: number): Observable<any> {
     const authToken = localStorage.getItem('eToken');
     if (!authToken) {
-      throw new Error('Authentication token not found.');
+      return this.handleAuthError();
     }
 
     const headers = new HttpHeaders({
@@ -72,14 +82,14 @@ export class CartService {
     ).pipe(
       map((response: any) => {
         if (response.success) {
-          this.loadCartCount(); 
+          this.loadCartCount();
           localStorage.setItem(`product_${productId}_quantity`, quantity.toString());
         }
         return response;
       }),
       catchError(error => {
         console.error('Error updating cart:', error);
-        throw new Error('Error updating cart: ' + error.message);
+        return throwError('Error updating cart: ' + error.message);
       })
     );
   }
@@ -87,7 +97,7 @@ export class CartService {
   removeFromCart(productId: number): Observable<any> {
     const authToken = localStorage.getItem('eToken');
     if (!authToken) {
-      throw new Error('Authentication token not found.');
+      return this.handleAuthError();
     }
 
     const headers = new HttpHeaders({
@@ -104,7 +114,7 @@ export class CartService {
         }),
         catchError(error => {
           console.error('Error removing from cart:', error);
-          throw new Error('Error removing from cart: ' + error.message);
+          return throwError('Error removing from cart: ' + error.message);
         })
       );
   }
@@ -114,7 +124,7 @@ export class CartService {
       return total + (item.subtotal || 0);
     }, 0);
   }
-  
+
   calculateCartTotal(subtotal: number, shippingCost: number): number {
     return subtotal + shippingCost;
   }

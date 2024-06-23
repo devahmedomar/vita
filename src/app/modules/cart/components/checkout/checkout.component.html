@@ -60,7 +60,7 @@
       </div>
       <div class="bg-white p-5 mt-5">
         <h5 class="mb-4">Select Shipping Address</h5>
-      
+
         <div *ngFor="let address of shippingAddresses" class="address-card">
           <div>
             <strong>{{ address.country }}</strong><br>
@@ -126,27 +126,27 @@
             </tbody>
           </table>
         </div>
-        
+
         <div class="row border-bottom pb-3">
           <div class="col-6 text-muted fw-light">Subtotal</div>
           <div class="col-6 d-flex justify-content-end fw-bolder">{{ cartSubtotal | currency }}</div>
         </div>
-        
+
         <h4 class="my-4 fs-6">SHIPPING</h4>
         <div class="row border-bottom pb-3">
           <div class="col-6  fw-light">Shipping cost</div>
           <div class="col-6 d-flex justify-content-end fw-bolder">${{shippingCost}}</div>
         </div>
-        
+
         <div class="row pb-3 pt-3 total">
           <div class="col-6  fw-light">TOTAL</div>
           <div class="col-6 d-flex justify-content-end fw-bolder">
-            {{ cartSubtotal + 30 | currency }}
+            {{ cartSubtotal  | currency }}
           </div>
         </div>
-        
-        
-       
+
+
+
       <div>
         <div class="payment-container">
           <h3>Payment Method</h3>

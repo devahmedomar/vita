@@ -22,7 +22,7 @@ export class PlaceorderComponent {
   ngOnInit(): void {
     this.loadOrders();
     }
-  
+
     loadOrders() {
       this.orderService.getAllOrders().subscribe(
         (response: any) => {
@@ -30,6 +30,8 @@ export class PlaceorderComponent {
             const orders = response.data.orders;
             orders.sort((a: any, b: any) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime());
             this.lastOrder = orders.length > 0 ? orders[0] : null;
+            console.log(this.lastOrder);
+
           } else {
             console.error('Invalid orders data format:', response);
           }
@@ -39,7 +41,7 @@ export class PlaceorderComponent {
         }
       );
     }
-  
+
   getSubtotal(order: any): number {
     return order.orderItems.reduce((acc: number, item: any) => {
       return acc + item.totalPrice;
@@ -47,6 +49,7 @@ export class PlaceorderComponent {
   }
 
   getTotal(order: any): number {
-    return this.getSubtotal(order) + order.shipCost;
+    // return this.getSubtotal(order) + order.shipCost;
+    return this.getSubtotal(order);
   }
 }

@@ -25,10 +25,10 @@ export class CheckoutComponent implements OnInit {
   cartProducts: Icart[] = [];
   cartSubtotal: number = 0;
   cartTotal: number = 0;
-  shippingCost: number = 30;
+  shippingCost: number = 0;
   selectedAddressId: number = 0;
   errorMessage: string = '';
-  
+
   checkoutBreadCrumbData: Ibreadcrumb = {
     prev: "home",
     title: "check out"
@@ -86,18 +86,18 @@ export class CheckoutComponent implements OnInit {
       }
     );
   }
- 
-  
+
+
 
   calculateCartSubtotal() {
     this.cartProducts.forEach(product => {
       product.subtotal = product.quantity * product.productPrice;
     });
-  
+
     this.cartSubtotal = this.cartProducts.reduce((total, product) => {
       return total + (product.subtotal || 0);
     }, 0);
-  
+
     this.cartTotal = this.cartService.calculateCartTotal(this.cartSubtotal, this.shippingCost);
   }
 
@@ -115,7 +115,7 @@ export class CheckoutComponent implements OnInit {
       console.error('Authentication token not found.');
     }
   }
-  
+
   loadCountries() {
     this.addressService.getRegions().subscribe(
       countries => {
@@ -155,7 +155,7 @@ export class CheckoutComponent implements OnInit {
         zipCode: this.addressForm.value.zipCode,
         description: this.addressForm.value.description
       };
-  
+
       this.addressService.addAddress(addressPayload).subscribe(
         response => {
           console.log('Address added successfully:', response);
@@ -180,7 +180,7 @@ export class CheckoutComponent implements OnInit {
       }
     );
   }
- 
+
   onAddressSelection(addressId: number): void {
     this.selectedAddressId = addressId;
     console.log('Selected Address ID:', this.selectedAddressId);
@@ -201,21 +201,25 @@ export class CheckoutComponent implements OnInit {
       this.showTemporaryMessage('Please select a shipping address.');
       return;
     }
-  
+
     const orderItems = this.cartProducts.map(item => ({
       productId: item.productId,
       quantity: item.quantity
     }));
-  
+
     const coupon = this.couponForm.get('couponCode')?.value || '';
-  
+    console.log('Order Items:', orderItems);
+    console.log('Coupon:', coupon);
+    console.log('Selected Address ID:', this.selectedAddressId);
+
+
     if (this.authToken) {
       this.checkOrder(orderItems, coupon);
     } else {
       this.showTemporaryMessage('Authentication token not found. Please log in and try again.');
     }
   }
-  
+
   private checkOrder(orderItems: any[], coupon: string): void {
     this.orderService.checkOrder(this.authToken!, orderItems, coupon).subscribe(
       (checkResponse: any) => {
@@ -227,7 +231,7 @@ export class CheckoutComponent implements OnInit {
       }
     );
   }
-  
+
   private addOrder(orderItems: any[], coupon: string): void {
     this.orderService.addOrder(this.authToken!, this.selectedAddressId.toString(), orderItems, coupon).subscribe(
       (response: any) => {
@@ -249,7 +253,7 @@ export class CheckoutComponent implements OnInit {
       }
     );
   }
-  
+
   private handleCheckOrderError(error: HttpErrorResponse): void {
     if (error.status === 400) {
       if (error.error && error.error.message) {
@@ -270,7 +274,7 @@ export class CheckoutComponent implements OnInit {
       this.showTemporaryMessage('Failed to check order. Please try again later.');
     }
   }
-  
+
   private handleAddOrderError(error: HttpErrorResponse): void {
     if (error.status === 400) {
       if (error.error && error.error.message) {
@@ -291,11 +295,11 @@ export class CheckoutComponent implements OnInit {
       this.showTemporaryMessage('Failed to place order. Please try again later.');
     }
   }
-  
+
   showTemporaryMessage(message: string) {
     this.errorMessage = message;
     setTimeout(() => {
       this.errorMessage = '';
-    }, 3000); 
-  }  
+    }, 3000);
+  }
 }
