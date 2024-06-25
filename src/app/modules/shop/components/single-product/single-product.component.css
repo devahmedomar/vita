@@ -152,3 +152,15 @@
   cursor: pointer;
   font-weight: bold;
 }
+
+i{
+  font-size: 1.5rem;
+}
+
+.filled-heart {
+  color: red; 
+}
+
+.outlined-heart {
+  color: inherit;
+}
