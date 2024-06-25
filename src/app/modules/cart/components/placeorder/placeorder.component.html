@@ -1,70 +1,58 @@
-
 <app-navbar></app-navbar>
-
 <app-breadcrumb [breadcrumbData]="placeorderBread"></app-breadcrumb>
-<div class="container">
+
+<div class="container" *ngIf="lastOrder">
   <div class="bg-white p-5">
     <div class="order-confirmation">
       <img src="assets/images/icons/placeorder.png" alt="Order Icon">
       <h3>Thank you. Your order has been received.</h3>
-  </div>
-  <div class="row order-details">
+    </div>
+    <div class="row order-details">
       <div class="col-md-3 text-center">
-          <strong>Order Number:</strong><br>3046
+        <strong>Order Number:</strong><br>{{ lastOrder.orderId }}
       </div>
       <div class="col-md-3 text-center">
-          <strong>Date:</strong><br>March 27, 2024
+        <strong>Date:</strong><br>{{ lastOrder.orderDate | date: 'MMMM d, yyyy' }}
       </div>
       <div class="col-md-3 text-center">
-          <strong>Total:</strong><br>$119.00
+        <strong>Total:</strong><br>{{ lastOrder.totalAmount | currency }}
       </div>
       <div class="col-md-3 text-center">
-          <strong>Payment Method:</strong><br>Direct bank transfer
+        <strong>Payment Method:</strong><br>{{ paymentMethod }}
       </div>
-  </div>
-  <div class="order-summary mt-4">
+    </div>
+    <div class="order-summary mt-4">
       <h5 class="text-left">Order Details</h5>
       <table class="table">
-          <thead>
-              <tr>
-                  <th>Product</th>
-                  <th class="text-right">Total</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <td>Extra Lip Tint × 1</td>
-                  <td class="text-right">$29.00</td>
-              </tr>
-              <tr>
-                  <td>Airbrush Matte × 1</td>
-                  <td class="text-right">$40.00</td>
-              </tr>
-              <tr>
-                  <td>Priming Filter Face × 1</td>
-                  <td class="text-right">$50.00</td>
-              </tr>
-              <tr>
-                  <td class="text-right"><strong>Subtotal:</strong></td>
-                  <td class="text-right">$119.00</td>
-              </tr>
-              <tr>
-                  <td class="text-right"><strong>Shipping:</strong></td>
-                  <td class="text-right">Local pickup</td>
-              </tr>
-              <tr>
-                  <td class="text-right"><strong>Payment Method:</strong></td>
-                  <td class="text-right">Direct bank transfer</td>
-              </tr>
-              <tr class="total-row">
-                  <td class="text-right"><strong>Total:</strong></td>
-                  <td class="text-right">$119.00</td>
-              </tr>
-          </tbody>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th class="text-right">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of lastOrder.orderItems">
+            <td>{{ item.productName }}</td>
+            <td>{{ item.quantity }}</td>
+            <td class="text-right">{{ item.totalPrice | currency }}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="text-right"><strong>Subtotal:</strong></td>
+            <td class="text-right">{{ getSubtotal(lastOrder) | currency }}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="text-right"><strong>Shipping:</strong></td>
+            <!-- <td class="text-right">{{ lastOrder.shipCost | currency }}</td> -->
+            <td class="text-right">{{ 0 | currency }}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="text-right"><strong>Total:</strong></td>
+            <td class="text-right">{{ getTotal(lastOrder) | currency }}</td>
+          </tr>
+        </tbody>
       </table>
-  </div>
+    </div>
   </div>
 </div>
-
-
 <app-footer></app-footer>

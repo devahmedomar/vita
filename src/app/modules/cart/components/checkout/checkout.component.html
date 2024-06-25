@@ -16,71 +16,64 @@
               </h2>
               <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  <form>
+                  <form [formGroup]="addressForm" (ngSubmit)="onAddressSubmit()">
                     <div class="form-group">
                       <label for="country">Country</label>
-                      <select class="form-control" id="country" required>
-                        <option>Casablanca</option>
+                      <select class="form-control" id="country" formControlName="country" (change)="onCountryChange($event)" required>
+                        <option value="" disabled selected>Select Country</option>
+                        <option *ngFor="let country of countries" [value]="country.id">{{ country.en }}</option>
                       </select>
                     </div>
                     <div class="form-group">
                       <label for="city">City</label>
-                      <select class="form-control" id="city" required>
-                        <option>Casablanca</option>
+                      <select class="form-control" id="city" formControlName="city" (change)="onCityChange($event)" required>
+                        <option value="" disabled selected>Select City</option>
+                        <option *ngFor="let city of cities" [value]="city.id">{{ city.en }}</option>
                       </select>
                     </div>
                     <div class="form-group">
                       <label for="region">Region</label>
-                      <select class="form-control" id="region" required>
-                        <option>Casablanca</option>
+                      <select class="form-control" id="region" formControlName="region" required>
+                        <option value="" disabled selected>Select Region</option>
+                        <option *ngFor="let region of regions" [value]="region.id">{{ region.en }}</option>
                       </select>
                     </div>
                     <div class="form-group">
                       <label for="streetAddress">Street address</label>
-                      <input type="text" class="form-control" id="streetAddress"
-                        placeholder="House number and street name" required>
+                      <input type="text" class="form-control" id="streetAddress" formControlName="description" placeholder="House number and street name" required>
                     </div>
                     <div class="form-group">
                       <label for="postcode">Postcode</label>
-                      <input type="text" class="form-control" id="postcode" required>
+                      <input type="text" class="form-control" id="postcode" formControlName="zipCode" required>
                     </div>
                     <div class="form-group">
                       <label for="orderNotes">Order notes (optional)</label>
-                      <textarea class="form-control" id="orderNotes"
-                        placeholder="Notes about your order, e.g., special notes for delivery" rows="3"></textarea>
+                      <textarea class="form-control" id="orderNotes" formControlName="orderNotes" placeholder="Notes about your order, e.g., special notes for delivery" rows="3"></textarea>
                     </div>
                     <button type="submit" class="confirm-button mt-3">ADD</button>
                   </form>
-
-
-
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </div>
       <div class="bg-white p-5 mt-5">
         <h5 class="mb-4">Select Shipping Address</h5>
-        <div class="address-card">
+
+        <div *ngFor="let address of shippingAddresses" class="address-card">
           <div>
-            <strong>Morocco</strong><br>
-            Casablanca-Settat., Sidi Rahal, HGHJ, 45645
+            <strong>{{ address.country }}</strong><br>
+            {{ address.city }}, {{ address.region }}, {{ address.description }}, {{ address.zipCode }}
           </div>
-          <input type="radio" name="address" aria-label="Select this address">
-        </div>
-        <div class="address-card">
-          <div>
-            <strong>Morocco</strong><br>
-            Casablanca-Settat., Sidi Rahal, HGHJ, 45645
-          </div>
-          <input type="radio" name="address" aria-label="Select this address">
+          <input type="radio" name="address" aria-label="Select this address" [value]="address.addressId" (change)="onAddressSelection(address.addressId)">
         </div>
         <div style="color: var(--mainColor) !important" class="add-new-address accordion-button fs-4 text-black mt-3" type="button" data-bs-toggle="collapse"
         data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
          Add New Address   <i class="pi pi-plus ms-2"></i>
+        </div>
+        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+          {{ errorMessage }}
         </div>
         <button type="button" class="place-order-btn" (click)="placeOrder()">Place Order</button>
       </div>
@@ -111,8 +104,6 @@
             </div>
           </div>
         </div>
-
-
       </div>
       <div class="row border-bottom pb-3">
         <div class="table-responsive">
@@ -120,36 +111,42 @@
             <thead>
               <tr>
                 <th scope="col" class="text-start">PRODUCT</th>
+                <th scope="col">QUANTITY</th>
+                <th scope="col">PRICE</th>
                 <th scope="col">SUBTOTAL</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="">
-                <td scope="row">Extra Lip Tint × 1</td>
-                <td>$29.00</td>
+              <tr *ngFor="let product of cartProducts">
+                <td scope="row">{{ product.productName }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.productPrice | currency }}</td>
+                <td>{{ product.subtotal | currency }}</td>
               </tr>
-              <tr class="">
-                <td scope="row">Extra Lip Tint × 1</td>
-                <td>$29.00</td>
-              </tr>
-
             </tbody>
           </table>
         </div>
 
-        <div class="col-6 text-muted fw-light">Subtotal</div>
-        <div class="col-6 d-flex justify-content-end fw-bolder">$69.00</div>
-      </div>
-      <h4 class="my-4 fs-6">SHIPPING</h4>
-      <div class="row border-bottom pb-3">
-        <div class="col-6  fw-light">Shipping cost</div>
-        <div class="col-6 d-flex justify-content-end fw-bolder">$30.00</div>
-      </div>
-      <div class="row pb-3 pt-3 total">
-        <div class="col-6  fw-light">TOTAL</div>
-        <div class="col-6 d-flex justify-content-end fw-bolder">$99.00</div>
-      </div>
-      <!-- kkkkkkkkkkkk -->
+        <div class="row border-bottom pb-3">
+          <div class="col-6 text-muted fw-light">Subtotal</div>
+          <div class="col-6 d-flex justify-content-end fw-bolder">{{ cartSubtotal | currency }}</div>
+        </div>
+
+        <h4 class="my-4 fs-6">SHIPPING</h4>
+        <div class="row border-bottom pb-3">
+          <div class="col-6  fw-light">Shipping cost</div>
+          <div class="col-6 d-flex justify-content-end fw-bolder">${{shippingCost}}</div>
+        </div>
+
+        <div class="row pb-3 pt-3 total">
+          <div class="col-6  fw-light">TOTAL</div>
+          <div class="col-6 d-flex justify-content-end fw-bolder">
+            {{ cartSubtotal  | currency }}
+          </div>
+        </div>
+
+
+
       <div>
         <div class="payment-container">
           <h3>Payment Method</h3>
@@ -190,12 +187,9 @@
             <button type="submit" class="confirm-button">Confirm</button>
           </form>
         </div>
-
-
-
       </div>
-
     </div>
   </div>
+</div>
 </div>
 <app-footer></app-footer>

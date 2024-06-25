@@ -1,106 +1,58 @@
-import { ProductService } from 'src/app/services/product/product.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Ibreadcrumb } from 'src/app/models/ibreadcrumb';
-import { Iproductcard } from 'src/app/models/iproductcard';
 import { iProduct } from 'src/app/models/iproduct';
-import { ProductServiseService } from 'src/app/product-servise.service';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { ProductService } from 'src/app/services/product/product.service';
 
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.css'],
+  styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
-
-  constructor(public _ProductServiseService:ProductServiseService,private spinner: NgxSpinnerService,private productService: ProductService){}
   shopBreadCrumbData: Ibreadcrumb = {
     title: 'shop',
-    prev: 'home',
+    prev: 'home'
   };
-  products: iProduct[] | undefined;
+  products: iProduct[] = [];
   paginatedProducts: iProduct[] = [];
-  loading: boolean = false;
-  pageIndex: number = 0;
-  pageSize: number = 12;
-  totalItems: number = 0;
-  selectedSortOption: string = 'default';
+  loading = false;
+  pageIndex = 0;
+  pageSize = 12;
+  totalItems = 0;
+  selectedSortOption = 'default';
 
+  constructor(
+    private productService: ProductService, private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
     this.loading = true;
+    this.fetchProducts();
+  }
 
+  fetchProducts(): void {
     this.productService.getAllProducts().subscribe(
       (data: any) => {
         if (data && data.success) {
           this.products = data.data.products;
-          if(this.products){
           this.totalItems = this.products.length;
-          this.paginate();
-          this.sortProducts();
-          }
-          // console.log(this.products);
+          this.paginateAndSort();
         } else {
-          // console.error('Error fetching products:', data.message);
+          console.error('Error fetching products:', data.message);
         }
         this.loading = false;
       },
       (error) => {
-        // console.error('Error fetching products', error);
+        console.error('Error fetching products', error);
         this.loading = false;
       }
     );
   }
 
-
-  paginate(): void {
+  paginateAndSort(): void {
     const startIndex = this.pageIndex * this.pageSize;
-    this.paginatedProducts = this.products?.slice(startIndex, startIndex + this.pageSize) || [];
-  }
-
-  nextPage(): void {
-    if (this.pageIndex < this.totalPages - 1) {
-      this.pageIndex++;
-      this.paginate();
-      this.scrollToTop();
-    }
-  }
-
-
-  prevPage(): void {
-    if (this.pageIndex > 0) {
-      this.pageIndex--;
-      this.paginate();
-      this.scrollToTop();
-    }
-  }
-
-  get totalPages(): number {
-    return Math.ceil(this.totalItems / this.pageSize);
-  }
-
-  sortByPopularity(): void {
-    this.paginatedProducts.sort((a, b) => b.stockQuantity - a.stockQuantity);
-  }
-
-
-  sortByAverageRating(): void {
-    this.paginatedProducts.sort((a, b) => b.rating - a.rating);
-  }
-
-  sortByLatest(): void {
-    this.paginatedProducts.sort((a, b) => b.productId - a.productId);
-  }
-
-  sortByPriceLowToHigh(): void {
-    this.paginatedProducts = this.paginatedProducts.sort((a, b) => a.price - b.price);
-  }
-
-  sortByPriceHighToLow(): void {
-    this.paginatedProducts.sort((a, b) => b.price - a.price);
+    this.paginatedProducts = this.products.slice(startIndex, startIndex + this.pageSize);
+    this.sortProducts();
   }
 
   sortProducts(): void {
@@ -121,29 +73,66 @@ export class ShopComponent implements OnInit {
         this.sortByPriceHighToLow();
         break;
       default:
-        this.paginatedProducts.sort((a, b) => a.productId - b.productId);
         break;
     }
+  }
+
+  sortByPopularity(): void {
+    this.paginatedProducts.sort((a, b) => b.stockQuantity - a.stockQuantity);
+  }
+
+  sortByAverageRating(): void {
+    this.paginatedProducts.sort((a, b) => b.rating - a.rating);
+  }
+
+  sortByLatest(): void {
+    this.paginatedProducts.sort((a, b) => b.productId - a.productId);
+  }
+
+  sortByPriceLowToHigh(): void {
+    this.paginatedProducts.sort((a, b) => a.price - b.price);
+  }
+
+  sortByPriceHighToLow(): void {
+    this.paginatedProducts.sort((a, b) => b.price - a.price);
   }
 
   onSortOptionChange(event: any): void {
     if (event && event.target && event.target.value) {
       this.selectedSortOption = event.target.value;
-      this.sortProducts();
       this.pageIndex = 0;
-      this.paginate();
+      this.paginateAndSort();
     }
   }
 
-  get sortedProducts(): iProduct[] {
-    return this.paginatedProducts;
+  nextPage(): void {
+    if (this.pageIndex < this.totalPages - 1) {
+      this.pageIndex++;
+      this.paginateAndSort();
+      this.scrollToTop();
+    }
   }
 
-  scrollToTop() {
+  prevPage(): void {
+    if (this.pageIndex > 0) {
+      this.pageIndex--;
+      this.paginateAndSort();
+      this.scrollToTop();
+    }
+  }
+
+  scrollToTop(): void {
     const productsSection = document.getElementById('products');
     if (productsSection) {
       productsSection.scrollIntoView({ behavior: 'smooth' });
     }
   }
-}
 
+  get totalPages(): number {
+    return Math.ceil(this.totalItems / this.pageSize);
+  }
+
+  get sortedProducts(): iProduct[] {
+    return this.paginatedProducts;
+  }
+}

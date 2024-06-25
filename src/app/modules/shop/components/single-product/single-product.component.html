@@ -23,15 +23,28 @@
         </p>
         <div class="d-flex bg-white py-3">
           <p-inputNumber [(ngModel)]="prodNumber" [showButtons]="true" buttonLayout="horizontal"
-            spinnerMode="horizontal" inputId="integeronly" [min]="1" [max]="1000" inputId="horizontal"
+            spinnerMode="horizontal" inputId="integeronly" [min]="1" [max]="singleProduct?.stockQuantity" inputId="horizontal"
             decrementButtonClass="p-button-incdec" incrementButtonClass="p-button-incdec"
             incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
-          <button class="btn-main ms-3">Add To cart</button>
+            <button class="btn-main" [disabled]="!isLoggedIn" (click)="onAddToCart(singleProduct.productId)">Add To cart</button>
         </div>
-        <div class="d-flex align-items-center mt-2 wish">
-          <div style="cursor: pointer;"><i class="pi pi-heart me-3"></i></div>
-          <p class="m-0 p-0" style="cursor: pointer;">Add to Wishlist</p>
+        <div *ngIf="notificationMessage" class="custom-notification" [ngClass]="{'success': notificationType === 'success', 'error': notificationType === 'error'}">
+          <div class="message">{{ notificationMessage }}</div>
+          <button class="close-button" (click)="clearNotification()">Close</button>
         </div>
+        <div class="d-flex align-items-center mt-3 wish" (click)="toggleWishlist(singleProduct.productId)">
+          <div style="cursor: pointer;">
+            <ng-container *ngIf="isInWishlist; else notInWishlist">
+              <i class="pi pi-heart-fill me-2" [ngClass]="{'filled-heart': isInWishlist}"></i>
+            </ng-container>
+            <ng-template #notInWishlist>
+              <i class="pi pi-heart me-2" [ngClass]="{'outlined-heart': !isInWishlist}"></i>
+            </ng-template>
+          </div>
+          <p class="m-0 p-0" style="cursor: pointer;">{{ isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist' }}</p>
+        </div>
+              
+               
         <div class="category my-3">
           <span class="fs-5 text-muted">Category: </span>
           <span class="fs-6 ms-2">{{category?.name}}</span>
@@ -40,7 +53,7 @@
     </div>
 
     <div class="row">
-      <div class="col-md-6">
+      <!-- <div class="col-md-6">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
             <button class="nav-link active" id="additional-tab" data-bs-toggle="tab" data-bs-target="#additional-tab-pane"
@@ -143,7 +156,7 @@
           </div>
         </div>
 
-      </div>
+      </div> -->
       <!-- <div class="row related">
         <h2>Related products</h2>
         <div class="row">
