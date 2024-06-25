@@ -24,6 +24,7 @@ export class SingleProductComponent implements OnInit {
   singleProduct:any;
   safeProductDescription: SafeHtml = '';
   category:Icategory|undefined;
+  isInWishlist: boolean = false;
 
   constructor(private route:ActivatedRoute,private _ProductService:ProductService, private sanitizer: DomSanitizer, private loginService: LoginService, private cartService: CartService) { }
   relatedProducts:Iproductcard[]=[]
@@ -57,6 +58,9 @@ export class SingleProductComponent implements OnInit {
     this.isLoggedIn = this.loginService.isUserLoggedIn();
     this.route.paramMap.subscribe(params=>{
       this.productId=params.get('id')!;
+      if (this.isLoggedIn) {
+        this.checkWishlistStatus();
+      }
     })
 
     this.getSingleProduct()
@@ -92,4 +96,51 @@ export class SingleProductComponent implements OnInit {
   clearNotification() {
     this.notificationMessage = null;
   }
+
+  checkWishlistStatus() {
+    console.log('Checking wishlist status for productId:', this.productId);
+  
+    this._ProductService.getWishlist().subscribe({
+      next: (wishlist: any[]) => {
+        // console.log('Wishlist:', wishlist);
+        this.isInWishlist = wishlist.some(item => item.toString() === this.productId.toString());
+        // console.log('isInWishlist:', this.isInWishlist);
+      },
+      error: (err) => {
+        // console.error('Error fetching wishlist:', err);
+      }
+    });
+  }
+  
+  addToWishlist(productId: string) {
+    this._ProductService.addToWishlist(productId).subscribe({
+      next: (res) => {
+        // console.log('Product added to wishlist:', res);
+        this.isInWishlist = true; 
+      },
+      error: (err) => {
+        // console.error('Error adding to wishlist:', err);
+      }
+    });
+  }
+  
+  removeFromWishlist(productId: string) {
+    this._ProductService.removeFromWishlist(productId).subscribe({
+      next: (res) => {
+        // console.log('Product removed from wishlist:', res);
+        this.isInWishlist = false;
+      },
+      error: (err) => {
+        // console.error('Error removing from wishlist:', err);
+      }
+    });
+  }
+  
+  toggleWishlist(productId: string) {
+    if (this.isInWishlist) {
+      this.removeFromWishlist(productId);
+    } else {
+      this.addToWishlist(productId);
+    }
+  }  
 }
