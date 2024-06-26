@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
 import { iProduct } from 'src/app/models/iproduct';
 import { environment } from 'src/environments/environment';
 
@@ -98,6 +98,4 @@ export class ProductService {
       })
     );
   }
-  
-
 }

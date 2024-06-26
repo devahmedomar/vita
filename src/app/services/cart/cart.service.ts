@@ -70,11 +70,15 @@ export class CartService {
     if (!authToken) {
       return this.handleAuthError();
     }
-
+  
     const headers = new HttpHeaders({
       Authorization: `Bearer ${authToken}`,
     });
-
+  
+    if (quantity < 1) {
+      quantity = 1;
+    }
+  
     return this.http.put(
       `${this.apiUrl}user/cart/update`,
       { productId, quantity },
@@ -93,6 +97,7 @@ export class CartService {
       })
     );
   }
+  
 
   removeFromCart(productId: number): Observable<any> {
     const authToken = localStorage.getItem('eToken');

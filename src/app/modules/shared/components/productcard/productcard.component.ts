@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { iProduct } from '../../../../models/iproduct';
 import { ProductServiseService } from 'src/app/product-servise.service';
 import { LoginService } from 'src/app/services/auth/login/login.service';
 import { CartService } from 'src/app/services/cart/cart.service';
+import { ProductService } from 'src/app/services/product/product.service';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class ProductcardComponent implements OnInit {
   isLoggedIn: boolean = false;
   notificationMessage: string | null = null;
   notificationType: 'success' | 'error' = 'success';
-  constructor(private loginService: LoginService,public _ProductServiseService:ProductServiseService, private cartService: CartService) { }
+  constructor(private loginService: LoginService,public productService:ProductService, private cartService: CartService) { }
 
   @Input() productCardData:iProduct={
     name:'',
@@ -25,7 +26,7 @@ export class ProductcardComponent implements OnInit {
     categoryId:0,
     discount:true,
     inCart:false,
-    inWishlist:true,
+    inWishlist:false,
     mainCategoryId:0,
     pictures:[],
     priceBeforeDiscount:0,
@@ -36,8 +37,7 @@ export class ProductcardComponent implements OnInit {
     stockQuantity:0,
     tags:[],
     weight:0,
-    price: 0
-
+    price: 0,
   }
   @Input() CardData=
   {
@@ -55,11 +55,10 @@ export class ProductcardComponent implements OnInit {
 
 
   ngOnInit() {
-    // console.log(this.CardData)
-    // console.log(localStorage.getItem('eToken'))
     this.isLoggedIn = this.loginService.isUserLoggedIn();
-    // console.log('Is user logged in?', this.isLoggedIn);
-
+    if (this.isLoggedIn) {
+      this.checkWishlistStatus();
+    }
   }
   getRouterLink(): string {
     if (this.origin === 'home') {
@@ -70,6 +69,9 @@ export class ProductcardComponent implements OnInit {
     else if (this.origin === 'single-product') {
       return `../${this.productCardData.productId}`;
     }
+    else if (this.origin === 'wishlist') {
+      return `/shop/${this.productCardData.productId}`;
+    } 
     else {
       return `shop`;
     }
@@ -118,5 +120,53 @@ export class ProductcardComponent implements OnInit {
   clearNotification() {
     this.notificationMessage = null;
   }
+  
+  checkWishlistStatus() {
+    this.productService.getWishlist().subscribe({
+      next: (wishlist: any[]) => {
+        this.productCardData.inWishlist = wishlist.some(item => item.toString() === this.productCardData.productId.toString());
+      }
+    });
+  }
+
+  toggleWishlist(productId: number): void {
+    if (!this.isLoggedIn) {
+      this.showNotification('Please login first.', 'error');
+      return;
+    }
+
+    if (this.productCardData.inWishlist) {
+      this.removeFromWishlist(productId);
+    } else {
+      this.addToWishlist(productId);
+    }
+  }
+
+  addToWishlist(productId: number): void {
+    this.productService.addToWishlist(productId.toString()).subscribe(
+      () => {
+        this.productCardData.inWishlist = true;
+        // this.showNotification('Product added to wishlist.', 'success');
+      },
+      error => {
+        console.error('Error adding to wishlist:', error);
+        // this.showNotification('Failed to add product to wishlist.', 'error');
+      }
+    );
+  }
+
+  removeFromWishlist(productId: number): void {
+    this.productService.removeFromWishlist(productId.toString()).subscribe(
+      () => {
+        this.productCardData.inWishlist = false;
+        // this.showNotification('Product removed from wishlist.', 'success'); 
+      },
+      error => {
+        console.error('Error removing from wishlist:', error);
+        // this.showNotification('Failed to remove product from wishlist.', 'error');
+      }
+    );
+  }
+
 }
 
