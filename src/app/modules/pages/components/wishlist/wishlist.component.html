@@ -1,0 +1,56 @@
+<app-navbar></app-navbar>
+<app-breadcrumb [breadcrumbData]="wishlistBreadCrumbData"></app-breadcrumb>
+<div class="container my-5">
+  <div class="row">
+    <ng-container *ngIf="wishlistProducts.length > 0; else emptyWishlist">
+      <div class="col-lg-4 col-md-6 mb-4" *ngFor="let product of wishlistProducts">
+        <div class="card flex justify-content-center product-card position-relative mb-5">
+          <div class="card-body">
+            <div class="d-flex align-items-center mt-3 wish" (click)="toggleWishlist(product.productId)">
+              <i class="pi" [ngClass]="{'pi-heart-fill': product.inWishlist, 'pi-heart-o': !product.inWishlist}"></i>
+            </div>
+            <a [routerLink]="getRouterLink(product)" class="card-link">
+              <img [src]="product.pictures[0]" class="card-img-top" alt="Card">
+            </a>
+            <h5 class="card-title">{{ product.name | slice: 0:20 }}</h5>
+            <p class="card-text">{{ product.about | slice: 0:100 }}</p>
+            <div *ngIf="DisplaySalePos(product)" class="sale-pos">-{{ calculateFloor(((product.priceBeforeDiscount - product.priceAfterDiscount) / product.priceBeforeDiscount) * 100) }}%</div>
+            <p class="price">{{ product.priceAfterDiscount | currency:'USD' }}</p>
+            <button class="btn-main" [disabled]="!isLoggedIn" (click)="onAddToCart(product.productId)">Add To cart</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #emptyWishlist>
+      <div class="col-12 text-center py-5 bg-white">
+        <svg width="102" height="90" viewBox="0 0 102 90" fill="none" xmlns="http://www.w3.org/2000/svg" class="mt-5">
+          <g clip-path="url(#clip0_71_1042)">
+          <path d="M44.9825 10.5C41.7825 7.1 38.0325 4.85 33.7325 3.75C29.4325 2.64999 25.1325 2.64999 20.8325 3.75C16.5325 4.85 12.7325 7.05 9.4325 10.35C6.1325 13.65 3.9325 17.45 2.8325 21.75C1.7325 26.05 1.7325 30.35 2.8325 34.65C3.9325 38.95 6.0825 42.7 9.2825 45.9L49.7825 86.7L89.9825 45.9C93.3825 42.7 95.6325 38.95 96.7325 34.65C97.8325 30.35 97.8325 26.05 96.7325 21.75C95.6325 17.45 93.4325 13.65 90.1325 10.35C86.8325 7.05 83.0325 4.85 78.7325 3.75C74.4325 2.64999 70.1325 2.64999 65.8325 3.75C61.5325 4.85 57.7825 7.1 54.5825 10.5L49.7825 15.3L44.9825 10.5ZM8.0825 9C11.4825 5.6 15.5325 3.3 20.2325 2.1C24.9325 0.899994 29.5825 0.899994 34.1825 2.1C38.7825 3.3 42.7825 5.6 46.1825 9L49.7825 12.6L53.3825 9C56.7825 5.6 60.7825 3.3 65.3825 2.1C69.9825 0.899994 74.6325 0.899994 79.3325 2.1C84.0325 3.3 88.0825 5.64999 91.4825 9.14999C94.8825 12.65 97.1825 16.7 98.3825 21.3C99.5825 25.9 99.5825 30.55 98.3825 35.25C97.1825 39.95 94.8825 44 91.4825 47.4L51.2825 87.9C50.8825 88.3 50.3825 88.5 49.7825 88.5C49.1825 88.5 48.6825 88.3 48.2825 87.9L8.0825 47.4C4.6825 44 2.3825 39.95 1.1825 35.25C-0.0174988 30.55 -0.0174988 25.9 1.1825 21.3C2.3825 16.7 4.6825 12.6 8.0825 9ZM39.5825 50.7C39.5825 50.1 39.8825 49.8 40.4825 49.8H59.0825C59.6825 49.8 59.9825 50.1 59.9825 50.7C59.9825 51.3 59.6825 51.6 59.0825 51.6H40.4825C39.8825 51.6 39.5825 51.3 39.5825 50.7ZM41.0825 30.9C40.6825 30.9 40.4325 31 40.3325 31.2C40.2325 31.4 40.2325 31.6 40.3325 31.8C40.4325 32 40.6825 32.1 41.0825 32.1C41.4825 32.1 41.6825 31.9 41.6825 31.5C41.6825 31.1 41.4825 30.9 41.0825 30.9ZM38.3825 31.5C38.3825 30.5 38.8325 29.8 39.7325 29.4C40.6325 29 41.4825 29 42.2825 29.4C43.0825 29.8 43.4825 30.45 43.4825 31.35C43.4825 32.25 43.2325 32.9 42.7325 33.3C42.2325 33.7 41.6325 33.9 40.9325 33.9C40.2325 33.9 39.6325 33.7 39.1325 33.3C38.6325 32.9 38.3825 32.3 38.3825 31.5ZM58.4825 30.9C58.2825 30.9 58.1325 31 58.0325 31.2C57.9325 31.4 57.9325 31.6 58.0325 31.8C58.1325 32 58.3325 32.1 58.6325 32.1C58.9325 32.1 59.0825 31.9 59.0825 31.5C59.0825 31.1 58.8825 30.9 58.4825 30.9ZM56.0825 31.5C56.0825 30.5 56.4825 29.8 57.2825 29.4C58.0825 29 58.9325 29 59.8325 29.4C60.7325 29.8 61.1825 30.45 61.1825 31.35C61.1825 32.25 60.9325 32.9 60.4325 33.3C59.9325 33.7 59.3325 33.9 58.6325 33.9C57.9325 33.9 57.3325 33.7 56.8325 33.3C56.3325 32.9 56.0825 32.3 56.0825 31.5Z" fill="#616161"/>
+          </g>
+          <defs>
+          <clipPath id="clip0_71_1042">
+          <rect width="101.43" height="90" fill="white" transform="matrix(1 0 0 -1 0.279999 90)"/>
+          </clipPath>
+          </defs>
+          </svg>
+          
+        <h3 class="py-4 not-bold">YOUR WISHLIST IS CURRENTLY<br> EMPTY</h3>
+        <p>
+          Click the 
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+          </svg>
+          icon to add products
+        </p>
+        <button class="shopBtn py-2 px-4 my-3" routerLink="/shop">Return To Shop</button>
+      </div>
+    </ng-template>
+  </div>
+
+  <div *ngIf="notificationMessage" class="custom-notification" [ngClass]="{'success': notificationType === 'success', 'error': notificationType === 'error'}">
+    <div class="message">{{ notificationMessage }}</div>
+    <button class="close-button" (click)="clearNotification()">Close</button>
+  </div>
+</div>
+
+<app-footer></app-footer>

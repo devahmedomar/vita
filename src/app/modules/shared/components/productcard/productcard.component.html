@@ -4,6 +4,17 @@
   <p-card [header]="productCardData.name | slice:0:20" [style]="{color:'var(--secondaryColor)',margin:'0',paddingTop:'0'}" [subheader]="(productCardData.about| slice:0:100)" styleClass="product-card">
 
       <ng-template pTemplate="header">
+        <div class="d-flex align-items-center mt-3 wish" (click)="toggleWishlist(productCardData.productId)">
+          <div style="cursor: pointer;">
+            <ng-container *ngIf="productCardData.inWishlist; else notInWishlist">
+              <i class="pi pi-heart-fill me-2" [ngClass]="{'filled-heart': productCardData.inWishlist}"></i>
+            </ng-container>
+            <ng-template #notInWishlist>
+              <i class="pi pi-heart me-2" [ngClass]="{'outlined-heart': !productCardData.inWishlist}"></i>
+            </ng-template>
+          </div>
+          <p class="m-0 p-0" style="cursor: pointer;"></p>
+        </div>
           <a [routerLink]="getRouterLink()">
             <img alt="Card" [src]="productCardData.pictures[0]" />
           </a>

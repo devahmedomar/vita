@@ -14,6 +14,7 @@ import { CardModule } from 'primeng/card';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { FloorPipe } from '../../pipes/floor.pipe';
+import { AuthModule } from '../auth/auth.module';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import { FloorPipe } from '../../pipes/floor.pipe';
     ButtonComponent,
     ProductcardComponent,
     BreadcrumbComponent,
-    FloorPipe
+    FloorPipe,
   ],
   imports: [
     CommonModule,
@@ -34,9 +35,6 @@ import { FloorPipe } from '../../pipes/floor.pipe';
     RatingModule,
     CardModule,
     BreadcrumbModule,
-
-
-
   ],
   exports:[
     NavbarComponent,

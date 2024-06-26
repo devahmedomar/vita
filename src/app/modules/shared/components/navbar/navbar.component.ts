@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Route, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { IMainCategory } from 'src/app/models/icategory';
 import { CartService } from 'src/app/services/cart/cart.service';
@@ -13,9 +14,10 @@ import { CategoryService } from 'src/app/services/category/category.service';
 export class NavbarComponent implements OnInit {
   mainCategories: IMainCategory[] | undefined;
   cartCount$: Observable<number>;
-  constructor(private categoryService: CategoryService, private cartService: CartService) {
+  constructor(private categoryService: CategoryService, private cartService: CartService, private router : Router) {
     this.cartCount$ = this.cartService.cartCount$;
   }
+  
   ngOnInit() {
     this.categoryService.getMainandSubCategories().subscribe((data: any) => {
       if (data && data.success) {
@@ -25,5 +27,9 @@ export class NavbarComponent implements OnInit {
 
       }
     });
+  }
+
+  signOut(): void {
+    this.router.navigate(['/auth']); 
   }
 }

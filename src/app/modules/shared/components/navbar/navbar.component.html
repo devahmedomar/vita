@@ -50,9 +50,19 @@
         <a>
           <i class="pi pi-bell text-3xl"></i>
         </a>
-        <a>
-          <i class="pi pi-user text-3xl"></i>
-        </a>
+        <div class="dropdown">
+          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="pi pi-user text-3xl"></i>
+          </a>
+        
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+            <li><a class="dropdown-item" routerLink="/">My Profile</a></li>
+            <li><a class="dropdown-item" routerLink="/">My Orders</a></li>
+            <li><a class="dropdown-item" routerLink="/wishlist">My Favorites</a></li>
+            <li><a class="dropdown-item" (click)="signOut()">Sign Out</a></li>
+          </ul>
+        </div>
+        
         <a routerLink="/cart" class="text-black">
           <i class="pi pi-shopping-cart text-3xl"> <p-badge [value]="cartCount$ | async"></p-badge></i>
         </a>
