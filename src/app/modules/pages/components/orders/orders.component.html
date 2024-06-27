@@ -1,0 +1,82 @@
+<app-navbar></app-navbar>
+<app-breadcrumb [breadcrumbData]="ordersBreadCrumbData"></app-breadcrumb>
+
+<div class="container my-5">
+  <div class="row">
+    <div *ngIf="ordersToShow.length > 0; else noOrdersTemplate" class="col-md-12">
+      <div class="row">
+        <div class="col-md-12 mb-4" *ngFor="let order of ordersToShow">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center bg-light">
+              <span>Order #{{ order.orderNumber }}</span>
+              <span [ngClass]="getStatusClass(order.orderStatus)" class="badge">{{ order.orderStatus }}</span>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col" style="width: 60%;">Product</th>
+                      <th scope="col" style="width: 20%;">Price</th>
+                      <th scope="col" style="width: 20%;">Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of order.orderItems">
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <img [src]="item.pictureUrl" alt="{{ item.productName }}" class="img-fluid rounded" style="max-width: 50px;">
+                          <span class="ms-2">{{ item.productName }}</span>
+                        </div>
+                      </td>
+                      <td>${{ item.unitPrice }}</td>
+                      <td>{{ item.quantity }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-12 d-flex justify-content-center">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="onPreviousPage()" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item" *ngFor="let page of getTotalPages()">
+                <a class="page-link" (click)="onPageChange(page)" [class.active]="page === currentPage">{{ page }}</a>
+              </li>
+              <li class="page-item" [class.disabled]="currentPage === getTotalPages().length">
+                <a class="page-link" (click)="onNextPage()" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <ng-template #noOrdersTemplate>
+        <div class="col-12 text-center py-5 bg-white">
+            <svg width="80" height="90" viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_43_5429)">
+              <path d="M6.23242 18.3C6.23242 17.7 6.38242 17.25 6.68242 16.95C6.98242 16.65 7.43242 16.5 8.03242 16.5H71.9324C72.3324 16.5 72.7324 16.65 73.1324 16.95C73.5324 17.25 73.7324 17.7 73.7324 18.3L79.4324 90H0.232422L6.23242 18.3ZM8.03242 18.3C7.83242 18.3 7.73242 18.3 7.73242 18.3L2.03242 88.2H77.6324L71.9324 18.3H8.03242ZM27.5324 66.9C27.5324 66.3 27.8324 66 28.4324 66H51.5324C51.9324 66 52.1824 66.15 52.2824 66.45C52.3824 66.75 52.3824 67 52.2824 67.2C52.1824 67.4 51.9324 67.5 51.5324 67.5H28.4324C28.0324 67.5 27.7824 67.45 27.6824 67.35C27.5824 67.25 27.5324 67.1 27.5324 66.9ZM26.0324 13.8C26.0324 10 27.3824 6.75 30.0824 4.05C32.7824 1.35 36.0324 0 39.8324 0C43.6324 0 46.8824 1.35 49.5824 4.05C52.2824 6.75 53.6324 10 53.6324 13.8V31.5C53.6324 32.1 53.3324 32.4 52.7324 32.4C52.1324 32.4 51.8324 32.1 51.8324 31.5V13.8C51.8324 10.6 50.6824 7.8 48.3824 5.39999C46.0824 3 43.2824 1.8 39.9824 1.8C36.6824 1.8 33.8324 3 31.4324 5.39999C29.0324 7.8 27.8324 10.6 27.8324 13.8V31.5C27.8324 32.1 27.5324 32.4 26.9324 32.4C26.3324 32.4 26.0324 32.1 26.0324 31.5V13.8ZM31.7324 48.3C31.3324 48.3 31.1324 48.5 31.1324 48.9C31.1324 49.3 31.3324 49.5 31.7324 49.5C32.1324 49.5 32.3324 49.3 32.3324 48.9C32.3324 48.5 32.1324 48.3 31.7324 48.3ZM29.3324 48.9C29.3324 47.9 29.7324 47.2 30.5324 46.8C31.3324 46.4 32.1324 46.4 32.9324 46.8C33.7324 47.2 34.1324 47.8 34.1324 48.6C34.1324 49.4 33.8824 50.05 33.3824 50.55C32.8824 51.05 32.3324 51.3 31.7324 51.3C31.1324 51.3 30.5824 51.05 30.0824 50.55C29.5824 50.05 29.3324 49.5 29.3324 48.9ZM48.2324 48.3C47.8324 48.3 47.6324 48.5 47.6324 48.9C47.6324 49.3 47.8324 49.5 48.2324 49.5C48.6324 49.5 48.8324 49.3 48.8324 48.9C48.8324 48.5 48.6324 48.3 48.2324 48.3ZM45.8324 48.9C45.8324 47.9 46.2324 47.2 47.0324 46.8C47.8324 46.4 48.5824 46.4 49.2824 46.8C49.9824 47.2 50.3324 47.8 50.3324 48.6C50.3324 49.4 50.1324 50.05 49.7324 50.55C49.3324 51.05 48.7824 51.3 48.0824 51.3C47.3824 51.3 46.8324 51.05 46.4324 50.55C46.0324 50.05 45.8324 49.5 45.8324 48.9Z" fill="#616161"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_43_5429">
+              <rect width="79.53" height="90" fill="white" transform="matrix(1 0 0 -1 0.22998 90)"/>
+              </clipPath>
+              </defs>
+              </svg>            
+            <h3 class="py-4 not-bold">YOUR ORDERS IS CURRENTLY<br> EMPTY</h3>
+            <button class="shopBtn py-2 px-4 my-3" routerLink="/shop">Return To Shop</button>
+          </div>
+    </ng-template>
+  </div>
+</div>
+<app-footer></app-footer>

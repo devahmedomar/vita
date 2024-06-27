@@ -16,7 +16,7 @@ export class LatestArticlesComponent implements OnInit {
     this._BlogService.getBlogs().subscribe({
       next:(res) => {
         this.blogPosts = res.data.posts;
-        console.log(this.blogPosts);
+        // console.log(this.blogPosts);
 
       },
       error:(err)=>{

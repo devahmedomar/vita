@@ -1,47 +1,72 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { IloginForm } from 'src/app/models/ilogin-form';
 import { environment } from 'src/environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
+  private authTokenSubject = new BehaviorSubject<string | null>(this.getAuthToken());
+  private apiUrl: string = environment.baseUrl + 'v2/auth/login';
 
   constructor(private _HttpClient: HttpClient) { }
-  userDataa: any;
 
   setAuthToken(token: string): void {
     localStorage.setItem('eToken', token);
+    this.authTokenSubject.next(token);
   }
 
   getAuthToken(): string | null {
     return localStorage.getItem('eToken');
   }
 
-  isUserLoggedIn(): boolean {
-    return localStorage.getItem('eToken') !== null;
+  clearAuthToken(): void {
+    localStorage.removeItem('eToken');
+    this.authTokenSubject.next(null);
   }
-  getUserDecodedData() {
-    if (localStorage.getItem('eToken') != null) {
-      let encodedToken: any = localStorage.getItem('eToken')
-      let decodecTken = jwtDecode(encodedToken);
-      this.userDataa = decodecTken;
-      console.log(decodecTken);
-    }
+
+  isLoggedIn$(): Observable<boolean> {
+    return this.authTokenSubject.asObservable().pipe(
+      map(token => !!token)
+    );
   }
-  apiUrl: string = environment.baseUrl + 'v2/auth/login';
 
   login(userData: IloginForm): Observable<any> {
     return this._HttpClient.post(this.apiUrl, userData)
+      .pipe(
+        map((response: any) => {
+          if (response && response.success && response.data && response.data.token) {
+            this.setAuthToken(response.data.token);
+            return true;
+          }
+          return false;
+        })
+      );
+  }
+
+  logout(): void {
+    this.clearAuthToken();
+  }
+
+  getUserDecodedData() {
+    const encodedToken = this.getAuthToken();
+    if (encodedToken) {
+      const decodedToken = this.jwtDecodeToken(encodedToken);
+      console.log(decodedToken);
+      return decodedToken;
+    }
+    return null;
+  }
+
+  private jwtDecodeToken(encodedToken: string) {
+    try {
+      return jwtDecode(encodedToken);
+    } catch (error) {
+      console.error('Invalid token:', error);
+      return null;
+    }
   }
 }
-function jwtDecode(encodedToken: any) {
-  // try {
-  //   return jwt_decode(token);
-  // } catch (error) {
-  //   console.error('Invalid token:', error);
-  //   return null;
-  // }
-}
-

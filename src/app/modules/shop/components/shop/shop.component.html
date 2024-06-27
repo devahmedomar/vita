@@ -2,6 +2,7 @@
 <app-breadcrumb [breadcrumbData]="shopBreadCrumbData"></app-breadcrumb>
 <div class="container my-5" id="products">
   <div class="row">
+    <ngx-spinner bdColor="rgba(0,0,0,0.8)" size="medium" color="#80AA27" type="ball-spin-clockwise"></ngx-spinner>
     <div class="col-md-6 mb-5">
       Showing {{ pageIndex * pageSize + 1 }}-{{
         (pageIndex + 1) * pageSize > totalItems
