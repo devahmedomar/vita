@@ -31,6 +31,8 @@
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/ngx-spinner/animations/ball-pulse-sync.css",
+              "node_modules/ngx-spinner/animations/ball-spin-clockwise.css",
+              "node_modules/ngx-spinner/animations/ball-clip-rotate.css",
               "src/styles.css"
             ],
             "scripts": [

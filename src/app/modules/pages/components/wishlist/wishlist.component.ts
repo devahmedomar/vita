@@ -24,7 +24,10 @@ export class WishlistComponent implements OnInit {
   constructor(private productService: ProductService, private loginService: LoginService, private cartService: CartService) { }
 
   ngOnInit(): void {
-    this.isLoggedIn = this.loginService.isUserLoggedIn();
+    this.loginService.isLoggedIn$().subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+    });
+    
     this.loadWishlist();
   }
 

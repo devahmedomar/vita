@@ -55,7 +55,10 @@ export class ProductcardComponent implements OnInit {
 
 
   ngOnInit() {
-    this.isLoggedIn = this.loginService.isUserLoggedIn();
+    this.loginService.isLoggedIn$().subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+    });
+  
     if (this.isLoggedIn) {
       this.checkWishlistStatus();
     }

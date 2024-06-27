@@ -27,7 +27,7 @@ export class BlogComponent implements OnInit {
   ngOnInit(): void {
     this._BlogService.getBlogs().subscribe({
       next: (response) => {
-        console.log(response);
+        // console.log(response);
         this.blogArr = response.data.posts;
         this.blogArr.forEach((post) => {
           const sanitizedContent = this._sanitizer.bypassSecurityTrustHtml(

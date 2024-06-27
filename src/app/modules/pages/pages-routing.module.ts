@@ -6,6 +6,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { FaqComponent } from './components/faq/faq.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { OrdersComponent } from './components/orders/orders.component';
 
 const routes: Routes = [
   {path:"home",redirectTo:"",pathMatch:"full"},
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path:"faq",component:FaqComponent,title:"FAQ"},
   {path:"privacy",component:PrivacyComponent,title:"Privacy"},
   {path:"wishlist",component:WishlistComponent,title:"Wishlist"},
+  {path:"orders",component:OrdersComponent,title:"Orders"},
 
 ];
 

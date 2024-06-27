@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ShopRoutingModule } from './shop-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { ShopComponent } from './components/shop/shop.component';
@@ -10,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TabViewModule } from 'primeng/tabview';
 import { ButtonModule } from 'primeng/button';
+import { NgxSpinnerModule } from 'ngx-spinner';
 @NgModule({
   declarations: [
     ShopComponent,
@@ -23,8 +23,8 @@ import { ButtonModule } from 'primeng/button';
     FormsModule,
     InputNumberModule,
     TabViewModule,
-    ButtonModule
-
+    ButtonModule,
+    NgxSpinnerModule
   ]
 })
 export class ShopModule { }

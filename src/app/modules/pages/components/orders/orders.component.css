@@ -1,0 +1,23 @@
+
+  .page-link{
+    background-color: #fff;
+    color: #80AA27;
+    border: none;
+  }
+
+  .page-link.active {
+    background-color: #80aa27;
+    color: #fff;
+  }
+
+  .not-bold{
+    font-weight: 400;
+  }
+  
+  .shopBtn{
+    font-weight: 400;
+    background-color: transparent;
+    border: 1px solid #80aa27;
+    color: #80aa27;
+    text-transform: uppercase;
+  }

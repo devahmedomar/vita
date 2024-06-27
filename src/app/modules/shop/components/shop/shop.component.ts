@@ -1,3 +1,4 @@
+// shop.component.ts
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Ibreadcrumb } from 'src/app/models/ibreadcrumb';
@@ -11,26 +12,24 @@ import { ProductService } from 'src/app/services/product/product.service';
 })
 export class ShopComponent implements OnInit {
   shopBreadCrumbData: Ibreadcrumb = {
-    title: 'shop',
+    title: 'Shop',
     prev: 'home'
   };
   products: iProduct[] = [];
   paginatedProducts: iProduct[] = [];
-  loading = false;
   pageIndex = 0;
   pageSize = 12;
   totalItems = 0;
   selectedSortOption = 'default';
 
-  constructor(
-    private productService: ProductService, private spinner: NgxSpinnerService) {}
+  constructor(private productService: ProductService, private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
-    this.loading = true;
     this.fetchProducts();
   }
 
   fetchProducts(): void {
+    this.spinner.show();
     this.productService.getAllProducts().subscribe(
       (data: any) => {
         if (data && data.success) {
@@ -40,11 +39,11 @@ export class ShopComponent implements OnInit {
         } else {
           console.error('Error fetching products:', data.message);
         }
-        this.loading = false;
+        this.spinner.hide();
       },
       (error) => {
         console.error('Error fetching products', error);
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }

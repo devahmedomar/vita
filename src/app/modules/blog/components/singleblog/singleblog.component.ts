@@ -65,7 +65,7 @@ export class SingleblogComponent implements OnInit {
           next: (response) => {
             // Assign the fetched blog data to the blog object
             this.blog = response.data.post;
-            console.log(this.blog);
+            // console.log(this.blog);
             this.safeBlogContent = this._sanitizer.bypassSecurityTrustHtml(
               this.blog.content
             );

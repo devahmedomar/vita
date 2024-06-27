@@ -6,6 +6,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Icategory } from 'src/app/models/icategory';
 import { LoginService } from 'src/app/services/auth/login/login.service';
 import { CartService } from 'src/app/services/cart/cart.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-single-product',
@@ -26,21 +27,23 @@ export class SingleProductComponent implements OnInit {
   category:Icategory|undefined;
   isInWishlist: boolean = false;
 
-  constructor(private route:ActivatedRoute,private _ProductService:ProductService, private sanitizer: DomSanitizer, private loginService: LoginService, private cartService: CartService) { }
+  constructor(private route:ActivatedRoute,private _ProductService:ProductService, private sanitizer: DomSanitizer, private loginService: LoginService, private cartService: CartService,  private spinner: NgxSpinnerService) { }
   relatedProducts:Iproductcard[]=[]
 
   getSingleProduct(){
+    this.spinner.show();
     this._ProductService.getSingleProduct(+this.productId).subscribe({
       next:(res)=>{
         this.singleProduct = res.data.product;
-
         this.categoryId = this.singleProduct.categoryId;
         this.getCategoriesById();
         this.safeProductDescription = this.sanitizer.bypassSecurityTrustHtml(this.singleProduct.description);
-
+        this.spinner.hide();
       },
+      
       error:(err:any)=>{
         console.log(err);
+        this.spinner.hide();
       }
     })
   }
@@ -55,7 +58,10 @@ export class SingleProductComponent implements OnInit {
     })
   }
   ngOnInit(): void {
-    this.isLoggedIn = this.loginService.isUserLoggedIn();
+    this.loginService.isLoggedIn$().subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+    });
+  
     this.route.paramMap.subscribe(params=>{
       this.productId=params.get('id')!;
       if (this.isLoggedIn) {

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ICity, ICountry, IRegion, IShippingAddress } from 'src/app/models/iaddress';
@@ -25,7 +25,7 @@ export class CheckoutComponent implements OnInit {
   cartProducts: Icart[] = [];
   cartSubtotal: number = 0;
   cartTotal: number = 0;
-  shippingCost: number = 0;
+  shippingCost: number = 30;
   selectedAddressId: number = 0;
   errorMessage: string = '';
 

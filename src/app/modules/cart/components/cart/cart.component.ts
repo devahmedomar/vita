@@ -19,7 +19,7 @@ export class CartComponent {
   cartProducts: Icart[] = [];
   subtotal: number = 0;
   cartSubtotal: number = 0;
-  shippingCost: number = 0;
+  shippingCost: number = 30;
   cartTotal: number = 0;
   showCheckoutError: boolean = false;
 
