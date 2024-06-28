@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { IMainCategory } from 'src/app/models/icategory';
@@ -32,5 +32,9 @@ export class NavbarComponent implements OnInit {
   signOut(): void {
     this.loginService.logout();
     this.router.navigate(['/auth']);
+  }
+
+  toggleSearchBar() {
+    this.router.navigate(['/search']);
   }
 }

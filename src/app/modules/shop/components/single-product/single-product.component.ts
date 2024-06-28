@@ -104,7 +104,7 @@ export class SingleProductComponent implements OnInit {
   }
 
   checkWishlistStatus() {
-    console.log('Checking wishlist status for productId:', this.productId);
+    // console.log('Checking wishlist status for productId:', this.productId);
   
     this._ProductService.getWishlist().subscribe({
       next: (wishlist: any[]) => {
