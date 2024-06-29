@@ -26,6 +26,8 @@ export class SingleProductComponent implements OnInit {
   safeProductDescription: SafeHtml = '';
   category:Icategory|undefined;
   isInWishlist: boolean = false;
+  isInCart: boolean = false;
+
 
   constructor(private route:ActivatedRoute,private _ProductService:ProductService, private sanitizer: DomSanitizer, private loginService: LoginService, private cartService: CartService,  private spinner: NgxSpinnerService) { }
   relatedProducts:Iproductcard[]=[]
@@ -66,6 +68,7 @@ export class SingleProductComponent implements OnInit {
       this.productId=params.get('id')!;
       if (this.isLoggedIn) {
         this.checkWishlistStatus();
+        this.checkCartStatus();
       }
     })
 
@@ -73,6 +76,25 @@ export class SingleProductComponent implements OnInit {
 
 
   }
+
+  hasDiscount() {
+    return this.singleProduct && this.singleProduct.discount;
+  }
+
+  toggleCartAction() {
+    if (this.singleProduct && this.singleProduct.inCart) {
+      this.onRemoveFromCart(this.singleProduct.productId);
+    } else if (this.singleProduct) {
+      this.onAddToCart(this.singleProduct.productId);
+    }
+  }
+  
+
+  checkCartStatus() {
+    const cartItem = localStorage.getItem(`product_${this.productId}_inCart`);
+    this.isInCart = cartItem ? JSON.parse(cartItem) : false;
+  }
+
   onAddToCart(productId: number) {
     if (!this.isLoggedIn) {
       this.showNotification('Please login first.', 'error');
@@ -81,11 +103,27 @@ export class SingleProductComponent implements OnInit {
 
     this.cartService.updateCart(productId, this.prodNumber).subscribe(
       (response) => {
+        this.isInCart = true;
+        localStorage.setItem(`product_${productId}_inCart`, 'true');
         this.showNotification('Item added to cart', 'success');
       },
       (error) => {
         console.error('Failed to add item to cart:', error);
         this.showNotification('Failed to add item to cart', 'error');
+      }
+    );
+  }
+
+  onRemoveFromCart(productId: number) {
+    this.cartService.removeFromCart(productId).subscribe(
+      (response) => {
+        this.isInCart = false;
+        localStorage.removeItem(`product_${productId}_inCart`);
+        this.showNotification('Item removed from cart', 'success');
+      },
+      (error) => {
+        console.error('Failed to remove item from cart:', error);
+        this.showNotification('Failed to remove item from cart', 'error');
       }
     );
   }
@@ -104,7 +142,7 @@ export class SingleProductComponent implements OnInit {
   }
 
   checkWishlistStatus() {
-    console.log('Checking wishlist status for productId:', this.productId);
+    // console.log('Checking wishlist status for productId:', this.productId);
   
     this._ProductService.getWishlist().subscribe({
       next: (wishlist: any[]) => {

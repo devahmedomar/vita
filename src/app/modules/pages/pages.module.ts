@@ -24,6 +24,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { OrdersComponent } from './components/orders/orders.component';
+import { SearchComponent } from './components/search/search.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { OrdersComponent } from './components/orders/orders.component';
     MissionComponent,
     FeaturesComponent,
     WishlistComponent,
-    OrdersComponent
+    OrdersComponent,
+    SearchComponent
 
   ],
   imports: [

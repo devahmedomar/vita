@@ -35,8 +35,26 @@
       </button>
 
       <section class="d-flex right" *ngIf="isLoggedIn$ | async">
-        <a><i class="pi pi-search text-3xl"></i></a>
-        <a><i class="pi pi-bell text-3xl"></i></a>
+        <a (click)="toggleSearchBar()"><i class="pi pi-search text-3xl"></i></a>
+  
+        <a (click)="toggleNotifications()"><i class="pi pi-bell text-3xl"></i></a>
+        <!-- <p-badge [value]="unreadNotificationsCount()" severity="danger"></p-badge> -->
+    
+        <div *ngIf="showNotifications" class="notification-dropdown">
+          <div *ngIf="notifications.length > 0; else noNotifications">
+            <div class="notification-item" *ngFor="let notification of notifications">
+              <div class="notification-header">
+                <span class="notification-title">{{ notification.message }}</span>
+                <span *ngIf="!notification.read" class="notification-unread-dot"></span>
+              </div>
+              <div class="notification-time text-muted">{{ formatDate(notification.time) }}</div>
+            </div>
+          </div>
+          <ng-template #noNotifications>
+            <div class="notification-empty">No notifications</div>
+          </ng-template>
+        </div>
+
         <div class="dropdown">
           <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
             aria-expanded="false">
@@ -55,7 +73,6 @@
           </i>
         </a>
       </section>
-
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">

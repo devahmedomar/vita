@@ -250,3 +250,52 @@ nav section.right i {
 .dropdown-toggle::after {
   display: none; 
 }
+
+
+.notification-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  width: 350px;
+  z-index: 1000;
+  max-height: 520px;
+  overflow-y: auto; 
+}
+
+.notification-item {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification-title {
+  font-weight: bold;
+}
+
+.notification-time {
+  font-size: 0.85em;
+}
+
+.notification-unread-dot {
+  width: 10px;
+  height: 5px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.notification-empty {
+  padding: 15px;
+  text-align: center;
+  color: #888;
+}

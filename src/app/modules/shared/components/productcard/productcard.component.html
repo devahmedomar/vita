@@ -21,18 +21,29 @@
       </ng-template>
       <div *ngIf="DisplaySalePos()" class="sale-pos">-{{(((productCardData.priceBeforeDiscount - productCardData.priceAfterDiscount )/productCardData.priceBeforeDiscount)*100)| floor}}%</div>
       <div>
-        <p-rating [(ngModel)]="productCardData.reviews"  [cancel]="false" starStyleClass="custom-stars"/>
-        <div class="price">{{productCardData.priceAfterDiscount| currency:'USD'}}</div>
+        <p-rating *ngIf="isLoggedIn" [(ngModel)]="productCardData.reviews" [cancel]="false" starStyleClass="custom-stars"></p-rating>
+        <div *ngIf="!isLoggedIn">
+          <p-rating [(ngModel)]="productCardData.reviews" [readonly]="true" starStyleClass="custom-stars"></p-rating>
+        </div>
+        <div class="price">
+          <ng-container *ngIf="productCardData.priceAfterDiscount !== 0; else showOriginalPrice">
+            {{ productCardData.priceAfterDiscount | currency:'USD':'symbol':'1.2-2' }}
+          </ng-container>
+          <ng-template #showOriginalPrice>
+            {{ productCardData.priceBeforeDiscount | currency:'USD':'symbol':'1.2-2' }}
+          </ng-template>
+        </div>
       </div>
       <ng-template pTemplate="footer">
-          <div class="flex gap-3 mt-1">
-            <!-- <button class="btn-main" [routerLink]="['/cart']">Add To cart</button> -->
-            <button class="btn-main" [disabled]="!isLoggedIn" (click)="onAddToCart(productCardData.productId)">Add To cart</button>
-          </div>
+        <div class="flex gap-3 mt-1">
+          <button class="btn-main" [disabled]="!isLoggedIn" (click)="toggleCartAction()">
+            {{ isLoggedIn ? (productCardData.inCart ? 'Remove from Cart' : 'Add to Cart') : 'Login to add to cart' }}
+          </button>          
+        </div>
       </ng-template>
   </p-card>
-  <div *ngIf="notificationMessage" class="custom-notification" [ngClass]="{'success': notificationType === 'success', 'error': notificationType === 'error'}">
+  <!-- <div *ngIf="notificationMessage" class="custom-notification" [ngClass]="{'success': notificationType === 'success', 'error': notificationType === 'error'}">
     <div class="message">{{ notificationMessage }}</div>
     <button class="close-button" (click)="clearNotification()">Close</button>
-  </div>
+  </div> -->
 </div>

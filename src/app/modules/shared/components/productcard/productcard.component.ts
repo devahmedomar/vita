@@ -1,6 +1,5 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { iProduct } from '../../../../models/iproduct';
-import { ProductServiseService } from 'src/app/product-servise.service';
 import { LoginService } from 'src/app/services/auth/login/login.service';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { ProductService } from 'src/app/services/product/product.service';
@@ -62,7 +61,11 @@ export class ProductcardComponent implements OnInit {
     if (this.isLoggedIn) {
       this.checkWishlistStatus();
     }
+    if (this.isLoggedIn) {
+      this.checkCartStatus();
+    }
   }
+  
   getRouterLink(): string {
     if (this.origin === 'home') {
       return `shop/${this.productCardData.productId}`;
@@ -90,6 +93,30 @@ export class ProductcardComponent implements OnInit {
     return false;
   }
 
+  checkCartStatus() {
+    this.cartService.getCart().subscribe(
+      (response: any) => {
+        if (response.success && response.data && response.data.cart && response.data.cart.cartItems) {
+          const cartItems: any[] = response.data.cart.cartItems;
+          this.productCardData.inCart = cartItems.some(item => item.productId === this.productCardData.productId);
+          localStorage.setItem(`product_${this.productCardData.productId}_inCart`, this.productCardData.inCart ? 'true' : 'false');
+        }
+      },
+      error => {
+        console.error('Error checking cart status:', error);
+      }
+    );
+  }
+
+
+  toggleCartAction() {
+    if (this.productCardData.inCart) {
+      this.removeFromCart(this.productCardData.productId);
+    } else {
+      this.onAddToCart(this.productCardData.productId);
+    }
+  }
+
   onAddToCart(productId: number) {
     if (!this.isLoggedIn) {
       this.showNotification('Please login first.', 'error');
@@ -99,6 +126,8 @@ export class ProductcardComponent implements OnInit {
     this.cartService.updateCart(productId, 1).subscribe(
       (response) => {
         if (response.success) {
+          this.productCardData.inCart = true;
+          localStorage.setItem(`product_${productId}_inCart`, 'true');
           this.showNotification('Product added to cart successfully.', 'success');
         } else {
           this.showNotification('Failed to add product to cart.', 'error');
@@ -110,6 +139,23 @@ export class ProductcardComponent implements OnInit {
       }
     );
   }
+
+  removeFromCart(productId: number): void {
+    this.cartService.removeFromCart(productId).subscribe(
+      (response: any) => {
+        if (response.success) {
+          this.productCardData.inCart = false;
+          localStorage.setItem(`product_${productId}_inCart`, 'false');
+        } else {
+          console.error('Failed to remove product from cart:', response.error);
+        }
+      },
+      error => {
+        console.error('Error removing product from cart:', error);
+      }
+    );
+  }
+  
 
   showNotification(message: string, type: 'success' | 'error') {
     this.notificationMessage = message;
