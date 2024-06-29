@@ -51,12 +51,12 @@ h4 {
 .product-link {
   display: block;
   color: #000;
-  margin-bottom: 5px;
   margin-bottom: 10px;
-  border-bottom: 1px solid #ccc;
   padding-bottom: 10px;
 }
-
+.product-link-desc{
+  border-bottom: 1px solid #ccc;
+}
 .category-box {
   padding: 10px;
   border-radius: 5px;

@@ -4,20 +4,22 @@
     <input [(ngModel)]="searchQuery" (input)="performSearch()" type="text" class="search-input" placeholder="Start Typing...">
     
     <div *ngIf="searchQuery && (searchResults.categories.length > 0 || searchResults.products.length > 0)" class="search-results">
-      <div *ngIf="searchResults.categories.length > 0">
+      <!-- <div *ngIf="searchResults.categories.length > 0">
         <h4>Categories</h4>
         <div class="category-box">
           <ul class="category-list">
             <li *ngFor="let category of searchResults.categories" class="category">{{ category.name }}</li>
           </ul>
         </div>
-      </div>
+      </div> -->
   
       <div *ngIf="searchResults.products.length > 0">
         <h4>Products</h4>
         <ul>
           <li *ngFor="let product of searchResults.products">
-            <a [routerLink]="['/shop', product.productId]" class="product-link">{{ product.name }}</a>
+            <a [routerLink]="['/shop', product.productId]" class="product-link"><h5>{{ product.name }}</h5></a>
+            <p [routerLink]="['/shop', product.productId]" class="product-link product-link-desc" [innerHTML]="sanitizeHtml(product.description)"></p>
+
           </li>
         </ul>
       </div>

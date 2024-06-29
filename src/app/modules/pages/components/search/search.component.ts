@@ -4,6 +4,7 @@ import { ProductService } from 'src/app/services/product/product.service';
 import { IMainCategory } from 'src/app/models/icategory';
 import { iProduct } from 'src/app/models/iproduct';
 import { Location } from '@angular/common';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-search',
@@ -17,7 +18,8 @@ export class SearchComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private productService: ProductService,
-    private location : Location
+    private location : Location,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {}
@@ -47,4 +49,8 @@ export class SearchComponent implements OnInit {
   goBack() {
     this.location.back();
   }
+
+  sanitizeHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }  
 }

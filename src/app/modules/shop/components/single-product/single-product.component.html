@@ -12,13 +12,22 @@
         <p class="subhead text-muted" [innerHTML]="safeProductDescription">
         </p>
         <div class="d-flex align-items-center" *ngIf="singleProduct">
-          <p-rating [(ngModel)]="singleProduct.rating" [cancel]="false" starStyleClass="custom-stars" />
-          <p class="numreview text-muted m-0 p-0 ms-3">(1 customer review)</p>
+          <p-rating *ngIf="isLoggedIn" [(ngModel)]="singleProduct.rating" [cancel]="false" starStyleClass="custom-stars"></p-rating>
+          <div *ngIf="!isLoggedIn">
+            <p-rating [(ngModel)]="singleProduct.rating" [readonly]="true" starStyleClass="custom-stars"></p-rating>
+          </div>
+          <!-- <p class="numreview text-muted m-0 p-0 ms-3">(1 customer review)</p> -->
         </div>
         <div class="d-flex mt-3 mb-2">
-          <div class="old-price me-4 text-decoration-line-through text-muted">{{singleProduct?.priceBeforeDiscount| currency:'USD'}}</div>
-          <div class="price text-black">{{singleProduct?.priceAfterDiscount| currency:'USD'}}</div>
+          <ng-container *ngIf="!hasDiscount()">
+            <div class="price text-black">{{ singleProduct?.priceBeforeDiscount | currency:'USD' }}</div>
+          </ng-container>
+          <ng-container *ngIf="hasDiscount()">
+            <div class="old-price me-4 text-decoration-line-through text-muted">{{ singleProduct?.priceBeforeDiscount | currency:'USD' }}</div>
+            <div class="price text-black">{{ singleProduct?.priceAfterDiscount | currency:'USD' }}</div>
+          </ng-container>
         </div>
+        
         <p class="text-muted desc">
          {{singleProduct?.about}}
         </p>
@@ -26,13 +35,22 @@
           <p-inputNumber [(ngModel)]="prodNumber" [showButtons]="true" buttonLayout="horizontal"
             spinnerMode="horizontal" inputId="integeronly" [min]="1" [max]="singleProduct?.stockQuantity" inputId="horizontal"
             decrementButtonClass="p-button-incdec" incrementButtonClass="p-button-incdec"
-            incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
-            <button class="btn-main" [disabled]="!isLoggedIn" (click)="onAddToCart(singleProduct.productId)">Add To cart</button>
+            incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [disabled]="!isLoggedIn"/>
+            <button class="btn-main" *ngIf="isLoggedIn && !isInCart" [disabled]="!isLoggedIn" (click)="onAddToCart(singleProduct.productId)">
+              Add To Cart
+            </button>
+            <button class="btn-main" *ngIf="isLoggedIn && isInCart" [disabled]="!isLoggedIn" (click)="onRemoveFromCart(singleProduct.productId)">
+              Remove from Cart
+            </button>
+            <button class="btn-main" disabled *ngIf="!isLoggedIn">
+              Please login to add to cart
+            </button>
+                      
         </div>
-        <div *ngIf="notificationMessage" class="custom-notification" [ngClass]="{'success': notificationType === 'success', 'error': notificationType === 'error'}">
+        <!-- <div *ngIf="notificationMessage" class="custom-notification" [ngClass]="{'success': notificationType === 'success', 'error': notificationType === 'error'}">
           <div class="message">{{ notificationMessage }}</div>
           <button class="close-button" (click)="clearNotification()">Close</button>
-        </div>
+        </div> -->
         <div class="d-flex align-items-center mt-3 wish" (click)="toggleWishlist(singleProduct.productId)">
           <div style="cursor: pointer;">
             <ng-container *ngIf="isInWishlist; else notInWishlist">

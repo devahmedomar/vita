@@ -107,7 +107,8 @@ export class ProductService {
           throw new Error('Invalid response format');
         }
         return response.data.products.filter((product: iProduct) => 
-          product.name.toLowerCase().includes(query.toLowerCase())
+          product.name.toLowerCase().includes(query.toLowerCase()) || 
+          product.description.toLowerCase().includes(query.toLowerCase())
         );
       }),
       catchError(error => {
