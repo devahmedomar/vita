@@ -15,6 +15,7 @@ export class WishlistComponent implements OnInit {
     title: 'wishlist',
     prev: 'home'
   };
+
   @Input() origin: string = '';
   @Input() wishlistProducts: iProduct[] = [];
   @Input() isLoggedIn: boolean = false;
@@ -27,7 +28,7 @@ export class WishlistComponent implements OnInit {
     this.loginService.isLoggedIn$().subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
     });
-    
+
     this.loadWishlist();
   }
 
@@ -41,22 +42,25 @@ export class WishlistComponent implements OnInit {
     this.productService.getWishlist().subscribe({
       next: (productIds: string[]) => {
         const uniqueProductIds = new Set<string>(productIds);
-        uniqueProductIds.forEach(id => {
-          this.productService.getSingleProduct(+id).subscribe({
-            next: (response) => {
-              const product = response.data.product;
-              if (!this.isProductInWishlist(product.productId)) {
-                product.inWishlist = true;
-                this.wishlistProducts.push(product);
-              }
-            },
-            error: (error) => console.error('Error loading product:', error)
+        const productRequests = Array.from(uniqueProductIds).map(id =>
+          this.productService.getSingleProduct(+id).toPromise()
+        );
+
+        Promise.all(productRequests).then(responses => {
+          responses.forEach(response => {
+            const product = response?.data?.product;
+            if (product && !this.isProductInWishlist(product.productId)) {
+              product.inWishlist = true;
+              this.wishlistProducts.push(product);
+            }
           });
-        });
+          this.checkCartStatus();
+        }).catch(error => console.error('Error loading products:', error));
       },
       error: (error) => console.error('Error loading wishlist:', error)
     });
   }
+
 
   private isProductInWishlist(productId: number): boolean {
     return this.wishlistProducts.some(product => product.productId === productId);
@@ -74,6 +78,35 @@ export class WishlistComponent implements OnInit {
     return false;
   }
 
+  checkCartStatus(): void {
+    this.cartService.getCart().subscribe(
+      (response: any) => {
+        if (response.success && response.data && response.data.cart && response.data.cart.cartItems) {
+          const cartItems: any[] = response.data.cart.cartItems;
+          this.wishlistProducts.forEach(product => {
+            product.inCart = cartItems.some(item => item.productId === product.productId);
+            // console.log(product.inCart)
+            localStorage.setItem(`product_${product.productId}_inCart`, product.inCart ? 'true' : 'false');
+          });
+        }
+      },
+      error => {
+        console.error('Error checking cart status:', error);
+      }
+    );
+  }
+
+  toggleCartAction(productId: number) {
+    const product = this.wishlistProducts.find(p => p.productId === productId);
+    if (product) {
+      if (product.inCart) {
+        this.removeFromCart(productId);
+      } else {
+        this.onAddToCart(productId);
+      }
+    }
+  }
+
   onAddToCart(productId: number) {
     if (!this.isLoggedIn) {
       console.log('User is not logged in.'); 
@@ -83,13 +116,37 @@ export class WishlistComponent implements OnInit {
     this.cartService.updateCart(productId, 1).subscribe(
       (response) => {
         if (response.success) {
+          const product = this.wishlistProducts.find(p => p.productId === productId);
+          if (product) {
+            product.inCart = true;
+            localStorage.setItem(`product_${productId}_inCart`, 'true');
           this.showNotification('Product added to cart successfully.', 'success');
+          }
         } else {
           this.showNotification('Failed to add product to cart.', 'error');
         }
       },
       (error) => {
         this.showNotification('An error occurred while adding the product to the cart.', 'error');
+      }
+    );
+  }
+  
+  removeFromCart(productId: number): void {
+    this.cartService.removeFromCart(productId).subscribe(
+      (response: any) => {
+        if (response.success) {
+          const product = this.wishlistProducts.find(p => p.productId === productId);
+          if (product) {
+            product.inCart = false;
+            localStorage.setItem(`product_${productId}_inCart`, 'false');
+          }
+        } else {
+          console.error('Failed to remove product from cart:', response.error);
+        }
+      },
+      error => {
+        console.error('Error removing product from cart:', error);
       }
     );
   }
@@ -107,7 +164,6 @@ export class WishlistComponent implements OnInit {
     this.notificationMessage = null;
   }
   
-
   toggleWishlist(productId: number): void {
     if (!this.isLoggedIn) {
       return;
@@ -149,5 +205,35 @@ export class WishlistComponent implements OnInit {
         // console.error('Error removing from wishlist:', error);
       }
     );
+  }
+
+  fetchProductRating(productId: number): void {
+    this.productService.getSingleProduct(productId).subscribe(
+      (product: any) => {
+        const index = this.wishlistProducts.findIndex(p => p.productId === productId);
+        if (index !== -1) {
+          this.wishlistProducts[index].reviews = product.rating;
+        }
+      },
+      error => {
+        console.error(`Error fetching product rating for product ID ${productId}:`, error);
+      }
+    );
+  }
+  
+  getStars(rating: number): number[] {
+    const filledStars = Math.floor(rating);
+    const remainingStars = 5 - filledStars;
+    const stars: number[] = [];
+
+    for (let i = 0; i < filledStars; i++) {
+      stars.push(1);
+    }
+
+    for (let i = 0; i < remainingStars; i++) {
+      stars.push(0); 
+    }
+
+    return stars;
   }
 }

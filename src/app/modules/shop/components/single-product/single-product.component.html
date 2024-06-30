@@ -12,10 +12,15 @@
         <p class="subhead text-muted" [innerHTML]="safeProductDescription">
         </p>
         <div class="d-flex align-items-center" *ngIf="singleProduct">
-          <p-rating *ngIf="isLoggedIn" [(ngModel)]="singleProduct.rating" [cancel]="false" starStyleClass="custom-stars"></p-rating>
-          <div *ngIf="!isLoggedIn">
-            <p-rating [(ngModel)]="singleProduct.rating" [readonly]="true" starStyleClass="custom-stars"></p-rating>
+          <div class="custom-rating-read-only" *ngIf="singleProduct.rating !== undefined">
+            <span class="custom-star">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFAA8F" class="bi bi-star" [ngClass]="{'bi-star-fill filled-star': i < singleProduct.rating, 'bi-star unfilled-star': i >= singleProduct.rating}" *ngFor="let i of [1, 2, 3, 4, 5]">
+                <path *ngIf="i <= singleProduct.rating" d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                <path *ngIf="i > singleProduct.rating" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/>
+              </svg>
+            </span>
           </div>
+          <div *ngIf="reviews && reviews.length > 0"><p class="numreview text-muted m-0 p-0 ms-3">({{reviews.length}} customer review)</p></div>
           <!-- <p class="numreview text-muted m-0 p-0 ms-3">(1 customer review)</p> -->
         </div>
         <div class="d-flex mt-3 mb-2">
@@ -71,112 +76,105 @@
       </div>
     </div>
 
-    <div class="row">
-      <!-- <div class="col-md-6">
+    <div class="row my-4">
+      <div class="col-md-6">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="additional-tab" data-bs-toggle="tab" data-bs-target="#additional-tab-pane"
-              type="button" role="tab" aria-controls="additional-tab-pane" aria-selected="true">ADDITIONAL DETAILS</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews-tab-pane"
-              type="button" role="tab" aria-controls="reviews-tab-pane" aria-selected="false">REVIEWS</button>
+            <button class="nav-link active" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews-tab-pane"
+              type="button" role="tab" aria-controls="reviews-tab-pane" aria-selected="true">REVIEWS</button>
           </li>
         </ul>
+    
         <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" id="additional-tab-pane" role="tabpanel" aria-labelledby="additional-tab"
-            tabindex="0">
-            <div class="d-flex">
-              <p class="additional-head me-2">CAPACITY :</p>
-              <p class="additional-details">40 mL</p>
-            </div>
-            <div class="d-flex">
-              <p class="additional-head me-2">BRAND :</p>
-              <p class="additional-details">Diadermine</p>
-            </div>
-            <div class="d-flex">
-              <p class="additional-head me-2">BRAND :</p>
-              <p class="additional-details">Diadermine</p>
-            </div>
-            <div class="d-flex">
-              <p class="additional-head me-2">BRAND :</p>
-              <p class="additional-details">Diadermine</p>
-            </div>
-            <div class="d-flex">
-              <p class="additional-head me-2">BRAND :</p>
-              <p class="additional-details">Diadermine</p>
-            </div>
-
-          </div>
-          <div class="tab-pane fade" id="reviews-tab-pane" role="tabpanel" aria-labelledby="reviews-tab" tabindex="0">
-            <div class="review my-2">
+          <div class="tab-pane fade show active" id="reviews-tab-pane" role="tabpanel" aria-labelledby="reviews-tab">
+            <div *ngIf="reviews && reviews.length > 0">
+            <div class="review my-2" *ngFor="let review of reviews">
               <div class="d-flex align-items-center">
                 <div class="me-4">
                   <div class="image-review">
-                    <div><img src="assets/images/review.jpeg" loading="lazy" alt="review"></div>
-                    <p class="mb-0 text-uppercase">my review</p>
+                    <div><img src="\assets\images\icons\user.png" loading="lazy" alt="review"></div>
+                    <p class="mb-0 text-uppercase">{{review.email}}</p>
                   </div>
                 </div>
                 <div class="review-details">
                   <div class="d-flex justify-content-between align-items-center">
-                    <p class="mb-0 me-3">NOVEMBER 8, 2020</p>
-                    <p-rating [(ngModel)]="rate" [cancel]="false" starStyleClass="custom-stars" />
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12 ps-5 my-4 text-review">
-                  Amazing 😍
-                </div>
-              </div>
-            </div>
-            <div class="review my-2">
-              <div class="d-flex align-items-center">
-                <div class="me-4">
-                  <div class="image-review">
-                    <div><img src="assets/images/review.jpeg" loading="lazy" alt="review"></div>
-                    <p class="mb-0 text-uppercase">my review</p>
-                  </div>
-                </div>
-                <div class="review-details">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <p class="mb-0 me-3">NOVEMBER 8, 2020</p>
-                    <p-rating [(ngModel)]="rate" [cancel]="false" starStyleClass="custom-stars" />
+                    <p class="mb-0 me-3">{{ review.dateCreated | date: 'mediumDate' }}</p>
+                    <div class="custom-rating-read-only">
+                      <span class="custom-star" *ngIf="review.rating !== undefined">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFAA8F" class="bi bi-star"
+                          [ngClass]="{'bi-star-fill filled-star': i < review.rating, 'bi-star unfilled-star': i >= review.rating}"
+                          *ngFor="let i of [1, 2, 3, 4, 5]">
+                          <path *ngIf="i <= review.rating"
+                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                          <path *ngIf="i > review.rating"
+                            d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z" />
+                        </svg>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-12 ps-5 my-4 text-muted text-uppercase text-review">
-                  Aliquet dictum hac gravida neque, sit faucibus eleifend vel velit. Ultricies sed a aenean quis. Pharetra platea ultricies quis suspendisse ipsum morbi. Pharetra, vivamus amet bibendum placerat vestibulum pulvinar viverra quis vitae. Pellentesque nec hac tincidunt molestie ut donec pretium tristique.
-                </div>
-              </div>
-            </div>
-            <div class="review my-2">
-              <div class="d-flex align-items-center">
-                <div class="me-4">
-                  <div class="image-review">
-                    <div><img src="assets/images/review.jpeg" loading="lazy" alt="review"></div>
-                    <p class="mb-0 text-uppercase">my review</p>
-                  </div>
-                </div>
-                <div class="review-details">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <p class="mb-0 me-3">NOVEMBER 8, 2020</p>
-                    <p-rating [(ngModel)]="rate" [cancel]="false" starStyleClass="custom-stars" />
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12 ps-5 my-4 text-review">
-                  Aliquet dictum hac gravida neque, sit faucibus eleifend vel velit. Ultricies sed a aenean quis. Pharetra platea ultricies quis suspendisse ipsum morbi. Pharetra, vivamus amet bibendum placerat vestibulum pulvinar viverra quis vitae. Pellentesque nec hac tincidunt molestie ut donec pretium tristique.
+                  <p>{{ review.comment }}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-      </div> -->
-      <!-- <div class="row related">
+        <div *ngIf="!reviews || reviews.length === 0">
+          <p class="text-uppercase">No reviews available for this product.</p>
+        </div>
+        
+        </div>
+      </div>
+    
+      <div class="col-md-6">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="add-edit-review-tab" data-bs-toggle="tab" data-bs-target="#add-edit-review-tab-pane"
+              type="button" role="tab" aria-controls="add-edit-review-tab-pane" aria-selected="false">
+              {{ existingReview ? 'EDIT REVIEW' : 'ADD REVIEW' }}
+            </button>
+          </li>
+        </ul>
+    
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="add-edit-review-tab-pane" role="tabpanel" aria-labelledby="add-edit-review-tab">
+            <div class="mt-4">
+              <form (ngSubmit)="submitReview()" #reviewForm="ngForm">
+                <div class="mb-3">
+                  <label for="rating" class="form-label me-2">Rating</label>
+                  <p-rating id="rating" name="rating" [(ngModel)]="newReview.rating" [cancel]="false" [stars]="5"
+                    required [disabled]="!isLoggedIn" [ngModelOptions]="{standalone: true}"></p-rating>
+                  <div *ngIf="reviewForm.submitted && !newReview.rating" class="text-danger">Rating is required.</div>
+                </div>
+                <div class="mb-3">
+                  <textarea id="comment" placeholder="YOUR REVIEW" class="form-control" name="comment"
+                    [(ngModel)]="newReview.comment" required height="150px" [disabled]="!isLoggedIn"
+                    [ngModelOptions]="{standalone: true}"></textarea>
+                  <div *ngIf="reviewForm.submitted && !newReview.comment" class="text-danger">Comment is required.</div>
+                  <div *ngIf="newReview.comment && newReview.comment.length < 2" class="text-danger">Comment must be at least 2 characters.</div>
+                  <div *ngIf="newReview.comment && newReview.comment.length > 200" class="text-danger">Comment cannot exceed 200 characters.</div>
+                </div>
+                <div class="mt-4" *ngIf="!isLoggedIn">
+                  <p class="text-danger">Please <a routerLink="/auth/register">sign up</a> or <a routerLink="/auth/login">login</a> to leave a comment.</p>
+                </div>
+                <button *ngIf="!existingReview" type="submit" class="submitBtn" [disabled]="!isLoggedIn || reviewForm.invalid">SUBMIT</button>
+                <div *ngIf="existingReview" class="d-flex justify-content-center">
+                  <button type="button" class="editBtn" (click)="editReview()" [disabled]="!isLoggedIn || reviewForm.invalid || newReview.comment.length < 2 || newReview.comment.length > 200">Edit Review</button>
+                  <button type="button" class="removeBtn" (click)="deleteReview(existingReview.reviewId)" [disabled]="!isLoggedIn || reviewForm.invalid">Delete Review</button>
+                </div>
+              </form>
+              
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+       <!-- <div class="row related">
         <h2>Related products</h2>
         <div class="row">
           <div class="col-lg-4 col-md-6" *ngFor="let relatedItem of relatedProducts">
@@ -184,7 +182,7 @@
           </div>
         </div>
 
-      </div> -->
+      </div>  -->
 
 
     </div>

@@ -178,3 +178,37 @@ i{
 ::ng-deep .ngx-spinner > div > div {
   background-color: #80AA27 !important;
 }
+
+.submitBtn{
+  width: 100%;
+  background-color: #80AA27;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+
+.editBtn{
+  width: 40%;
+  background-color: #80AA27;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  outline: none;
+  border: 1px solid #80AA27;
+  margin-right: 20px; 
+}
+
+.removeBtn{
+  width: 40%;
+  background-color: #fff;
+  color: #80AA27;
+  padding: 10px;
+  border: 1px solid #80AA27;
+  outline: none;
+}
+
+form{
+  background-color: #fff;
+  padding: 30px;
+}
