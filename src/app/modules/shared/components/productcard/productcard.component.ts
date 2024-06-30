@@ -216,6 +216,32 @@ export class ProductcardComponent implements OnInit {
       }
     );
   }
+  
+  fetchProductRating() {
+    this.productService.getSingleProduct(this.productCardData.productId).subscribe(
+      (product: any) => {
+        this.productCardData.reviews = product.rating; 
+      },
+      error => {
+        console.error('Error fetching product rating:', error);
+      }
+    );
+  }
 
+  getStars(rating: number): number[] {
+    const filledStars = Math.floor(rating);
+    const remainingStars = 5 - filledStars;
+    const stars: number[] = [];
+
+    for (let i = 0; i < filledStars; i++) {
+      stars.push(1);
+    }
+
+    for (let i = 0; i < remainingStars; i++) {
+      stars.push(0); 
+    }
+
+    return stars;
+  }
 }
 
