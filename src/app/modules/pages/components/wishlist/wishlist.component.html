@@ -31,9 +31,9 @@
                 {{ product.priceBeforeDiscount | currency:'USD':'symbol':'1.2-2' }}
               </ng-template>
             </div>
-            <button class="btn-main" [disabled]="!isLoggedIn" (click)="toggleCartAction(product.productId)">
-              {{ isLoggedIn ? (product.inCart ? 'Remove from Cart' : 'Add to Cart') : 'Login to add to cart' }}
-            </button>  
+            <button class="btn-main" [disabled]="!isLoggedIn || product.stockQuantity === 0" (click)="toggleCartAction(product.productId)">
+              {{ product.stockQuantity === 0 ? 'Out of Stock' : isLoggedIn ? (product.inCart ? 'Remove from Cart' : 'Add to Cart') : 'Login to add to cart' }}
+            </button>    
           </div>
         </div>
       </div>

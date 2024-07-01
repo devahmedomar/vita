@@ -40,6 +40,7 @@
                 incrementButtonClass="p-button-incdec"
                 incrementButtonIcon="pi pi-plus"
                 decrementButtonIcon="pi pi-minus"
+                [disabled]="product.stockQuantity === 0"
                 (ngModelChange)="updateSubtotal(product)" />
               </div>
             </td>

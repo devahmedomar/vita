@@ -35,6 +35,7 @@ export class SingleProductComponent implements OnInit {
   newReview: { rating: number; comment: string } = { rating: 0, comment: '' };
   currentRating: number = 0;
   existingReview: IReview | null = null;
+  selectedQuantity: number = 1;
   @ViewChild('reviewForm') reviewForm!: NgForm;
 
   constructor(
@@ -66,6 +67,10 @@ export class SingleProductComponent implements OnInit {
     
     if(this.isLoggedIn)
     this.fetchUserReview();
+
+    this.cartService.getSelectedQuantity().subscribe(quantity => {
+      this.selectedQuantity = quantity;
+    });
   }
 
   getSingleProduct() {
@@ -78,6 +83,7 @@ export class SingleProductComponent implements OnInit {
         this.safeProductDescription = this.sanitizer.bypassSecurityTrustHtml(
           this.singleProduct.description
         );
+        this.fetchSelectedQuantity();
         this.spinner.hide();
       },
 
@@ -87,6 +93,12 @@ export class SingleProductComponent implements OnInit {
       },
     });
   }
+
+  fetchSelectedQuantity() {
+    const cartItem = localStorage.getItem(`product_${this.productId}_quantity`);
+    this.selectedQuantity = cartItem ? JSON.parse(cartItem) : 1; 
+  }
+
   getCategoriesById() {
     this._ProductService.getCategoryListOfProduct(this.categoryId).subscribe({
       next: (res: any) => {
@@ -114,17 +126,18 @@ export class SingleProductComponent implements OnInit {
     const cartItem = localStorage.getItem(`product_${this.productId}_inCart`);
     this.isInCart = cartItem ? JSON.parse(cartItem) : false;
   }
-
+  
   onAddToCart(productId: number) {
     if (!this.isLoggedIn) {
       this.showNotification('Please login first.', 'error');
       return;
     }
-
-    this.cartService.updateCart(productId, this.prodNumber).subscribe(
-      (response) => {
+  
+    this.cartService.updateCart(productId, this.selectedQuantity).subscribe(
+      () => {
         this.isInCart = true;
         localStorage.setItem(`product_${productId}_inCart`, 'true');
+        localStorage.setItem(`product_${productId}_quantity`, JSON.stringify(this.selectedQuantity));
         this.showNotification('Item added to cart', 'success');
       },
       (error) => {
@@ -133,13 +146,14 @@ export class SingleProductComponent implements OnInit {
       }
     );
   }
-
+  
   onRemoveFromCart(productId: number) {
     this.cartService.removeFromCart(productId).subscribe(
       (response) => {
         this.isInCart = false;
         localStorage.removeItem(`product_${productId}_inCart`);
         this.showNotification('Item removed from cart', 'success');
+        this.selectedQuantity = 1;
       },
       (error) => {
         console.error('Failed to remove item from cart:', error);

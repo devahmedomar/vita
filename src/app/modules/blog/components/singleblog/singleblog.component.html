@@ -1,84 +1,130 @@
 <app-navbar></app-navbar>
 <div
-  class="breadcrumb d-flex justify-content-center align-items-center text-center text-capitalize text-white breadcrumb-all">
+  class="breadcrumb d-flex justify-content-center align-items-center text-center text-capitalize text-white breadcrumb-all"
+>
   <div class="overlay"></div>
   <div class="content text-center">
     <h2 class="text-uppercase">Gallery post</h2>
     <nav
-      style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
-      aria-label="breadcrumb">
+      style="
+        --bs-breadcrumb-divider: url(
+          &#34;data:image/svg + xml,
+          %3Csvgxmlns='http://www.w3.org/2000/svg'width='8'height='8'%3E%3Cpathd='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z'fill='%236c757d'/%3E%3C/svg%3E&#34;
+        );
+      "
+      aria-label="breadcrumb"
+    >
       <ol class="breadcrumb">
-        <li class="breadcrumb-item text-uppercase"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item active text-uppercase" aria-current="page"><a routerLink="../">Blog</a></li>
-        <li class="breadcrumb-item active text-uppercase" aria-current="page">Gallery post</li>
+        <li class="breadcrumb-item text-uppercase">
+          <a routerLink="/">Home</a>
+        </li>
+        <li class="breadcrumb-item active text-uppercase" aria-current="page">
+          <a routerLink="../">Blog</a>
+        </li>
+        <li class="breadcrumb-item active text-uppercase" aria-current="page">
+          Gallery post
+        </li>
       </ol>
     </nav>
   </div>
 </div>
 <!-- ======= Blog Single Section ======= -->
-<section id="blog" class="blog" >
+<section id="blog" class="blog">
   <div class="container">
-
     <div class="row">
-
       <div class="col-12 entries">
-<article class="entry entry-single" *ngIf="blog">
+        <article class="entry entry-single" *ngIf="blog">
+          <div class="entry-img">
+            <img [src]="blog.pictureUrl" alt="" class="img-fluid w-100" />
+          </div>
 
-  <div class="entry-img">
-    <img [src]="blog.pictureUrl" alt="" class="img-fluid w-100">
-  </div>
+          <h2 class="entry-title">
+            {{ blog.title }}
+          </h2>
 
-  <h2 class="entry-title">
-    {{blog.title}}
-  </h2>
+          <div class="entry-meta">
+            <ul>
+              <li class="d-flex align-items-center">
+                <i class="pi pi-person"></i>
+                <a href="blog-single.html">MAYAR</a>
+              </li>
+              <li class="d-flex align-items-center">
+                <i class="pi pi-clock"></i>
+                <a href="blog-single.html"
+                  ><time>{{ blog.creation }}</time></a
+                >
+              </li>
+              <li class="d-flex align-items-center">
+                <i class="pi pi-chat-dots"></i>
+                <a href="blog-single.html">12 Comments</a>
+              </li>
+            </ul>
+          </div>
 
-  <div class="entry-meta">
-    <ul>
-      <li class="d-flex align-items-center"><i class="pi pi-person"></i> <a href="blog-single.html">MAYAR</a>
-      </li>
-      <li class="d-flex align-items-center"><i class="pi pi-clock"></i> <a href="blog-single.html"><time>{{blog.creation}}</time></a></li>
-      <li class="d-flex align-items-center"><i class="pi pi-chat-dots"></i> <a href="blog-single.html">12
-          Comments</a></li>
-    </ul>
-  </div>
+          <div class="entry-content">
+            <p [innerHTML]="safeBlogContent"></p>
+          </div>
+          <div class="d-flex align-items-center">
+            <a *ngIf="isLoggedIn" class="me-3 text-dark" [class.liked]="alreadyLiked" (click)="likeBlog()">
+              <i class="pi" [ngClass]="{'pi-thumbs-up-fill': alreadyLiked, 'pi-thumbs-up': !alreadyLiked, 'text-like': alreadyLiked}"></i>
+              <!-- {{ blog.likes }} -->
+            </a>
+            <a *ngIf="!isLoggedIn" class="me-3 text-dark disabled-action">
+              <i class="pi pi-thumbs-up"></i>
+              <!-- {{ blog.likes }} -->
+            </a>
+          
+            <a *ngIf="isLoggedIn" class="me-3 text-dark" [class.disliked]="alreadyDisliked" (click)="dislikeBlog()">
+              <i class="pi" [ngClass]="{'pi-thumbs-down-fill': alreadyDisliked, 'pi-thumbs-down': !alreadyDisliked, 'text-dislike': alreadyDisliked}"></i>
+              <!-- {{ blog.dislikes }} -->
+            </a>
+            <a *ngIf="!isLoggedIn" class="me-3 text-dark disabled-action">
+              <i class="pi pi-thumbs-down"></i>
+              <!-- {{ blog.dislikes }} -->
+            </a>
+          
+            <a href="#" *ngIf="isLoggedIn" class="me-3">
+              <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.62207 1.03282H6.50893C6.85409 1.03282 7.13393 1.31264 7.13393 1.65782C7.13393 1.97424 6.89876 2.23573 6.59368 2.27711L6.50893 2.28282H3.62207C2.62969 2.28282 1.81737 3.05379 1.7514 4.02944L1.74707 4.15782V12.0745C1.74707 13.0669 2.51804 13.8792 3.4937 13.9452L3.62207 13.9495H11.5393C12.5318 13.9495 13.344 13.1785 13.41 12.2029L13.4143 12.0745V11.6597C13.4143 11.3145 13.6942 11.0347 14.0393 11.0347C14.3558 11.0347 14.6173 11.2698 14.6587 11.5749L14.6643 11.6597V12.0745C14.6643 13.7447 13.354 15.1089 11.7053 15.1951L11.5393 15.1995H3.62207C1.95185 15.1995 0.587679 13.8892 0.501404 12.2405L0.49707 12.0745V4.15782C0.49707 2.4876 1.80737 1.12343 3.4561 1.03715L3.62207 1.03282ZM10.0838 3.1327V0.824487C10.0838 0.304512 10.6727 0.0244449 11.0728 0.315987L11.1413 0.373437L16.1368 5.1651C16.37 5.38873 16.3913 5.74791 16.2005 5.99621L16.1369 6.06712L11.1414 10.8604C10.7662 11.2204 10.1563 10.9892 10.0897 10.4985L10.0838 10.4094V8.13829L9.79751 8.16337C7.79776 8.37195 5.88104 9.2727 4.03536 10.8806C3.60277 11.2575 2.93349 10.9011 3.00464 10.3319C3.55863 5.8989 5.87686 3.45557 9.83426 3.14907L10.0838 3.1327ZM11.3338 2.29002V3.74115C11.3338 4.08633 11.0539 4.36615 10.7088 4.36615C7.48093 4.36615 5.48038 5.76293 4.61601 8.66379L4.55013 8.89595L4.84362 8.69862C6.70734 7.48045 8.66518 6.86612 10.7088 6.86612C11.0252 6.86612 11.2867 7.10129 11.328 7.40637L11.3338 7.49112V8.94354L14.8014 5.61623L11.3338 2.29002Z" fill="#2C2C2C" fill-opacity="0.87"/>
+              </svg>
+            </a>
+          </div>
+          
 
-  <div class="entry-content">
-    <p [innerHTML]="safeBlogContent"></p>
-  </div>
-
-  <div class="d-flex align-items-center">
-<a href="javascript:void(0);" class="me-3">
-  <i class="pi pi-thumbs-up text-black"> {{ blog.likes }}</i>
-</a>
-    <a href="blog-single.html" class="me-3"><i class="pi pi-thumbs-down text-black"> {{blog.dislikes}}</i></a>
-  </div>
-
-</article>
+          <div *ngIf="!isLoggedIn">
+            <p class="text-danger my-2">
+             Please <a routerLink ="/auth/register">sign up </a>or <a routerLink ="/auth/login">login </a>to like, or dislike this post.
+            </p>
+          </div>
+        </article>
 
         <div class="blog-author d-flex align-items-center">
           <div class="image-container me-3">
-            <img src="assets/images/profile.jpeg" alt="">
+            <img src="assets/images/profile.jpeg" alt="" />
           </div>
           <div>
             <h4>MAYAR</h4>
 
             <p class="mb-1">
-              For county now sister engage had season better had waited. Occasional mrs interested far expression.
-              Engage had season better had waited. Occasional mrs interested far expression. </p>
+              For county now sister engage had season better had waited.
+              Occasional mrs interested far expression. Engage had season better
+              had waited. Occasional mrs interested far expression.
+            </p>
             <div class="social-links">
               <a href="https://twitters.com/#"><i class="pi pi-twitter"></i></a>
-              <a href="https://facebook.com/#"><i class="pi pi-facebook"></i></a>
-              <a href="https://instagram.com/#"><i class="pi pi-instagram"></i></a>
+              <a href="https://facebook.com/#"
+                ><i class="pi pi-facebook"></i
+              ></a>
+              <a href="https://instagram.com/#"
+                ><i class="pi pi-instagram"></i
+              ></a>
             </div>
           </div>
-
-        </div><!-- End blog author bio -->
+        </div>
+        <!-- End blog author bio -->
 
         <div class="blog-comments">
-
           <!-- <h4 class="comments-count">8 Comments</h4> -->
-
-
 
           <!-- <div id="comment-2" class="comment">
             <div class="d-flex">
@@ -117,7 +163,7 @@
 
           </div> -->
 
-<!--
+          <!--
           <div class="reply-form w-75">
             <h4 class="text-muted fw-bold">Post a Comment</h4>
             <form>
@@ -131,29 +177,22 @@
             </form>
 
           </div> -->
-
         </div>
-
-      </div><!-- End blog entries list -->
-
-
-
+      </div>
+      <!-- End blog entries list -->
     </div>
-
   </div>
 </section>
 
-
-<!-- End Blog Single Section -->
+<!-- 
 <div class="container">
   <div class="row related main-section">
     <h2 class="text-center mb-3">Related products</h2>
     <div class="row">
-      <div class="col-lg-4 col-md-6" *ngFor="let relatedItem of relatedProducts">
-        <!-- <app-productcard [productCardData]="relatedItem" origin="single-product"></app-productcard> -->
-      </div>
+      <div class="col-lg-4 col-md-6" *ngFor="let relatedItem of relatedProducts"> 
+       <app-productcard [productCardData]="relatedItem" origin="single-product"></app-productcard>
     </div>
-
   </div>
 </div>
+</div> -->
 <app-footer></app-footer>
