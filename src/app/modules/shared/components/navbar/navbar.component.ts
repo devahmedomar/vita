@@ -71,4 +71,12 @@ export class NavbarComponent implements OnInit {
     };
     return new Intl.DateTimeFormat('en-US', options).format(date);
   }
+
+  navigateToSubCategory(categoryId: number) {
+    this.router.navigate(['/shop'], { queryParams: { category: categoryId } });
+  }
+  
+  navigateToMainCategory(mainCategoryId: number): void {
+    this.router.navigate(['/shop'], { queryParams: { mainCategory: mainCategoryId } });
+  }
 }
