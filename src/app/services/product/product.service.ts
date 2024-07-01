@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { iProduct } from 'src/app/models/iproduct';
 import { environment } from 'src/environments/environment';
 
@@ -98,6 +98,23 @@ export class ProductService {
       })
     );
   }
-  
 
+  searchProducts(query: string): Observable<iProduct[]> {
+    return this._HttpClient.get<any>(`${this.ProductUrl}/all`).pipe(
+      map((response: any) => {
+        // console.log('Products API response:', response);
+        if (!response.success || !response.data || !Array.isArray(response.data.products)) {
+          throw new Error('Invalid response format');
+        }
+        return response.data.products.filter((product: iProduct) => 
+          product.name.toLowerCase().includes(query.toLowerCase()) || 
+          product.description.toLowerCase().includes(query.toLowerCase())
+        );
+      }),
+      catchError(error => {
+        console.error('Error searching products:', error);
+        return of([]);
+      })
+    );
+  }
 }

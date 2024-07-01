@@ -1,107 +1,108 @@
 <section class="sticky-top top-0 w-100 navsticky">
   <section id="topbar" class="d-flex align-items-center">
-    <div
-      class="container d-block d-sm-flex justify-content-between justify-content-md-between"
-    >
+    <div class="container d-block d-sm-flex justify-content-between justify-content-md-between">
       <div class="contact-info d-flex align-items-center">
-        <i class="pi pi-envelope d-flex align-items-center"></i
-        ><a href="mailto:contact&#64;example.com">contact&#64;example.com</a>
-        <i class="pi pi-phone d-flex align-items-center ms-4"></i
-        ><span>+1 5589 55488 55</span>
+        <i class="pi pi-envelope d-flex align-items-center"></i>
+        <a href="mailto:contact@example.com">contact&#64;example.com</a>
+        <i class="pi pi-phone d-flex align-items-center ms-4"></i>
+        <span>+1 5589 55488 55</span>
       </div>
       <div class="social-links d-md-flex align-items-center">
-        <select class="form-select">
-          <option value="english" selected>English</option>
-          <option value="french">French</option>
-          <option value="arabic">Arabic</option>
+        <select class="form-select" (change)="changeLang($event)">
+          <option value="en" [selected]="lang=='en'">English</option>
+          <option value="fr" [selected]="lang=='fr'">French</option>
+          <option value="ar" [selected]="lang=='ar'">Arabic</option>
         </select>
-        <a class="text-white" routerLinkActive="active" routerLink="/auth"
-          >Login/Register</a
-        >
+        <ng-container *ngIf="!(isLoggedIn$ | async); else loggedInTemplate">
+          <a class="text-white" routerLinkActive="active" routerLink="/auth">Login/Register</a>
+        </ng-container>
+        <ng-template #loggedInTemplate>
+          <a class="text-white" (click)="signOut()">{{'sign_out'|translate}}</a>
+        </ng-template>
       </div>
     </div>
   </section>
 
+
   <nav class="navbar navbar-expand-lg bg-white">
     <div class="container">
-      <a
-        class="navbar-brand"
-        routerLink="/"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <img src="assets/images/logo.svg" alt="" />
+      <a class="navbar-brand" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <img src="assets/images/logo.svg" alt="Logo" />
       </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <section class="d-flex right">
-        <a>
-          <i class="pi pi-search text-3xl"></i>
-        </a>
-        <a>
-          <i class="pi pi-bell text-3xl"></i>
-        </a>
-        <a>
-          <i class="pi pi-user text-3xl"></i>
-        </a>
+
+      <section class="d-flex right" *ngIf="isLoggedIn$ | async">
+        <a (click)="toggleSearchBar()"><i class="pi pi-search text-3xl"></i></a>
+  
+        <a (click)="toggleNotifications()"><i class="pi pi-bell text-3xl"></i></a>
+        <!-- <p-badge [value]="unreadNotificationsCount()" severity="danger"></p-badge> -->
+    
+        <div *ngIf="showNotifications" class="notification-dropdown">
+          <div *ngIf="notifications.length > 0; else noNotifications">
+            <div class="notification-item" *ngFor="let notification of notifications">
+              <div class="notification-header">
+                <span class="notification-title">{{ notification.message }}</span>
+                <span *ngIf="!notification.read" class="notification-unread-dot"></span>
+              </div>
+              <div class="notification-time text-muted">{{ formatDate(notification.time) }}</div>
+            </div>
+          </div>
+          <ng-template #noNotifications>
+            <div class="notification-empty">No notifications</div>
+          </ng-template>
+        </div>
+
+        <div class="dropdown">
+          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <i class="pi pi-user text-3xl"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+            <!-- <li><a class="dropdown-item" routerLink="/profile">My Profile</a></li> -->
+            <li><a class="dropdown-item" routerLink="/orders">{{'my_orders'|translate}}</a></li>
+            <li><a class="dropdown-item" routerLink="/wishlist">{{'my_favorites'|translate}}</a></li>
+            <li><a class="dropdown-item" (click)="signOut()">{{'sign_out'|translate}}</a></li>
+          </ul>
+        </div>
         <a routerLink="/cart" class="text-black">
-          <i class="pi pi-shopping-cart text-3xl"> <p-badge [value]="cartCount$ | async"></p-badge></i>
+          <i class="pi pi-shopping-cart text-3xl">
+            <p-badge [value]="cartCount$ | async"></p-badge>
+          </i>
         </a>
       </section>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/home" routerLinkActive="active"
-              >Home</a
-            >
+            <a class="nav-link" routerLink="/home" routerLinkActive="active">{{'home'|translate}}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/about" routerLinkActive="active"
-              >About us</a
-            >
+            <a class="nav-link" routerLink="/about" routerLinkActive="active">{{'about_us'|translate}}</a>
           </li>
           <li class="dropdown nav-item">
-            <a href="#" class="nav-link"
-              ><span>categories</span> <i class="pi pi-chevron-down"></i
-            ></a>
+            <a href="#" class="nav-link"><span>{{'categories'|translate}}</span> <i class="pi pi-chevron-down"></i></a>
             <ul class="dropdown-menu">
               <li *ngFor="let category of mainCategories" class="dropdown">
-                <a href="#" class="nav-link"
-                  ><span>{{ category.name }}</span
-                  ><i class="pi pi-chevron-right"></i
-                ></a>
+                <a href="#" class="nav-link"><span>{{ category.name }}</span><i class="pi pi-chevron-right"></i></a>
                 <ul>
                   <li *ngFor="let subCategory of category.subCategories">
-                    <a href="#" class="nav-link">{{ subCategory.name }}</a>
+                    <a [href]="'https://www.vitaparapharma.com/#/store?category=' + subCategory.categoryId"
+                    class="nav-link" target="_blank"> {{ subCategory.name }}</a>
                   </li>
                 </ul>
               </li>
             </ul>
           </li>
-
           <li class="nav-item">
-            <a class="nav-link" routerLink="/shop" routerLinkActive="active"
-              >Shop</a
-            >
+            <a class="nav-link" routerLink="/shop" routerLinkActive="active">{{'shop'|translate}}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/blog" routerLinkActive="active"
-              >Blog</a
-            >
+            <a class="nav-link" routerLink="/blog" routerLinkActive="active">{{'blogs'|translate}}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/contact" routerLinkActive="active"
-              >Contact us</a
-            >
+            <a class="nav-link" routerLink="/contact" routerLinkActive="active">{{'contact_us'|translate}}</a>
           </li>
         </ul>
       </div>

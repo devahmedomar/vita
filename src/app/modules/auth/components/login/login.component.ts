@@ -43,8 +43,9 @@ export class LoginComponent {
         if (res.success == true) {
           localStorage.setItem('eToken', res.data.token);
           this.toastr.success('Logged In Successfully');
-          this._Router.navigate(['/']);
         }
+        this._Router.navigate(['/']);
+        // console.log('User logged in successfully:', res);
       },
       error: (err: HttpErrorResponse) => {
         console.log(err);

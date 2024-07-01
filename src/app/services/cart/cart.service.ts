@@ -12,6 +12,8 @@ export class CartService {
   private apiUrl = 'https://api.vitaparapharma.com/api/v1/';
   private cartCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   public cartCount$: Observable<number> = this.cartCountSubject.asObservable();
+  private selectedQuantitySubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+  selectedQuantity$: Observable<number> = this.selectedQuantitySubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {
     this.loadCartCount();
@@ -70,11 +72,15 @@ export class CartService {
     if (!authToken) {
       return this.handleAuthError();
     }
-
+  
     const headers = new HttpHeaders({
       Authorization: `Bearer ${authToken}`,
     });
-
+  
+    if (quantity < 1) {
+      quantity = 1;
+    }
+  
     return this.http.put(
       `${this.apiUrl}user/cart/update`,
       { productId, quantity },
@@ -93,6 +99,7 @@ export class CartService {
       })
     );
   }
+  
 
   removeFromCart(productId: number): Observable<any> {
     const authToken = localStorage.getItem('eToken');
@@ -127,5 +134,13 @@ export class CartService {
 
   calculateCartTotal(subtotal: number, shippingCost: number): number {
     return subtotal + shippingCost;
+  }
+
+  setSelectedQuantity(quantity: number): void {
+    this.selectedQuantitySubject.next(quantity);
+  }
+
+  getSelectedQuantity(): Observable<number> {
+    return this.selectedQuantity$;
   }
 }

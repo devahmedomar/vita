@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Ilanguage } from './models/ilanguage';
+import { TranslateService } from '@ngx-translate/core';
 interface MenuItem{
   label:string,
   icon:string,
@@ -12,6 +13,10 @@ interface MenuItem{
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  constructor(private translate:TranslateService){
+    this.translate.setDefaultLang('en');
+    this.translate.use(localStorage.getItem('lang')||'en')
+  }
   title = 'Vitaparapharma';
   cities: Ilanguage[]=[];
 

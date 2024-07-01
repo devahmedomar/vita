@@ -22,6 +22,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccordionModule } from 'primeng/accordion';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { OrdersComponent } from './components/orders/orders.component';
+import { SearchComponent } from './components/search/search.component';
 
 
 @NgModule({
@@ -40,6 +43,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AdsComponent,
     MissionComponent,
     FeaturesComponent,
+    WishlistComponent,
+    OrdersComponent,
+    SearchComponent
 
   ],
   imports: [

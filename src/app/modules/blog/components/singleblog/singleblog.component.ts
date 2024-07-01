@@ -1,9 +1,9 @@
-import { posts, Blog } from 'src/app/models/blog';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Iproductcard } from 'src/app/models/iproductcard';
-import { BlogService } from 'src/app/services/blog/blog.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { BlogService } from 'src/app/services/blog/blog.service';
+import { LoginService } from 'src/app/services/auth/login/login.service';
+import { Iproductcard } from 'src/app/models/iproductcard';
 
 @Component({
   selector: 'app-singleblog',
@@ -11,64 +11,41 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrls: ['./singleblog.component.css'],
 })
 export class SingleblogComponent implements OnInit {
+  blog: any = {
+    likes: 0,
+    dislikes: 0,
+  };
   relatedProducts: Iproductcard[] = [];
   safeBlogContent: SafeHtml = '';
+  userToken: string | null = null;
+  isLoggedIn: boolean = false;
+  alreadyLiked: boolean = false;
+  alreadyDisliked: boolean = false;
+  localStorageKey: string = 'blogLikes';
 
   constructor(
     private _BlogService: BlogService,
     private _ActivatedRoute: ActivatedRoute,
-    private _sanitizer: DomSanitizer
+    private _sanitizer: DomSanitizer,
+    private _LoginService: LoginService
   ) {}
-  // ngOnInit(): void {
-  //   // this.relatedProducts=[
-  //   //   {
-  //   //     id:10,
-  //   //     haveSale: false,
-  //   //     imgURL: "assets/images/product.png",
-  //   //     productName: "Airbrush Matte",
-  //   //     productDescription: "Skin-perfecting bronzed filter for the face.",
-  //   //     productPrice: 50.00,
-  //   //     productRate: 4,
 
-  //   //   },
-  //   //   {
-  //   //     id:11,
-  //   //     haveSale: false,
-  //   //     imgURL: "assets/images/product.png",
-  //   //     productName: "Airbrush Matte",
-  //   //     productDescription: "Skin-perfecting bronzed filter for the face.",
-  //   //     productPrice: 60.00,
-  //   //     productRate: 3,
-  //   //     sale: 14
-  //   //   },
-  //   //   {
-  //   //     id:12,
-  //   //     haveSale: false,
-  //   //     imgURL: "assets/images/product.png",
-  //   //     productName: "Airbrush Matte",
-  //   //     productDescription: "Skin-perfecting bronzed filter for the face.",
-  //   //     productPrice: 100.00,
-  //   //     productRate: 2,
-  //   //     sale: 10
-  //   //   }
-
-  //   // ]
-  // }
-
-  blog: any; // Declare blog object to hold the fetched blog data
   ngOnInit(): void {
     this._ActivatedRoute.paramMap.subscribe({
       next: (param) => {
         let blogId: any = param.get('id');
-
         this._BlogService.getSingleBlog(blogId).subscribe({
           next: (response) => {
-            // Assign the fetched blog data to the blog object
             this.blog = response.data.post;
-            console.log(this.blog);
-            this.safeBlogContent = this._sanitizer.bypassSecurityTrustHtml(
-              this.blog.content
-            );
+            this.safeBlogContent = this._sanitizer.bypassSecurityTrustHtml(this.blog.content);
+            this.blog.likes = this.blog.likes || 0;
+            this.blog.dislikes = this.blog.dislikes || 0;
+            const storedState = localStorage.getItem(`blog-${blogId}-like-dislike`);
+            if (storedState) {
+              const { liked, disliked } = JSON.parse(storedState);
+              this.alreadyLiked = liked;
+              this.alreadyDisliked = disliked;
+            }
           },
           error: (error) => {
             console.error('Error fetching single blog:', error);
@@ -76,24 +53,85 @@ export class SingleblogComponent implements OnInit {
         });
       },
     });
+
+    this._LoginService.isLoggedIn$().subscribe((status) => {
+      this.isLoggedIn = status;
+      this.userToken = this._LoginService.getAuthToken();
+    });
   }
 
-  // likeBlog() {
-  //   if (this.blog && this.blog.blogPostId) {
-  //     this._BlogService.like(this.blog.blogPostId).subscribe({
-  //       next: (response) => {
-  //         // Update the likes count in the component
-  //         this.blog.likes++;
-  //         // Handle successful like
-  //         console.log('Blog liked successfully!', response);
-  //       },
-  //       error: (error) => {
-  //         // Handle error
-  //         console.error('Error liking blog:', error);
-  //       },
-  //     });
-  //   } else {
-  //     console.error('Blog ID is not available!');
-  //   }
-  // }
+  likeBlog(): void {
+    if (this.isLoggedIn && this.blog && this.userToken) {
+      if (!this.alreadyLiked) {
+        this._BlogService.likePost(this.blog.blogPostId, this.userToken).subscribe({
+          next: () => {
+            if (this.alreadyDisliked) {
+              this.blog.dislikes--;
+              this.alreadyDisliked = false;
+            }
+            this.blog.likes++;
+            this.alreadyLiked = true;
+            this.updateLocalStorage();
+          },
+       
+        });
+      } else {
+        this._BlogService.unlikePost(this.blog.blogPostId, this.userToken).subscribe({
+          next: () => {
+            this.blog.likes--;
+            this.alreadyLiked = false;
+            this.updateLocalStorage();
+          },
+      
+        });
+      }
+    } else if (!this.isLoggedIn) {
+      alert('You need to be logged in to like this post.');
+    }
+  }
+
+  dislikeBlog(): void {
+    if (this.isLoggedIn && this.blog && this.userToken) {
+      if (!this.alreadyDisliked) {
+        this._BlogService.dislikePost(this.blog.blogPostId, this.userToken).subscribe({
+          next: () => {
+            if (this.alreadyLiked) {
+              this.blog.likes--;
+              this.alreadyLiked = false;
+            }
+            this.blog.dislikes++;
+            this.alreadyDisliked = true;
+            this.updateLocalStorage();
+          },
+      
+        });
+      } else {
+        this._BlogService.unlikePost(this.blog.blogPostId, this.userToken).subscribe({
+          next: () => {
+            this.blog.dislikes--;
+            this.alreadyDisliked = false;
+            this.updateLocalStorage();
+          },
+
+        });
+      }
+    } else if (!this.isLoggedIn) {
+      alert('You need to be logged in to dislike this post.');
+    }
+  }
+
+  private updateLocalStorage(): void {
+    const blogId = this.blog.blogPostId;
+    const state = {
+      liked: this.alreadyLiked,
+      disliked: this.alreadyDisliked,
+    };
+    localStorage.setItem(`blog-${blogId}-like-dislike`, JSON.stringify(state));
+  }
+
+  getFacebookShareUrl(blogId:number): string {
+    const blogUrl = `https://Vita-domain.com/blog/${blogId}`;
+    const shareUrl = `https://www.facebook.com/sharer.php?u=${encodeURIComponent(blogUrl)}`;
+    return shareUrl;
+  }
 }

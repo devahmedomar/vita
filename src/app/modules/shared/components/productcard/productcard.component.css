@@ -7,6 +7,7 @@
   padding: 10px;
   text-align: center;
   border: 0;
+  position: relative;
 }
 
 .price {
@@ -52,4 +53,14 @@
   color: white;
   cursor: pointer;
   font-weight: bold;
+}
+i{
+  position: absolute;
+  top:2%;
+  right: 2%;
+  font-size: 20px;
+  text-align: right;
+}
+.pi-heart-fill {
+  color: red; 
 }

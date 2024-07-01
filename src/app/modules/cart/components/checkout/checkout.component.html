@@ -141,7 +141,7 @@
         <div class="row pb-3 pt-3 total">
           <div class="col-6  fw-light">TOTAL</div>
           <div class="col-6 d-flex justify-content-end fw-bolder">
-            {{ cartSubtotal  | currency }}
+            {{ cartSubtotal + shippingCost | currency }}
           </div>
         </div>
 

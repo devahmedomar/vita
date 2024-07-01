@@ -4,24 +4,52 @@
   <p-card [header]="productCardData.name | slice:0:20" [style]="{color:'var(--secondaryColor)',margin:'0',paddingTop:'0'}" [subheader]="(productCardData.about| slice:0:100)" styleClass="product-card">
 
       <ng-template pTemplate="header">
+        <div class="d-flex align-items-center mt-3 wish" (click)="toggleWishlist(productCardData.productId)">
+          <div style="cursor: pointer;">
+            <ng-container *ngIf="productCardData.inWishlist; else notInWishlist">
+              <i class="pi pi-heart-fill me-2" [ngClass]="{'filled-heart': productCardData.inWishlist}"></i>
+            </ng-container>
+            <ng-template #notInWishlist>
+              <i class="pi pi-heart me-2" [ngClass]="{'outlined-heart': !productCardData.inWishlist}"></i>
+            </ng-template>
+          </div>
+          <p class="m-0 p-0" style="cursor: pointer;"></p>
+        </div>
           <a [routerLink]="getRouterLink()">
             <img alt="Card" [src]="productCardData.pictures[0]" />
           </a>
       </ng-template>
       <div *ngIf="DisplaySalePos()" class="sale-pos">-{{(((productCardData.priceBeforeDiscount - productCardData.priceAfterDiscount )/productCardData.priceBeforeDiscount)*100)| floor}}%</div>
       <div>
-        <p-rating [(ngModel)]="productCardData.reviews"  [cancel]="false" starStyleClass="custom-stars"/>
-        <div class="price">{{productCardData.priceAfterDiscount| currency:'USD'}}</div>
+      <div class="custom-rating-read-only" *ngIf="productCardData.rating !== undefined">
+        <span class="custom-star">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFAA8F" class="bi bi-star" [ngClass]="{'bi-star-fill filled-star': i < productCardData.rating, 'bi-star unfilled-star': i >= productCardData.rating}" *ngFor="let i of [1, 2, 3, 4, 5]">
+            <path *ngIf="i <= productCardData.rating" d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+            <path *ngIf="i > productCardData.rating" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/>
+          </svg>
+        </span>
+      </div>
+        <div class="price">
+          <ng-container *ngIf="productCardData.priceAfterDiscount !== 0; else showOriginalPrice">
+            {{ productCardData.priceAfterDiscount | currency:'USD':'symbol':'1.2-2' }}
+          </ng-container>
+          <ng-template #showOriginalPrice>
+            {{ productCardData.priceBeforeDiscount | currency:'USD':'symbol':'1.2-2' }}
+          </ng-template>
+        </div>
       </div>
       <ng-template pTemplate="footer">
-          <div class="flex gap-3 mt-1">
-            <!-- <button class="btn-main" [routerLink]="['/cart']">Add To cart</button> -->
-            <button class="btn-main" [disabled]="!isLoggedIn" (click)="onAddToCart(productCardData.productId)">Add To cart</button>
-          </div>
+        <div class="flex gap-3 mt-1">
+          <button class="btn-main" [disabled]="!isLoggedIn || productCardData.stockQuantity === 0" (click)="toggleCartAction()">
+            {{ isLoggedIn ? 
+                (productCardData.stockQuantity === 0 ? 'Out of Stock' : (productCardData.inCart ? 'Remove from Cart' : 'Add to Cart')) 
+                : 'Login to Add to Cart' }}
+          </button>
+        </div>
       </ng-template>
   </p-card>
-  <div *ngIf="notificationMessage" class="custom-notification" [ngClass]="{'success': notificationType === 'success', 'error': notificationType === 'error'}">
+  <!-- <div *ngIf="notificationMessage" class="custom-notification" [ngClass]="{'success': notificationType === 'success', 'error': notificationType === 'error'}">
     <div class="message">{{ notificationMessage }}</div>
     <button class="close-button" (click)="clearNotification()">Close</button>
-  </div>
+  </div> -->
 </div>

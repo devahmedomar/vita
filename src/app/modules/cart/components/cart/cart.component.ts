@@ -62,6 +62,8 @@ export class CartComponent {
       (response) => {
         if (!response.success) {
           console.error('Failed to update product quantity in cart:', response.message);
+        } else {
+          this.cartService.setSelectedQuantity(product.quantity);
         }
       },
       (error) => {
@@ -89,16 +91,16 @@ export class CartComponent {
 
   checkout(): void {
     if (this.cartProducts.length === 0) {
-      this.showCheckoutError = true; 
+      this.showCheckoutError = true;
       setTimeout(() => {
         this.showCheckoutError = false;
       }, 3000);
     } else {
-      this._Router.navigate(['/cart/checkout']); 
+      this._Router.navigate(['/cart/checkout']);
     }
   }
 
   closeNotification(): void {
-    this.showCheckoutError = false; 
+    this.showCheckoutError = false;
   }
 }

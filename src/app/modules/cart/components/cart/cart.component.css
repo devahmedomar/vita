@@ -63,3 +63,14 @@ table td
   cursor: pointer;
   font-weight: bold;
 }
+
+.not-bold{
+  font-weight: 400;}
+
+.shopBtn{
+  font-weight: 400;
+  background-color: transparent;
+  border: 1px solid #80aa27;
+  color: #80aa27;
+  text-transform: uppercase;
+}
