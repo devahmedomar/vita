@@ -11,7 +11,6 @@ import { ProductService } from 'src/app/services/product/product.service';
   styleUrls: ['./productcard.component.css']
 })
 export class ProductcardComponent implements OnInit {
-
   DataOfProduct:any=[];
   isLoggedIn: boolean = false;
   notificationMessage: string | null = null;

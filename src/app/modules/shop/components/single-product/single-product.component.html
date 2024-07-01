@@ -37,19 +37,24 @@
          {{singleProduct?.about}}
         </p>
         <div class="d-flex bg-white py-3">
-          <p-inputNumber [(ngModel)]="prodNumber" [showButtons]="true" buttonLayout="horizontal"
-            spinnerMode="horizontal" inputId="integeronly" [min]="1" [max]="singleProduct?.stockQuantity" inputId="horizontal"
-            decrementButtonClass="p-button-incdec" incrementButtonClass="p-button-incdec"
-            incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [disabled]="!isLoggedIn"/>
-            <button class="btn-main" *ngIf="isLoggedIn && !isInCart" [disabled]="!isLoggedIn" (click)="onAddToCart(singleProduct.productId)">
+          <p-inputNumber [(ngModel)]="selectedQuantity" [showButtons]="true" buttonLayout="horizontal"
+          spinnerMode="horizontal" inputId="integeronly" [min]="1" [max]="singleProduct?.stockQuantity"
+          decrementButtonClass="p-button-incdec" incrementButtonClass="p-button-incdec"
+          incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [disabled]="!isLoggedIn || singleProduct?.stockQuantity == 0 || isInCart">
+          </p-inputNumber>
+            <button class="btn-main" *ngIf="isLoggedIn && !isInCart && singleProduct?.stockQuantity > 0" (click)="onAddToCart(singleProduct.productId)">
               Add To Cart
             </button>
-            <button class="btn-main" *ngIf="isLoggedIn && isInCart" [disabled]="!isLoggedIn" (click)="onRemoveFromCart(singleProduct.productId)">
+            <button class="btn-main" *ngIf="isLoggedIn && isInCart" (click)="onRemoveFromCart(singleProduct.productId)">
               Remove from Cart
             </button>
-            <button class="btn-main" disabled *ngIf="!isLoggedIn">
+            <button class="btn-main" *ngIf="!isLoggedIn">
               Please login to add to cart
             </button>
+            <button class="btn-main" disabled *ngIf="isLoggedIn && singleProduct?.stockQuantity === 0">
+              Out of Stock
+            </button>
+            
                       
         </div>
         <!-- <div *ngIf="notificationMessage" class="custom-notification" [ngClass]="{'success': notificationType === 'success', 'error': notificationType === 'error'}">

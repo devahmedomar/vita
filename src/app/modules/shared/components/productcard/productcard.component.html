@@ -40,9 +40,11 @@
       </div>
       <ng-template pTemplate="footer">
         <div class="flex gap-3 mt-1">
-          <button class="btn-main" [disabled]="!isLoggedIn" (click)="toggleCartAction()">
-            {{ isLoggedIn ? (productCardData.inCart ? 'Remove from Cart' : 'Add to Cart') : 'Login to add to cart' }}
-          </button>          
+          <button class="btn-main" [disabled]="!isLoggedIn || productCardData.stockQuantity === 0" (click)="toggleCartAction()">
+            {{ isLoggedIn ? 
+                (productCardData.stockQuantity === 0 ? 'Out of Stock' : (productCardData.inCart ? 'Remove from Cart' : 'Add to Cart')) 
+                : 'Login to Add to Cart' }}
+          </button>
         </div>
       </ng-template>
   </p-card>

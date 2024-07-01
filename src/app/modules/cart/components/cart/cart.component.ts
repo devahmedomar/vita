@@ -62,6 +62,8 @@ export class CartComponent {
       (response) => {
         if (!response.success) {
           console.error('Failed to update product quantity in cart:', response.message);
+        } else {
+          this.cartService.setSelectedQuantity(product.quantity);
         }
       },
       (error) => {
