@@ -32,7 +32,7 @@
             <div class="price text-black">{{ singleProduct?.priceAfterDiscount | currency:'USD' }}</div>
           </ng-container>
         </div>
-        
+
         <p class="text-muted desc">
          {{singleProduct?.about}}
         </p>
@@ -51,11 +51,12 @@
             <button class="btn-main" *ngIf="!isLoggedIn">
               Please login to add to cart
             </button>
+
             <button class="btn-main" disabled *ngIf="isLoggedIn && singleProduct?.stockQuantity === 0">
               Out of Stock
             </button>
-            
-                      
+
+
         </div>
         <!-- <div *ngIf="notificationMessage" class="custom-notification" [ngClass]="{'success': notificationType === 'success', 'error': notificationType === 'error'}">
           <div class="message">{{ notificationMessage }}</div>
@@ -72,8 +73,8 @@
           </div>
           <p class="m-0 p-0" style="cursor: pointer;">{{ isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist' }}</p>
         </div>
-              
-               
+
+
         <div class="category my-3">
           <span class="fs-5 text-muted">Category: </span>
           <span class="fs-6 ms-2">{{category?.name}}</span>
@@ -89,7 +90,7 @@
               type="button" role="tab" aria-controls="reviews-tab-pane" aria-selected="true">REVIEWS</button>
           </li>
         </ul>
-    
+
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="reviews-tab-pane" role="tabpanel" aria-labelledby="reviews-tab">
             <div *ngIf="reviews && reviews.length > 0">
@@ -130,10 +131,10 @@
         <div *ngIf="!reviews || reviews.length === 0">
           <p class="text-uppercase">No reviews available for this product.</p>
         </div>
-        
+
         </div>
       </div>
-    
+
       <div class="col-md-6">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
@@ -143,7 +144,7 @@
             </button>
           </li>
         </ul>
-    
+
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="add-edit-review-tab-pane" role="tabpanel" aria-labelledby="add-edit-review-tab">
             <div class="mt-4">
@@ -171,14 +172,14 @@
                   <button type="button" class="removeBtn" (click)="deleteReview(existingReview.reviewId)" [disabled]="!isLoggedIn || reviewForm.invalid">Delete Review</button>
                 </div>
               </form>
-              
-              
+
+
             </div>
           </div>
         </div>
       </div>
     </div>
-    
+
        <!-- <div class="row related">
         <h2>Related products</h2>
         <div class="row">
