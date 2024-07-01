@@ -88,7 +88,8 @@
                 <a href="#" class="nav-link"><span>{{ category.name }}</span><i class="pi pi-chevron-right"></i></a>
                 <ul>
                   <li *ngFor="let subCategory of category.subCategories">
-                    <a href="#" class="nav-link">{{ subCategory.name }}</a>
+                    <a [href]="'https://www.vitaparapharma.com/#/store?category=' + subCategory.categoryId"
+                    class="nav-link" target="_blank"> {{ subCategory.name }}</a>
                   </li>
                 </ul>
               </li>
