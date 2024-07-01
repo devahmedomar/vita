@@ -42,6 +42,10 @@
             {{ blog.title }}
           </h2>
 
+          <div *ngIf="blog.tags && blog.tags.length > 0">
+            <span *ngFor="let tag of blog.tags" class="tag">{{ tag }}</span>
+          </div>
+
           <div class="entry-meta">
             <ul>
               <li class="d-flex align-items-center">
@@ -67,23 +71,19 @@
           <div class="d-flex align-items-center">
             <a *ngIf="isLoggedIn" class="me-3 text-dark" [class.liked]="alreadyLiked" (click)="likeBlog()">
               <i class="pi" [ngClass]="{'pi-thumbs-up-fill': alreadyLiked, 'pi-thumbs-up': !alreadyLiked, 'text-like': alreadyLiked}"></i>
-              <!-- {{ blog.likes }} -->
             </a>
             <a *ngIf="!isLoggedIn" class="me-3 text-dark disabled-action">
               <i class="pi pi-thumbs-up"></i>
-              <!-- {{ blog.likes }} -->
             </a>
           
             <a *ngIf="isLoggedIn" class="me-3 text-dark" [class.disliked]="alreadyDisliked" (click)="dislikeBlog()">
               <i class="pi" [ngClass]="{'pi-thumbs-down-fill': alreadyDisliked, 'pi-thumbs-down': !alreadyDisliked, 'text-dislike': alreadyDisliked}"></i>
-              <!-- {{ blog.dislikes }} -->
             </a>
             <a *ngIf="!isLoggedIn" class="me-3 text-dark disabled-action">
               <i class="pi pi-thumbs-down"></i>
-              <!-- {{ blog.dislikes }} -->
             </a>
           
-            <a href="#" *ngIf="isLoggedIn" class="me-3">
+            <a [href]="getFacebookShareUrl(blog.blogPostId)" target="_blank" *ngIf="isLoggedIn" class="me-3" style="cursor: pointer;">
               <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M3.62207 1.03282H6.50893C6.85409 1.03282 7.13393 1.31264 7.13393 1.65782C7.13393 1.97424 6.89876 2.23573 6.59368 2.27711L6.50893 2.28282H3.62207C2.62969 2.28282 1.81737 3.05379 1.7514 4.02944L1.74707 4.15782V12.0745C1.74707 13.0669 2.51804 13.8792 3.4937 13.9452L3.62207 13.9495H11.5393C12.5318 13.9495 13.344 13.1785 13.41 12.2029L13.4143 12.0745V11.6597C13.4143 11.3145 13.6942 11.0347 14.0393 11.0347C14.3558 11.0347 14.6173 11.2698 14.6587 11.5749L14.6643 11.6597V12.0745C14.6643 13.7447 13.354 15.1089 11.7053 15.1951L11.5393 15.1995H3.62207C1.95185 15.1995 0.587679 13.8892 0.501404 12.2405L0.49707 12.0745V4.15782C0.49707 2.4876 1.80737 1.12343 3.4561 1.03715L3.62207 1.03282ZM10.0838 3.1327V0.824487C10.0838 0.304512 10.6727 0.0244449 11.0728 0.315987L11.1413 0.373437L16.1368 5.1651C16.37 5.38873 16.3913 5.74791 16.2005 5.99621L16.1369 6.06712L11.1414 10.8604C10.7662 11.2204 10.1563 10.9892 10.0897 10.4985L10.0838 10.4094V8.13829L9.79751 8.16337C7.79776 8.37195 5.88104 9.2727 4.03536 10.8806C3.60277 11.2575 2.93349 10.9011 3.00464 10.3319C3.55863 5.8989 5.87686 3.45557 9.83426 3.14907L10.0838 3.1327ZM11.3338 2.29002V3.74115C11.3338 4.08633 11.0539 4.36615 10.7088 4.36615C7.48093 4.36615 5.48038 5.76293 4.61601 8.66379L4.55013 8.89595L4.84362 8.69862C6.70734 7.48045 8.66518 6.86612 10.7088 6.86612C11.0252 6.86612 11.2867 7.10129 11.328 7.40637L11.3338 7.49112V8.94354L14.8014 5.61623L11.3338 2.29002Z" fill="#2C2C2C" fill-opacity="0.87"/>
               </svg>
