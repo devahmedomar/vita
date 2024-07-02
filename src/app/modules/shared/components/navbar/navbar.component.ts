@@ -1,5 +1,5 @@
 import { INotification } from 'src/app/models/inotification';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
@@ -20,6 +20,8 @@ export class NavbarComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   notifications: INotification[] = [];
   showNotifications = false;
+  isMobile: boolean = false;
+  isDesktop:boolean = true;
   lang: string = '';
 
   constructor(
@@ -41,8 +43,19 @@ export class NavbarComponent implements OnInit {
       }
     });
     this.fetchNotifications();
+    this.checkScreenSize();
     this.lang = localStorage.getItem('lang') || 'en';
     this.translate.use(this.lang);
+  }
+  
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isDesktop = window.innerWidth >= 991.98;
+    this.isMobile = window.innerWidth <= 991.98;
   }
 
   signOut(): void {
@@ -95,6 +108,7 @@ export class NavbarComponent implements OnInit {
       queryParams: { mainCategory: mainCategoryId },
     });
   }
+  
   changeLang(Lang: any) {
     const selectedLanguage = Lang.target.value;
     localStorage.setItem('lang', selectedLanguage);

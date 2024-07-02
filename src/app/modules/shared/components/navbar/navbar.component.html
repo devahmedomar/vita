@@ -35,7 +35,7 @@
       </button>
 
       <section class="d-flex right" *ngIf="isLoggedIn$ | async">
-        <a (click)="toggleSearchBar()"><i class="pi pi-search text-3xl"></i></a>
+        <a (click)="toggleSearchBar()"><i class="pi pi-search text-3xl" *ngIf="!isMobile"></i></a>
   
         <a (click)="toggleNotifications()"><i class="pi pi-bell text-3xl"></i></a>
         <!-- <p-badge [value]="unreadNotificationsCount()" severity="danger"></p-badge> -->
@@ -73,6 +73,10 @@
           </i>
         </a>
       </section>
+      <div class="search-input-container d-lg-none mt-2" (click)="toggleSearchBar()" *ngIf="isMobile">
+        <input type="text" placeholder="Search..." class="search-input">
+        <!-- <i class="pi pi-search"></i> -->
+      </div>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
