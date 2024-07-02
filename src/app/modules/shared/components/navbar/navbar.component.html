@@ -85,15 +85,20 @@
             <a href="#" class="nav-link"><span>{{'categories'|translate}}</span> <i class="pi pi-chevron-down"></i></a>
             <ul class="dropdown-menu">
               <li *ngFor="let category of mainCategories" class="dropdown">
-                <a href="#" class="nav-link"><span>{{ category.name }}</span><i class="pi pi-chevron-right"></i></a>
+                <a class="nav-link" (click)="navigateToMainCategory(category.categoryId)">
+                  <span>{{ category.name }}</span><i class="pi pi-chevron-right"></i>
+                </a>
                 <ul>
                   <li *ngFor="let subCategory of category.subCategories">
-                    <a [href]="'https://www.vitaparapharma.com/#/store?category=' + subCategory.categoryId"
-                    class="nav-link" target="_blank"> {{ subCategory.name }}</a>
+                    <a
+                      class="nav-link"
+                      (click)="navigateToSubCategory(subCategory.categoryId)">
+                      {{ subCategory.name }}
+                    </a>
                   </li>
                 </ul>
               </li>
-            </ul>
+            </ul>  
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="/shop" routerLinkActive="active">{{'shop'|translate}}</a>
