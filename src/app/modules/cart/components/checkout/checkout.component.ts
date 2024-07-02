@@ -25,7 +25,7 @@ export class CheckoutComponent implements OnInit {
   cartProducts: Icart[] = [];
   cartSubtotal: number = 0;
   cartTotal: number = 0;
-  shippingCost: number = 30;
+  shippingCost: number = 0;
   selectedAddressId: number = 0;
   errorMessage: string = '';
 

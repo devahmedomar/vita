@@ -19,7 +19,7 @@ export class CartComponent {
   cartProducts: Icart[] = [];
   subtotal: number = 0;
   cartSubtotal: number = 0;
-  shippingCost: number = 30;
+  shippingCost: number = 0;
   cartTotal: number = 0;
   showCheckoutError: boolean = false;
 
@@ -91,16 +91,16 @@ export class CartComponent {
 
   checkout(): void {
     if (this.cartProducts.length === 0) {
-      this.showCheckoutError = true; 
+      this.showCheckoutError = true;
       setTimeout(() => {
         this.showCheckoutError = false;
       }, 3000);
     } else {
-      this._Router.navigate(['/cart/checkout']); 
+      this._Router.navigate(['/cart/checkout']);
     }
   }
 
   closeNotification(): void {
-    this.showCheckoutError = false; 
+    this.showCheckoutError = false;
   }
 }

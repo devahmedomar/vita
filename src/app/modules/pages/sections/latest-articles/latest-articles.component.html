@@ -1,7 +1,7 @@
 <section class="articles main-section">
   <div class="container">
-    <div class="text-center latest text-uppercase">Our latest</div>
-    <h2 class="text-center text-uppercase">Articles</h2>
+    <div class="text-center latest text-uppercase">{{'latest'|translate}}</div>
+    <h2 class="text-center text-uppercase">{{'article_head'|translate}}</h2>
     <div class="row" *ngIf="blogPosts.length">
       <div class="col-md-6 mb-3" *ngFor="let post of blogPosts | slice:0:4">
         <div class="row">

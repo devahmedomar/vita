@@ -1,6 +1,7 @@
 import { INotification } from 'src/app/models/inotification';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
 import { IMainCategory } from 'src/app/models/icategory';
 import { LoginService } from 'src/app/services/auth/login/login.service';
@@ -20,8 +21,14 @@ export class NavbarComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   notifications: INotification[] = [];
   showNotifications = false;
+  lang:string='';
 
-  constructor(private categoryService: CategoryService, private cartService: CartService, private router: Router, private loginService: LoginService, private notificationService: NotificationService) {
+  constructor(private categoryService: CategoryService,
+    private cartService: CartService,
+    private router: Router,
+    private loginService: LoginService, private notificationService: NotificationService,
+    private translate:TranslateService
+  ) {
     this.cartCount$ = this.cartService.cartCount$;
     this.isLoggedIn$ = this.loginService.isLoggedIn$();
   }
@@ -33,6 +40,8 @@ export class NavbarComponent implements OnInit {
       }
     });
     this.fetchNotifications();
+    this.lang = localStorage.getItem('lang') || 'en';
+    this.translate.use(this.lang);
   }
 
   signOut(): void {
@@ -51,10 +60,10 @@ export class NavbarComponent implements OnInit {
         (error) => console.error('Error fetching notifications', error)
       );
     } else {
-      this.notifications = []; 
+      this.notifications = [];
     }
   }
-  
+
   toggleNotifications(): void {
     this.showNotifications = !this.showNotifications;
   }
@@ -62,7 +71,7 @@ export class NavbarComponent implements OnInit {
   unreadNotificationsCount(): number {
     return this.notifications.filter(notification => !notification.read).length;
   }
-  
+
   formatDate(dateStr: string): string {
     const date = new Date(dateStr);
     const options: Intl.DateTimeFormatOptions = {
@@ -72,11 +81,19 @@ export class NavbarComponent implements OnInit {
     return new Intl.DateTimeFormat('en-US', options).format(date);
   }
 
+
   navigateToSubCategory(categoryId: number) {
     this.router.navigate(['/shop'], { queryParams: { category: categoryId } });
   }
   
   navigateToMainCategory(mainCategoryId: number): void {
     this.router.navigate(['/shop'], { queryParams: { mainCategory: mainCategoryId } });
+
+  changeLang(Lang:any){
+    const selectedLanguage = Lang.target.value;
+    localStorage.setItem('lang', selectedLanguage);
+    this.translate.use(selectedLanguage);
+
+
   }
 }
