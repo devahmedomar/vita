@@ -9,7 +9,6 @@ import { CartService } from 'src/app/services/cart/cart.service';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 
-
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -21,13 +20,15 @@ export class NavbarComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   notifications: INotification[] = [];
   showNotifications = false;
-  lang:string='';
+  lang: string = '';
 
-  constructor(private categoryService: CategoryService,
+  constructor(
+    private categoryService: CategoryService,
     private cartService: CartService,
     private router: Router,
-    private loginService: LoginService, private notificationService: NotificationService,
-    private translate:TranslateService
+    private loginService: LoginService,
+    private notificationService: NotificationService,
+    private translate: TranslateService
   ) {
     this.cartCount$ = this.cartService.cartCount$;
     this.isLoggedIn$ = this.loginService.isLoggedIn$();
@@ -56,7 +57,7 @@ export class NavbarComponent implements OnInit {
   fetchNotifications(): void {
     if (this.loginService.isLoggedIn$()) {
       this.notificationService.getNotifications().subscribe(
-        (data: INotification[]) => this.notifications = data,
+        (data: INotification[]) => (this.notifications = data),
         (error) => console.error('Error fetching notifications', error)
       );
     } else {
@@ -69,31 +70,34 @@ export class NavbarComponent implements OnInit {
   }
 
   unreadNotificationsCount(): number {
-    return this.notifications.filter(notification => !notification.read).length;
+    return this.notifications.filter((notification) => !notification.read)
+      .length;
   }
 
   formatDate(dateStr: string): string {
     const date = new Date(dateStr);
     const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric', month: 'short', day: 'numeric',
-      hour: '2-digit', minute: '2-digit'
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     };
     return new Intl.DateTimeFormat('en-US', options).format(date);
   }
 
-
   navigateToSubCategory(categoryId: number) {
     this.router.navigate(['/shop'], { queryParams: { category: categoryId } });
   }
-  
-  navigateToMainCategory(mainCategoryId: number): void {
-    this.router.navigate(['/shop'], { queryParams: { mainCategory: mainCategoryId } });
 
-  changeLang(Lang:any){
+  navigateToMainCategory(mainCategoryId: number): void {
+    this.router.navigate(['/shop'], {
+      queryParams: { mainCategory: mainCategoryId },
+    });
+  }
+  changeLang(Lang: any) {
     const selectedLanguage = Lang.target.value;
     localStorage.setItem('lang', selectedLanguage);
     this.translate.use(selectedLanguage);
-
-
   }
 }
