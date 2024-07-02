@@ -1,9 +1,9 @@
-// shop.component.ts
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Ibreadcrumb } from 'src/app/models/ibreadcrumb';
 import { iProduct } from 'src/app/models/iproduct';
 import { ProductService } from 'src/app/services/product/product.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
@@ -22,10 +22,21 @@ export class ShopComponent implements OnInit {
   totalItems = 0;
   selectedSortOption = 'default';
 
-  constructor(private productService: ProductService, private spinner: NgxSpinnerService) {}
+  constructor(private productService: ProductService, private spinner: NgxSpinnerService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.fetchProducts();
+    this.route.queryParams.subscribe(params => {
+      const mainCategoryId = +params['mainCategory'];
+      const subCategoryId = +params['category'];
+
+      if (mainCategoryId) {
+        this.fetchProductsByMainCategory(mainCategoryId);
+      } else if (subCategoryId) {
+        this.fetchProductsBySubCategory(subCategoryId);
+      } else {
+        this.fetchProducts();
+      }
+    });
   }
 
   fetchProducts(): void {
@@ -43,6 +54,43 @@ export class ShopComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching products', error);
+        this.spinner.hide();
+      }
+    );
+  }
+
+  fetchProductsBySubCategory(categoryId: number): void {
+    this.spinner.show();
+    this.productService.getProductsBySubCategory(categoryId).subscribe(
+      (data: any) => {
+        if (data && data.success && Array.isArray(data.data.products)) {
+          this.products = data.data.products;
+        } else {
+          this.products = [];
+          console.error('Error fetching products or unexpected data format');
+        }
+        this.totalItems = this.products.length;
+        this.paginateAndSort();
+        this.spinner.hide();
+      },
+      (error) => {
+        console.error('Error fetching category products', error);
+        this.spinner.hide();
+      }
+    );
+  }
+
+  fetchProductsByMainCategory(mainCategoryId: number): void {
+    this.spinner.show();
+    this.productService.getProductsByMainCategory(mainCategoryId).subscribe(
+      (data: any[]) => {
+        this.products = data;
+        this.totalItems = this.products.length;
+        this.paginateAndSort();
+        this.spinner.hide();
+      },
+      (error) => {
+        console.error('Error fetching products by main category:', error);
         this.spinner.hide();
       }
     );

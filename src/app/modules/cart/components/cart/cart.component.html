@@ -17,7 +17,7 @@
         <tbody>
           <tr *ngFor="let product of cartProducts">
             <td colspan="2">
-              <div class="row contain">
+              <div class="row contain" [routerLink]="['/shop/', product.productId]">
                 <div class="col-3">
                   <img [src]="product.pictureUrl" class="prodimage" alt="">
                 </div>

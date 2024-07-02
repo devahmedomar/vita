@@ -17,16 +17,36 @@ export class ProductService {
     this.apiUrl = environment.baseUrl + 'v4/public/product/'+id;
     return this._HttpClient.get<any>(this.apiUrl)
   }
+
   getCategoryListOfProduct(id:number):Observable<any>{
     this.apiUrl = environment.baseUrl + 'v1/public/category/all-lang/'+id;
     return this._HttpClient.get<any>(this.apiUrl)
   }
+
   getAllProducts(): Observable<iProduct[]> {
     return this._HttpClient.get<iProduct[]>(this.ProductUrl + '/all');
   }
 
-  getProductsByCategory(categoryId: number): Observable<any[]> {
-    return this._HttpClient.get<any[]>(`${this.ProductUrl + '/category/'}${categoryId}`);
+  getProductsBySubCategory(categoryId: number): Observable<any[]> {
+    this.apiUrl = environment.baseUrl + 'v4/public/product/category/'+ categoryId;
+    return this._HttpClient.get<any[]>(this.apiUrl);
+  }
+
+  getProductsByMainCategory(mainCategoryId: number): Observable<any[]> {
+    this.apiUrl = environment.baseUrl + 'v4/public/product/main/category/'+ mainCategoryId;
+    return this._HttpClient.get<any>(this.apiUrl).pipe(
+      map(response => {
+        if (response && response.success && response.data && Array.isArray(response.data.products)) {
+          return response.data.products;
+        } else {
+          throw new Error('Invalid response format or empty response');
+        }
+      }),
+      catchError(error => {
+        console.error('Error fetching products by main category:', error);
+        return throwError('Error fetching products by main category: ' + error.message);
+      })
+    );
   }
 
   getWishlist(): Observable<string[]> {
