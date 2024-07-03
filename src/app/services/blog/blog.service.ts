@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
 import { Blog } from 'src/app/models/blog';
@@ -16,13 +16,11 @@ export class BlogService implements OnDestroy {
   constructor(
     private _HttpClient: HttpClient,
     private translate: TranslateService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
+    private router: Router
   ) {
-    // Initialize language from localStorage or default to 'en'
+
     this.translate.use(localStorage.getItem('lang') || 'en');
 
-    // Subscribe to language change events
     this.langChangeSubscription = this.translate.onLangChange.subscribe(event => {
       this.refreshPage();
     });
@@ -44,7 +42,6 @@ export class BlogService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Unsubscribe from language change events when the service is destroyed
     if (this.langChangeSubscription) {
       this.langChangeSubscription.unsubscribe();
     }
@@ -88,5 +85,10 @@ export class BlogService implements OnDestroy {
       Authorization: `Bearer ${token}`
     });
     return this._HttpClient.put(url, {}, { headers });
+  }
+
+  getTags(): Observable<string[]> {
+    const url = 'https://api.vitaparapharma.com/api/v4/public/tag';
+    return this._HttpClient.get<string[]>(url);
   }
 }
