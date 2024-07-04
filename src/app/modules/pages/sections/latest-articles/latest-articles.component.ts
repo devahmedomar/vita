@@ -18,6 +18,9 @@ export class LatestArticlesComponent implements OnInit {
     this._BlogService.getBlogs().subscribe({
       next:(res) => {
         this.blogPosts = res.data.posts;
+        this.blogPosts.sort((a, b) => {
+          return new Date(b.creation).getTime() - new Date(a.creation).getTime();
+        });
         // console.log(this.blogPosts);
 
       },

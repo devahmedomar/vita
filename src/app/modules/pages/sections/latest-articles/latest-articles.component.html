@@ -11,9 +11,8 @@
           <div class="article-details col-6">
             <div class="d-flex justify-content-center align-items-start flex-column p-3">
               <h4>{{post.title}}</h4>
-              <ul>
-                <li>Beauty</li>
-                <li>Fashion</li>
+              <ul *ngFor="let tag of post.tags">
+                <li>{{tag}}</li>
               </ul>
               <a  [routerLink]="['/blog', post.blogPostId]" class="text-uppercase read">read more</a>
             </div>
