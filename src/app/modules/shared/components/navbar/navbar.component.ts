@@ -1,5 +1,5 @@
 import { INotification } from 'src/app/models/inotification';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
@@ -20,7 +20,11 @@ export class NavbarComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   notifications: INotification[] = [];
   showNotifications = false;
+  isMobile: boolean = false;
+  isDesktop: boolean = true;
   lang: string = '';
+  isRTL: boolean = false;
+  private langChangeSubscription: Subscription = new Subscription();
 
   constructor(
     private categoryService: CategoryService,
@@ -35,14 +39,33 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.categoryService.getMainandSubCategories().subscribe((data: any) => {
-      if (data && data.success) {
-        this.mainCategories = data.data.mainCategories;
-      }
-    });
+    this.fetchCategories();
     this.fetchNotifications();
+    this.checkScreenSize();
     this.lang = localStorage.getItem('lang') || 'en';
     this.translate.use(this.lang);
+    this.updateDirection(this.lang);
+
+    this.langChangeSubscription = this.translate.onLangChange.subscribe((event) => {
+      this.fetchCategories();
+      this.updateDirection(event.lang);
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.langChangeSubscription) {
+      this.langChangeSubscription.unsubscribe();
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isDesktop = window.innerWidth >= 991.98;
+    this.isMobile = window.innerWidth <= 991.98;
   }
 
   signOut(): void {
@@ -52,6 +75,12 @@ export class NavbarComponent implements OnInit {
 
   toggleSearchBar() {
     this.router.navigate(['/search']);
+  }
+
+  fetchCategories(): void {
+    this.categoryService.getMainandSubCategories().subscribe((data: IMainCategory[]) => {
+      this.mainCategories = data;
+    });
   }
 
   fetchNotifications(): void {
@@ -70,8 +99,7 @@ export class NavbarComponent implements OnInit {
   }
 
   unreadNotificationsCount(): number {
-    return this.notifications.filter((notification) => !notification.read)
-      .length;
+    return this.notifications.filter((notification) => !notification.read).length;
   }
 
   formatDate(dateStr: string): string {
@@ -95,9 +123,19 @@ export class NavbarComponent implements OnInit {
       queryParams: { mainCategory: mainCategoryId },
     });
   }
-  changeLang(Lang: any) {
-    const selectedLanguage = Lang.target.value;
+
+  changeLang(event: Event) {
+    const selectedLanguage = (event.target as HTMLSelectElement).value;
     localStorage.setItem('lang', selectedLanguage);
     this.translate.use(selectedLanguage);
+    this.updateDirection(selectedLanguage);
+  }
+
+  updateDirection(lang: string) {
+    this.isRTL = lang === 'ar';
+    const direction = this.isRTL ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-dir="direction-sensitive"]').forEach((el) => {
+      (el as HTMLElement).setAttribute('dir', direction);
+    });
   }
 }

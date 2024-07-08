@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { IReview } from 'src/app/models/ireview';
 import { ReviewService } from 'src/app/services/review/review.service';
 import { NgForm } from '@angular/forms';
+import { ProfileService } from 'src/app/services/profile/profile.service';
 
 @Component({
   selector: 'app-single-product',
@@ -17,6 +18,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./single-product.component.css'],
 })
 export class SingleProductComponent implements OnInit {
+  profileImageUrl: string | null = null;
   notificationMessage: string | null = null;
   notificationType: 'success' | 'error' = 'success';
   isLoggedIn: boolean = false;
@@ -45,11 +47,12 @@ export class SingleProductComponent implements OnInit {
     private loginService: LoginService,
     private cartService: CartService,
     private spinner: NgxSpinnerService,
-    private reviewService: ReviewService
+    private reviewService: ReviewService,
+    private profileService: ProfileService
   ) {}
 
   ngOnInit(): void {
-    
+
     this.loginService.isLoggedIn$().subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
     });
@@ -64,13 +67,35 @@ export class SingleProductComponent implements OnInit {
 
     this.getSingleProduct();
     this.loadReviews();
-    
+
     if(this.isLoggedIn)
     this.fetchUserReview();
 
     this.cartService.getSelectedQuantity().subscribe(quantity => {
       this.selectedQuantity = quantity;
     });
+    this.loadUserProfile();
+  }
+  loadUserProfile() {
+    const authToken = localStorage.getItem('eToken');
+
+    if (authToken) {
+      this.profileService.getProfile().subscribe(
+        response => {
+          if (response && response.data && response.data.user) {
+            this.profileImageUrl = response.data.user.picture || 'assets/images/icons/user.png';
+          } else {
+            this.profileImageUrl = 'assets/images/icons/user.png';
+          }
+        },
+        error => {
+          console.error('Error fetching profile data', error);
+          this.profileImageUrl = 'assets/images/icons/user.png';
+        }
+      );
+    } else {
+      this.profileImageUrl = 'assets/images/icons/user.png';
+    }
   }
 
   getSingleProduct() {
@@ -96,7 +121,7 @@ export class SingleProductComponent implements OnInit {
 
   fetchSelectedQuantity() {
     const cartItem = localStorage.getItem(`product_${this.productId}_quantity`);
-    this.selectedQuantity = cartItem ? JSON.parse(cartItem) : 1; 
+    this.selectedQuantity = cartItem ? JSON.parse(cartItem) : 1;
   }
 
   getCategoriesById() {
@@ -126,13 +151,13 @@ export class SingleProductComponent implements OnInit {
     const cartItem = localStorage.getItem(`product_${this.productId}_inCart`);
     this.isInCart = cartItem ? JSON.parse(cartItem) : false;
   }
-  
+
   onAddToCart(productId: number) {
     if (!this.isLoggedIn) {
       this.showNotification('Please login first.', 'error');
       return;
     }
-  
+
     this.cartService.updateCart(productId, this.selectedQuantity).subscribe(
       () => {
         this.isInCart = true;
@@ -146,7 +171,7 @@ export class SingleProductComponent implements OnInit {
       }
     );
   }
-  
+
   onRemoveFromCart(productId: number) {
     this.cartService.removeFromCart(productId).subscribe(
       (response) => {
@@ -309,7 +334,7 @@ export class SingleProductComponent implements OnInit {
       }
     });
   }
-    
+
   hasUserReviewed(): boolean {
     return this.existingReview !== null;
   }
@@ -317,23 +342,23 @@ export class SingleProductComponent implements OnInit {
   submitReview(): void {
     const token = this.loginService.getAuthToken() as string;
     const productIdNumber = Number(this.productId);
-  
+
     if (isNaN(productIdNumber)) {
       console.error('Invalid productId:', this.productId);
       return;
     }
-  
+
     if (this.reviewForm.valid) {
       if (this.newReview.rating === 0) {
         this.showNotification('Rating is required.', 'error');
         return;
       }
-  
+
       if (!this.newReview.comment || this.newReview.comment.length < 2 || this.newReview.comment.length > 200) {
         this.showNotification('Comment is required (2-200 characters).', 'error');
         return;
       }
-  
+
       if (this.existingReview) {
         this.reviewService
           .updateReview(
@@ -386,14 +411,14 @@ export class SingleProductComponent implements OnInit {
       this.showNotification('Form is invalid. Cannot submit review.', 'error');
     }
   }
-  
+
 
   editReview(): void {
     if (!this.existingReview) {
       console.error('No existing review to edit');
       return;
     }
-  
+
     const token = this.loginService.getAuthToken() as string;
     const reviewId = this.existingReview.reviewId;
     const newRating = +this.newReview.rating;
@@ -420,7 +445,7 @@ export class SingleProductComponent implements OnInit {
       this.showNotification('Form is invalid or comment length is not within limits.', 'error');
     }
   }
-  
+
   resetReviewForm(): void {
     this.newReview = { rating: 0, comment: '' };
   }
@@ -428,12 +453,12 @@ export class SingleProductComponent implements OnInit {
   deleteReview(reviewId: number): void {
     const token = this.loginService.getAuthToken() as string;
     const productIdNumber = Number(this.productId);
-  
+
     if (isNaN(productIdNumber)) {
       console.error('Invalid productId:', this.productId);
       return;
     }
-  
+
     if (this.reviewForm.valid) {
       this.reviewService.deleteReview(reviewId, token)
         .subscribe(
@@ -457,6 +482,6 @@ export class SingleProductComponent implements OnInit {
     } else {
       this.showNotification('Form is invalid. Cannot delete review.', 'error');
     }
-  }  
+  }
 
 }

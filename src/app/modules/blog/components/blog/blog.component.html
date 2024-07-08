@@ -1,127 +1,95 @@
 <app-navbar></app-navbar>
 <app-breadcrumb [breadcrumbData]="blogBreadCrumbData"></app-breadcrumb>
 
-<!-- ======= Blog Section ======= -->
 <section id="blog" class="blog">
   <div class="container" data-aos="fade-up">
-
     <div class="row">
-
       <div class="col-lg-8 entries">
+        <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#80AA27" type="ball-spin-clockwise"></ngx-spinner>
+          <article
+            class="entry row"
+            *ngFor="let post of paginatedBlogArr; let i = index"
+          >
+            <div class="entry-img col-md-4 position-relative">
+              <img [src]="post.picture" alt="" class="img-fluid h-100" />
+              <div class="layer">
+                {{ post.creation | date : "dd-MM-yyyy" }}
+              </div>
+            </div>
 
-       <article class="entry row" *ngFor="let post of blogArr; let i = index">
+            <div class="right col-md-8">
+              <h2 class="entry-title">
+                <a [routerLink]="'/blog/' + post.blogPostId">{{
+                  post.title
+                }}</a>
+              </h2>
+              <div class="entry-content" [innerHTML]="safeBlogContent[i]"></div>
+              <div class="read-more">
+                <a [routerLink]="'/blog/' + post.blogPostId">Read More</a>
+              </div>
+            </div>
+          </article>
 
-    <div class="entry-img col-md-4 position-relative">
-      <img [src]="post.picture" alt="" class="img-fluid h-100">
-      <div class="layer">
-        {{ post.creation }}
+          <div class="blog-pagination" *ngIf="totalPages > 1">
+            <ul class="pagination justify-content-center">
+              <li
+                *ngFor="
+                  let page of [].constructor(totalPages);
+                  let index = index
+                "
+                [class.active-page]="index + 1 === currentPage"
+              >
+                <a class="page-link" (click)="changePage(index + 1)">{{
+                  index + 1
+                }}</a>
+              </li>
+            </ul>
+          </div>
       </div>
-    </div>
-
-    <div class="right col-md-8">
-      <h2 class="entry-title"><a [routerLink]="'/blog/' + post.blogPostId">{{post.title}}</a></h2>
-      <div class="entry-content" [innerHTML]="safeBlogContent[i]">
-      </div>
-      <div class="read-more">
-        <a [routerLink]="'/blog/' + post.blogPostId">Read More</a>
-      </div>
-    </div>
-</article>
-
-
-
-
-        <div class="blog-pagination">
-          <ul class="justify-content-center">
-            <li><a href="#">1</a></li>
-            <li class="active"><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-          </ul>
-        </div>
-
-      </div><!-- End blog entries list -->
 
       <div class="col-lg-4">
-
         <div class="sidebar">
-
           <h3 class="sidebar-title">Search</h3>
+
           <div class="sidebar-item search-form">
-            <form action="">
-              <input type="text" placeholder="Search ...">
+            <form (submit)="search()">
+              <input
+                type="text"
+                [attr.placeholder]="noResults ? 'No results found' : 'Search ...'"
+                [(ngModel)]="term"
+                name="searchTerm"
+                [ngClass]="{ 'no-results-placeholder': noResults }"
+              />
               <button type="submit"><i class="pi pi-search"></i></button>
             </form>
-          </div><!-- End sidebar search formn-->
-
-          <!-- <h3 class="sidebar-title">Categories</h3>
-          <div class="sidebar-item categories">
-            <ul>
-              <li><a href="#">General <span>(25)</span></a></li>
-              <li><a href="#">Lifestyle <span>(12)</span></a></li>
-              <li><a href="#">Travel <span>(5)</span></a></li>
-              <li><a href="#">Design <span>(22)</span></a></li>
-              <li><a href="#">Creative <span>(8)</span></a></li>
-              <li><a href="#">Educaion <span>(14)</span></a></li>
-            </ul>
-          </div> -->
-          <!-- End sidebar categories-->
+          </div>
+          
 
           <h3 class="sidebar-title text-uppercase">Latest Articles</h3>
           <div class="sidebar-item recent-posts">
-            <div class="post-item clearfix">
-              <img src="assets/images/sideblog.png" alt="" height="70">
-              <h4><a routerLink="/blog/1">Nihil blanditiis at in nihil autem</a></h4>
-              <time datetime="2020-01-01">Jan 1, 2020</time>
+            <div [routerLink]="'/blog/' + blog.blogPostId"
+              class="post-item clearfix"
+              *ngFor="let blog of blogArr | slice : 0 : 4"
+            >
+              <img [src]="blog.picture" alt="" height="70" />
+              <h4>
+                <a>{{ blog.title }}</a>
+              </h4>
+              <time> {{ blog.creation | date : "dd-MM-yyyy" }}</time>
             </div>
-            <div class="post-item clearfix">
-              <img src="assets/images/sideblog.png" alt="" height="70">
-              <h4><a routerLink="/blog/1">Nihil blanditiis at in nihil autem</a></h4>
-              <time datetime="2020-01-01">Jan 1, 2020</time>
-            </div>
-            <div class="post-item clearfix">
-              <img src="assets/images/sideblog.png" alt="" height="70">
-              <h4><a routerLink="/blog/1">Nihil blanditiis at in nihil autem</a></h4>
-              <time datetime="2020-01-01">Jan 1, 2020</time>
-            </div>
-            <div class="post-item clearfix">
-              <img src="assets/images/sideblog.png" alt="" height="70">
-              <h4><a routerLink="/blog/1">Nihil blanditiis at in nihil autem</a></h4>
-              <time datetime="2020-01-01">Jan 1, 2020</time>
-            </div>
-
-
-
-
-
-
-          </div><!-- End sidebar recent posts-->
+          </div>
 
           <h3 class="sidebar-title">Tags</h3>
           <div class="sidebar-item tags">
             <ul>
-              <li><a href="#">App</a></li>
-              <li><a href="#">IT</a></li>
-              <li><a href="#">Business</a></li>
-              <li><a href="#">Mac</a></li>
-              <li><a href="#">Design</a></li>
-              <li><a href="#">Office</a></li>
-              <li><a href="#">Creative</a></li>
-              <li><a href="#">Studio</a></li>
-              <li><a href="#">Smart</a></li>
-              <li><a href="#">Tips</a></li>
-              <li><a href="#">Marketing</a></li>
+              <li *ngFor="let tag of tags">
+                <a>{{ tag }}</a>
+              </li>
             </ul>
-          </div><!-- End sidebar tags-->
-
-        </div><!-- End sidebar -->
-
-      </div><!-- End blog sidebar -->
-
+          </div>
+        </div>
+      </div>
     </div>
-
   </div>
-</section><!-- End Blog Section -->
-
-
-
+</section>
 <app-footer></app-footer>

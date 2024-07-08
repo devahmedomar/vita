@@ -8,6 +8,7 @@ import { PrivacyComponent } from './components/privacy/privacy.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { SearchComponent } from './components/search/search.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
   {path:"home",redirectTo:"",pathMatch:"full"},
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path:"wishlist",component:WishlistComponent,title:"Wishlist"},
   {path:"orders",component:OrdersComponent,title:"Orders"},
   {path:"search",component:SearchComponent,title:"Search"},
+  {path:"profile",component:ProfileComponent,title:"Profile"},
 
 ];
 

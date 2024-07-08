@@ -22,12 +22,18 @@ export class ShopComponent implements OnInit {
   totalItems = 0;
   selectedSortOption = 'default';
 
-  constructor(private productService: ProductService, private spinner: NgxSpinnerService, private route: ActivatedRoute) {}
+  constructor(
+    private productService: ProductService,
+    private spinner: NgxSpinnerService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const mainCategoryId = +params['mainCategory'];
       const subCategoryId = +params['category'];
+
+      this.clearProductData();
 
       if (mainCategoryId) {
         this.fetchProductsByMainCategory(mainCategoryId);
@@ -37,6 +43,13 @@ export class ShopComponent implements OnInit {
         this.fetchProducts();
       }
     });
+  }
+
+  clearProductData(): void {
+    this.products = [];
+    this.paginatedProducts = [];
+    this.totalItems = 0;
+    this.pageIndex = 0;
   }
 
   fetchProducts(): void {
@@ -65,12 +78,11 @@ export class ShopComponent implements OnInit {
       (data: any) => {
         if (data && data.success && Array.isArray(data.data.products)) {
           this.products = data.data.products;
+          this.totalItems = this.products.length;
+          this.paginateAndSort();
         } else {
-          this.products = [];
           console.error('Error fetching products or unexpected data format');
         }
-        this.totalItems = this.products.length;
-        this.paginateAndSort();
         this.spinner.hide();
       },
       (error) => {

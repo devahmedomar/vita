@@ -9,20 +9,19 @@
       </div>
       <div class="social-links d-md-flex align-items-center">
         <select class="form-select" (change)="changeLang($event)">
-          <option value="en" [selected]="lang=='en'">English</option>
-          <option value="fr" [selected]="lang=='fr'">French</option>
-          <option value="ar" [selected]="lang=='ar'">Arabic</option>
+          <option value="en" [selected]="lang=='en'">{{ 'english' | translate }}</option>
+          <option value="fr" [selected]="lang=='fr'">{{ 'french' | translate }}</option>
+          <option value="ar" [selected]="lang=='ar'">{{ 'arabic' | translate }}</option>
         </select>
         <ng-container *ngIf="!(isLoggedIn$ | async); else loggedInTemplate">
-          <a class="text-white" routerLinkActive="active" routerLink="/auth">Login/Register</a>
+          <a class="text-white" routerLinkActive="active" routerLink="/auth">{{ 'sign_in' | translate }}</a>
         </ng-container>
         <ng-template #loggedInTemplate>
-          <a class="text-white" (click)="signOut()">{{'sign_out'|translate}}</a>
+          <a class="text-white" (click)="signOut()">{{ 'sign_out' | translate }}</a>
         </ng-template>
       </div>
     </div>
   </section>
-
 
   <nav class="navbar navbar-expand-lg bg-white">
     <div class="container">
@@ -34,12 +33,12 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <section class="d-flex right" *ngIf="isLoggedIn$ | async">
+      <section class="d-flex right" [class.is-mobile]="isMobile" [class.is-desktop]="isDesktop">
         <a (click)="toggleSearchBar()"><i class="pi pi-search text-3xl"></i></a>
-  
+
         <a (click)="toggleNotifications()"><i class="pi pi-bell text-3xl"></i></a>
         <!-- <p-badge [value]="unreadNotificationsCount()" severity="danger"></p-badge> -->
-    
+
         <div *ngIf="showNotifications" class="notification-dropdown">
           <div *ngIf="notifications.length > 0; else noNotifications">
             <div class="notification-item" *ngFor="let notification of notifications">
@@ -51,7 +50,7 @@
             </div>
           </div>
           <ng-template #noNotifications>
-            <div class="notification-empty">No notifications</div>
+            <div class="notification-empty">{{ 'no_notifications' | translate }}</div>
           </ng-template>
         </div>
 
@@ -61,10 +60,10 @@
             <i class="pi pi-user text-3xl"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-            <!-- <li><a class="dropdown-item" routerLink="/profile">My Profile</a></li> -->
-            <li><a class="dropdown-item" routerLink="/orders">{{'my_orders'|translate}}</a></li>
-            <li><a class="dropdown-item" routerLink="/wishlist">{{'my_favorites'|translate}}</a></li>
-            <li><a class="dropdown-item" (click)="signOut()">{{'sign_out'|translate}}</a></li>
+            <li><a class="dropdown-item" routerLink="/profile">{{ 'profile' | translate }}</a></li>
+            <li><a class="dropdown-item" routerLink="/orders">{{ 'my_orders' | translate }}</a></li>
+            <li><a class="dropdown-item" routerLink="/wishlist">{{ 'my_favorites' | translate }}</a></li>
+            <li><a class="dropdown-item" (click)="signOut()">{{ 'sign_out' | translate }}</a></li>
           </ul>
         </div>
         <a routerLink="/cart" class="text-black">
@@ -76,13 +75,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/home" routerLinkActive="active">{{'home'|translate}}</a>
+            <a class="nav-link" routerLink="/home" routerLinkActive="active">{{ 'home' | translate }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/about" routerLinkActive="active">{{'about_us'|translate}}</a>
+            <a class="nav-link" routerLink="/about" routerLinkActive="active">{{ 'about_us' | translate }}</a>
           </li>
           <li class="dropdown nav-item">
-            <a href="#" class="nav-link"><span>{{'categories'|translate}}</span> <i class="pi pi-chevron-down"></i></a>
+            <a href="#" class="nav-link"><span>{{ 'categories' | translate }}</span> <i class="pi pi-chevron-down"></i></a>
             <ul class="dropdown-menu">
               <li *ngFor="let category of mainCategories" class="dropdown">
                 <a class="nav-link" (click)="navigateToMainCategory(category.categoryId)">
@@ -90,24 +89,22 @@
                 </a>
                 <ul>
                   <li *ngFor="let subCategory of category.subCategories">
-                    <a
-                      class="nav-link"
-                      (click)="navigateToSubCategory(subCategory.categoryId)">
+                    <a class="nav-link" (click)="navigateToSubCategory(subCategory.categoryId)">
                       {{ subCategory.name }}
                     </a>
                   </li>
                 </ul>
               </li>
-            </ul>  
+            </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/shop" routerLinkActive="active">{{'shop'|translate}}</a>
+            <a class="nav-link" routerLink="/shop" routerLinkActive="active">{{ 'shop' | translate }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/blog" routerLinkActive="active">{{'blogs'|translate}}</a>
+            <a class="nav-link" routerLink="/blog" routerLinkActive="active">{{ 'blogs' | translate }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/contact" routerLinkActive="active">{{'contact_us'|translate}}</a>
+            <a class="nav-link" routerLink="/contact" routerLinkActive="active">{{ 'contact_us' | translate }}</a>
           </li>
         </ul>
       </div>
