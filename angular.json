@@ -94,7 +94,12 @@
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "src/assets/i18n",
+                "output": "/vita/assets/i18n/"
+              }
             ],
             "styles": [
               "src/styles.css"
