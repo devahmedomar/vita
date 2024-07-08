@@ -13,6 +13,16 @@
 a{
   text-decoration: none;
 }
+[data-dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[data-dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+
 :root {
   --mainColor: #80AA27;
   --blackColor: #000000;
@@ -140,6 +150,4 @@ body {
   background-color: var(--whiteGray);
   border: 0;
 }
-
-
 

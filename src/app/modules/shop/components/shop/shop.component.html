@@ -2,7 +2,7 @@
 <app-breadcrumb [breadcrumbData]="shopBreadCrumbData"></app-breadcrumb>
 <div class="container my-5" id="products" *ngIf="paginatedProducts.length > 0; else emptyState">
   <div class="row">
-    <ngx-spinner bdColor="rgba(0,0,0,0.8)" size="medium" color="#80AA27" type="ball-spin-clockwise"></ngx-spinner>
+    <ngx-spinner bdColor="rgba(0,0,0,0.8)" color="#80AA27" type="ball-spin-clockwise" size="large"></ngx-spinner>
     <div class="col-md-6 mb-5">
       Showing {{ pageIndex * pageSize + 1 }}-{{
         (pageIndex + 1) * pageSize > totalItems
@@ -65,7 +65,7 @@
           <rect width="79.53" height="90" fill="white" transform="matrix(1 0 0 -1 0.22998 90)"/>
           </clipPath>
           </defs>
-          </svg> 
+          </svg>
         <h3 class="mt-4 text-uppercase py-4 not-bold">No products available for this category</h3>
         <button class="shopBtn py-2 px-4 my-3" routerLink="/shop">Return To Shop</button>
       </div>

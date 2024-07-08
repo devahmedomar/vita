@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject, Observable, throwError, of, Subscription } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Icart } from 'src/app/models/icart';
 
@@ -14,11 +15,23 @@ export class CartService {
   public cartCount$: Observable<number> = this.cartCountSubject.asObservable();
   private selectedQuantitySubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   selectedQuantity$: Observable<number> = this.selectedQuantitySubject.asObservable();
-
-  constructor(private http: HttpClient, private router: Router) {
+  private langChangeSubscription: Subscription = new Subscription();
+  constructor(private http: HttpClient, private router: Router,private translate: TranslateService) {
     this.loadCartCount();
-  }
+    // Initialize language from localStorage or default to 'en'
+    this.translate.use(localStorage.getItem('lang') || 'en');
 
+    // Subscribe to language change events
+    this.langChangeSubscription = this.translate.onLangChange.subscribe(event => {
+      this.refreshPage();
+    });
+  }
+  private refreshPage() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigateByUrl(currentUrl);
+    });
+  }
   private loadCartCount() {
     this.getCart().subscribe(
       (response: any) => {
@@ -44,6 +57,7 @@ export class CartService {
   }
 
   getCart(): Observable<any> {
+    const language = this.translate.currentLang;
     const authToken = localStorage.getItem('eToken');
     if (!authToken) {
       return this.handleAuthError();
@@ -51,6 +65,7 @@ export class CartService {
 
     const headers = new HttpHeaders({
       Authorization: `Bearer ${authToken}`,
+      'Accept-Language':language
     });
 
     return this.http.get(`${this.apiUrl}user/cart/my`, { headers }).pipe(
@@ -72,15 +87,15 @@ export class CartService {
     if (!authToken) {
       return this.handleAuthError();
     }
-  
+
     const headers = new HttpHeaders({
       Authorization: `Bearer ${authToken}`,
     });
-  
+
     if (quantity < 1) {
       quantity = 1;
     }
-  
+
     return this.http.put(
       `${this.apiUrl}user/cart/update`,
       { productId, quantity },
@@ -99,7 +114,7 @@ export class CartService {
       })
     );
   }
-  
+
 
   removeFromCart(productId: number): Observable<any> {
     const authToken = localStorage.getItem('eToken');

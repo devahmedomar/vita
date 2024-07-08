@@ -25,6 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { SearchComponent } from './components/search/search.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { SearchComponent } from './components/search/search.component';
     FeaturesComponent,
     WishlistComponent,
     OrdersComponent,
-    SearchComponent
+    SearchComponent,
+    ProfileComponent
 
   ],
   imports: [
