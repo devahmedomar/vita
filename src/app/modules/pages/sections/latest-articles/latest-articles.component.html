@@ -14,7 +14,7 @@
               <ul *ngFor="let tag of post.tags">
                 <li>{{tag}}</li>
               </ul>
-              <a  [routerLink]="['/blog', post.blogPostId]" class="text-uppercase read">read more</a>
+              <a  [routerLink]="['/blog', post.blogPostId]" class="text-uppercase read">{{"read_more"|translate}}</a>
             </div>
           </div>
         </div>

@@ -3,6 +3,8 @@
 background-image: url("../../../../../assets/images/green.png");
 position: relative;
 background-attachment: fixed;
+background-repeat: no-repeat;
+background-size: cover;
 }
 .green div div{
   width: 80%;

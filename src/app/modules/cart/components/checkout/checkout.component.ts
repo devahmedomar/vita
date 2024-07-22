@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { ICity, ICountry, IRegion, IShippingAddress } from 'src/app/models/iaddress';
 import { Ibreadcrumb } from 'src/app/models/ibreadcrumb';
 import { Icart } from 'src/app/models/icart';
@@ -30,14 +31,14 @@ export class CheckoutComponent implements OnInit {
   errorMessage: string = '';
 
   checkoutBreadCrumbData: Ibreadcrumb = {
-    prev: "home",
-    title: "check out"
+    title: "CHECKOUT",
+    prev: "HOME",
   };
 
   paymentForm: FormGroup;
   couponForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private addressService: AddressService, private cartService: CartService,  private orderService: OrderService) {
+  constructor(private fb: FormBuilder, private router: Router, private addressService: AddressService, private cartService: CartService,  private orderService: OrderService,private translate:TranslateService) {
     this.paymentForm = this.fb.group({
       paymentMethod: ['cod'],
       bankName: [''],

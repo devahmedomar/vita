@@ -62,7 +62,6 @@ export class NavbarComponent implements OnInit {
   onResize(event: Event) {
     this.checkScreenSize();
   }
-
   checkScreenSize() {
     this.isDesktop = window.innerWidth >= 991.98;
     this.isMobile = window.innerWidth <= 991.98;

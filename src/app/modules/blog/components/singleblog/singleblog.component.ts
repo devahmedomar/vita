@@ -4,6 +4,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BlogService } from 'src/app/services/blog/blog.service';
 import { LoginService } from 'src/app/services/auth/login/login.service';
 import { Iproductcard } from 'src/app/models/iproductcard';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-singleblog',
@@ -27,7 +28,8 @@ export class SingleblogComponent implements OnInit {
     private _BlogService: BlogService,
     private _ActivatedRoute: ActivatedRoute,
     private _sanitizer: DomSanitizer,
-    private _LoginService: LoginService
+    private _LoginService: LoginService,
+    private toaster:ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -73,7 +75,7 @@ export class SingleblogComponent implements OnInit {
             this.alreadyLiked = true;
             this.updateLocalStorage();
           },
-       
+
         });
       } else {
         this._BlogService.unlikePost(this.blog.blogPostId, this.userToken).subscribe({
@@ -82,11 +84,17 @@ export class SingleblogComponent implements OnInit {
             this.alreadyLiked = false;
             this.updateLocalStorage();
           },
-      
+
         });
       }
     } else if (!this.isLoggedIn) {
-      alert('You need to be logged in to like this post.');
+      window.alert("helllo")
+      this.toaster.error('You need to Login to like this post.');
+    }
+  }
+  notLoggedInAlert(){
+    if (!this.isLoggedIn) {
+      this.toaster.error('You need to Login First to interact with this post.');
     }
   }
 
@@ -103,7 +111,7 @@ export class SingleblogComponent implements OnInit {
             this.alreadyDisliked = true;
             this.updateLocalStorage();
           },
-      
+
         });
       } else {
         this._BlogService.unlikePost(this.blog.blogPostId, this.userToken).subscribe({
@@ -116,7 +124,7 @@ export class SingleblogComponent implements OnInit {
         });
       }
     } else if (!this.isLoggedIn) {
-      alert('You need to be logged in to dislike this post.');
+      this.toaster.error('You need to Login to dislike this post.');
     }
   }
 

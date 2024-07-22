@@ -13,7 +13,7 @@ export class ForgotpasswordComponent {
   constructor(private _Router:Router,private _ForgetpassService:ForgetpassService,private formBuilder: FormBuilder){}
   forgotPasswordBreadCrumbData:Ibreadcrumb={
     prev:"home",
-    title:"my account"
+    title:"ACCOUNT"
   };
   forgotPasswordForm: FormGroup=new FormGroup({});
   buildForgetPasswordForm(){

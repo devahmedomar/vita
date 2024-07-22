@@ -1,4 +1,6 @@
 {
+  "addr1":"LAAYOUNE: MADINAT EL WAHDA BLOCK B NR 91 LAAYOUNE (M)",
+  "addr2":"Tetouan: Mezanine block B Office n° 4 BOROUJ 16 Avenue des Far N° 873 Tétouan",
   "home_banner":"Elevate Your Glow Every Day",
   "shop_now":"SHOP NOW",
   "sale_title":"SALE 30% OFF",
@@ -54,6 +56,7 @@
   "privacy_policy": "Privacy & Policy",
   "legal_information": "Legal Information",
   "faq": "FAQ",
+  "Terms":"Terms",
   "language": "Language",
   "signout": "SignOut",
   "profile": "Profile",
@@ -287,6 +290,21 @@
   "about_us_desc3": "At [Your Company Name], our mission is simple — to curate a collection that reflects your unique lifestyle. We strive to offer a diverse range of high-quality products that blend innovation, style, and functionality. Whether you're searching for fashion, electronics, or home essentials, we've got you covered.",
   "about_us_desc4": "Quality Assurance: We handpick each product, ensuring it meets our stringent quality standards. Your satisfaction is our top priority.\n\nCustomer-Centric Approach: We believe in building lasting relationships with our customers. Our dedicated customer support team is always ready to assist you, from product inquiries to after-sales support.\n\nInnovation in Every Detail: From our website design to the products we offer, innovation is at the heart of everything we do. We stay ahead of trends, so you can too.\n\nSecure and Seamless Shopping: Your online security is crucial to us. Shop with confidence, knowing that your personal information is safeguarded by the latest encryption technologies.",
   "about_us_desc5": "[Your Company Name] is committed to making a positive impact on the environment. We actively seek eco-friendly products, minimize packaging waste, and partner with like-minded suppliers who share our commitment to sustainability.",
-  "about_us_desc6": "Whether you're a trendsetter, a tech enthusiast, or someone seeking the perfect home decor, we invite you to join the [Your Company Name] community. Discover a world of possibilities, and let us redefine the way you shop online.\n"
+  "about_us_desc6": "Whether you're a trendsetter, a tech enthusiast, or someone seeking the perfect home decor, we invite you to join the [Your Company Name] community. Discover a world of possibilities, and let us redefine the way you shop online.\n",
+    "BREADCRUMB": {
+      "HOME": "Home",
+      "CART": "Cart",
+      "ABOUT":"about us",
+      "SHOP":"shop",
+      "BLOG":"blog",
+      "CONTACT":"CONTACT US",
+      "PROFILE":"MY PROFILE",
+      "ORDERS":"My Orders",
+      "FAVOURITES":"FAVOURITES",
+      "ACCOUNT":"MY ACCOUNT",
+      "gallery_post": "Gallery Post",
+      "CHECKOUT": "CHECKOUT"
+
+    }
 
 }

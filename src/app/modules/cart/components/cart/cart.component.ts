@@ -3,6 +3,7 @@ import { Ibreadcrumb } from './../../../../models/ibreadcrumb';
 import { Component } from '@angular/core';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { Icart } from 'src/app/models/icart';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cart',
@@ -10,10 +11,10 @@ import { Icart } from 'src/app/models/icart';
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent {
-  constructor(private _Router: Router, private cartService: CartService) {}
+  constructor(private _Router: Router, private cartService: CartService, private translate: TranslateService) {}
   cartBreadCrumbData: Ibreadcrumb = {
-    title: 'cart',
-    prev: 'home',
+    title: 'CART',
+    prev: 'HOME',
   };
 
   cartProducts: Icart[] = [];

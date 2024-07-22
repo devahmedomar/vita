@@ -12,7 +12,7 @@ import { CartService } from 'src/app/services/cart/cart.service';
 })
 export class WishlistComponent implements OnInit {
   @Input() wishlistBreadCrumbData: Ibreadcrumb = {
-    title: 'wishlist',
+    title: 'FAVOURITES',
     prev: 'home'
   };
 
@@ -109,10 +109,10 @@ export class WishlistComponent implements OnInit {
 
   onAddToCart(productId: number) {
     if (!this.isLoggedIn) {
-      console.log('User is not logged in.'); 
+      console.log('User is not logged in.');
       return;
     }
-  
+
     this.cartService.updateCart(productId, 1).subscribe(
       (response) => {
         if (response.success) {
@@ -131,7 +131,7 @@ export class WishlistComponent implements OnInit {
       }
     );
   }
-  
+
   removeFromCart(productId: number): void {
     this.cartService.removeFromCart(productId).subscribe(
       (response: any) => {
@@ -150,7 +150,7 @@ export class WishlistComponent implements OnInit {
       }
     );
   }
-  
+
   showNotification(message: string, type: 'success' | 'error') {
     this.notificationMessage = message;
     this.notificationType = type;
@@ -163,7 +163,7 @@ export class WishlistComponent implements OnInit {
   clearNotification() {
     this.notificationMessage = null;
   }
-  
+
   toggleWishlist(productId: number): void {
     if (!this.isLoggedIn) {
       return;
@@ -220,7 +220,7 @@ export class WishlistComponent implements OnInit {
       }
     );
   }
-  
+
   getStars(rating: number): number[] {
     const filledStars = Math.floor(rating);
     const remainingStars = 5 - filledStars;
@@ -231,7 +231,7 @@ export class WishlistComponent implements OnInit {
     }
 
     for (let i = 0; i < remainingStars; i++) {
-      stars.push(0); 
+      stars.push(0);
     }
 
     return stars;

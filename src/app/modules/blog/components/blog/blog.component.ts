@@ -4,6 +4,7 @@ import { BlogService } from 'src/app/services/blog/blog.service';
 import { Ibreadcrumb } from 'src/app/models/ibreadcrumb';
 import { posts } from 'src/app/models/blog';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-blog',
@@ -24,12 +25,29 @@ export class BlogComponent implements OnInit {
   paginatedBlogArr: posts[] = [];
   tags: string[] = [];
   noResults: boolean = false;
-  loading: boolean = false; 
+  loading: boolean = false;
+  maxVisiblePages: number = 5; // maximum pages to display at a time
 
+  get visiblePages(): number[] {
+    const half = Math.floor(this.maxVisiblePages / 2);
+    let start = Math.max(1, this.currentPage - half);
+    let end = Math.min(this.totalPages, start + this.maxVisiblePages - 1);
+
+    if (end - start < this.maxVisiblePages - 1) {
+      start = Math.max(1, end - this.maxVisiblePages + 1);
+    }
+
+    const pages = [];
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
   constructor(
     private _BlogService: BlogService,
     private _sanitizer: DomSanitizer,
-    private spinner: NgxSpinnerService 
+    private spinner: NgxSpinnerService,
+    private translate:TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -44,8 +62,8 @@ export class BlogComponent implements OnInit {
       next: (response) => {
         this.blogArr = response.data.posts;
         this.sortAndPaginate();
-        this.spinner.hide(); 
-        this.loading = false; 
+        this.spinner.hide();
+        this.loading = false;
       },
       error: (error) => {
         console.error('Error fetching blogs:', error);
@@ -61,13 +79,13 @@ export class BlogComponent implements OnInit {
         } else {
           console.error('Error fetching tags:', response);
         }
-        this.spinner.hide(); 
+        this.spinner.hide();
         this.loading = false;
       },
       error: (error) => {
         console.error('Error fetching tags:', error);
-        this.spinner.hide(); 
-        this.loading = false; 
+        this.spinner.hide();
+        this.loading = false;
       },
     });
   }
@@ -142,9 +160,11 @@ export class BlogComponent implements OnInit {
 
   changePage(page: number): void {
     if (page > 0 && page <= this.totalPages) {
+      this.loading = true;
       this.currentPage = page;
       this.paginate();
       this.updateSafeBlogContent();
+      this.loading = false;
     }
   }
 }

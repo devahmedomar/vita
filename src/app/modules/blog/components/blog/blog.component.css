@@ -352,7 +352,16 @@
 .blog .blog-pagination li:hover a {
   color: #fff;
 }
+.blog .blog-pagination li.active a,
+.blog .blog-pagination li a:hover {
+  background-color: #80AA27 !important;
+  color: #fff !important;
+}
 
+.blog .blog-pagination li.active a {
+  background-color: var(--mainColor);
+  color: #fff;
+}
 .blog .sidebar {
   padding: 30px;
   margin: 0 0 60px 20px;
@@ -518,7 +527,7 @@
 }
 
 .blog .right {
-  padding: 20px 0 0 66px;
+  padding: 40px 40px 40px 66px;
 }
 
 .right p {
@@ -563,18 +572,25 @@
 @media (min-width: 768px) {
   .blog .layer {
     position: absolute;
-    left: 10%;
-    width: 65%;
+    left: 48%;
+    width: 63%;
   }
 }
 @media (min-width: 1024px) {
   .blog .layer {
     position: absolute;
-    left: 10%;
-    width: 75%;
+    left: 48%;
+    width: 63%;
   }
 }
-
+@media (max-width:767px) {
+  .blog .layer{
+    position: absolute;
+    top: 93%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
 .blog-pagination .pagination .page-link {
   color: #80aa27;
   text-decoration: none;
@@ -593,12 +609,12 @@
 
 .sidebar-item.tags ul {
   list-style: none;
-  padding: 0; 
+  padding: 0;
 }
 
 .sidebar-item.tags ul li{
   display: inline!important;
-  margin-right: 10px; 
+  margin-right: 10px;
 }
 
 .no-results-placeholder::placeholder {

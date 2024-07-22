@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, throwError, of, Subscription } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Icart } from 'src/app/models/icart';
@@ -16,7 +17,7 @@ export class CartService {
   private selectedQuantitySubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   selectedQuantity$: Observable<number> = this.selectedQuantitySubject.asObservable();
   private langChangeSubscription: Subscription = new Subscription();
-  constructor(private http: HttpClient, private router: Router,private translate: TranslateService) {
+  constructor(private http: HttpClient, private router: Router,private translate: TranslateService,private toaster:ToastrService) {
     this.loadCartCount();
     // Initialize language from localStorage or default to 'en'
     this.translate.use(localStorage.getItem('lang') || 'en');
@@ -50,8 +51,9 @@ export class CartService {
   }
 
   private handleAuthError() {
+    this.toaster.error("You Need To Login First")
     // Redirect to login page
-    this.router.navigate(['/']);
+    // this.router.navigate(['/']);
     // Return an observable that completes immediately
     return of(null);
   }
@@ -59,9 +61,9 @@ export class CartService {
   getCart(): Observable<any> {
     const language = this.translate.currentLang;
     const authToken = localStorage.getItem('eToken');
-    if (!authToken) {
-      return this.handleAuthError();
-    }
+    // if (!authToken) {
+    //   return this.handleAuthError();
+    // }
 
     const headers = new HttpHeaders({
       Authorization: `Bearer ${authToken}`,
@@ -84,9 +86,9 @@ export class CartService {
 
   updateCart(productId: number, quantity: number): Observable<any> {
     const authToken = localStorage.getItem('eToken');
-    if (!authToken) {
-      return this.handleAuthError();
-    }
+    // if (!authToken) {
+    //   return this.handleAuthError();
+    // }
 
     const headers = new HttpHeaders({
       Authorization: `Bearer ${authToken}`,
@@ -118,9 +120,9 @@ export class CartService {
 
   removeFromCart(productId: number): Observable<any> {
     const authToken = localStorage.getItem('eToken');
-    if (!authToken) {
-      return this.handleAuthError();
-    }
+    // if (!authToken) {
+    //   return this.handleAuthError();
+    // }
 
     const headers = new HttpHeaders({
       Authorization: `Bearer ${authToken}`,

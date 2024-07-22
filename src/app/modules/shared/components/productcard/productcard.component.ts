@@ -3,6 +3,7 @@ import { iProduct } from '../../../../models/iproduct';
 import { LoginService } from 'src/app/services/auth/login/login.service';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { ProductService } from 'src/app/services/product/product.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -15,7 +16,11 @@ export class ProductcardComponent implements OnInit {
   isLoggedIn: boolean = false;
   notificationMessage: string | null = null;
   notificationType: 'success' | 'error' = 'success';
-  constructor(private loginService: LoginService,public productService:ProductService, private cartService: CartService) { }
+  constructor(private loginService: LoginService,
+    public productService:ProductService,
+    private cartService: CartService,
+    private toaster:ToastrService
+  ) { }
 
   @Input() productCardData:iProduct={
     name:'',
@@ -56,7 +61,7 @@ export class ProductcardComponent implements OnInit {
     this.loginService.isLoggedIn$().subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
     });
-  
+
     if (this.isLoggedIn) {
       this.checkWishlistStatus();
     }
@@ -64,7 +69,7 @@ export class ProductcardComponent implements OnInit {
       this.checkCartStatus();
     }
   }
-  
+
   getRouterLink(): string {
     if (this.origin === 'home') {
       return `shop/${this.productCardData.productId}`;
@@ -76,7 +81,7 @@ export class ProductcardComponent implements OnInit {
     }
     else if (this.origin === 'wishlist') {
       return `/shop/${this.productCardData.productId}`;
-    } 
+    }
     else {
       return `shop`;
     }
@@ -154,21 +159,25 @@ export class ProductcardComponent implements OnInit {
       }
     );
   }
-  
+
 
   showNotification(message: string, type: 'success' | 'error') {
     this.notificationMessage = message;
     this.notificationType = type;
+    if (this.notificationType=="success") {
 
-    setTimeout(() => {
-      this.clearNotification();
-    }, 3000);
+      this.toaster.success(this.notificationMessage)
+    }else{
+      this.toaster.error(this.notificationMessage)
+
+    }
+
   }
 
   clearNotification() {
     this.notificationMessage = null;
   }
-  
+
   checkWishlistStatus() {
     this.productService.getWishlist().subscribe({
       next: (wishlist: any[]) => {
@@ -194,11 +203,11 @@ export class ProductcardComponent implements OnInit {
     this.productService.addToWishlist(productId.toString()).subscribe(
       () => {
         this.productCardData.inWishlist = true;
-        // this.showNotification('Product added to wishlist.', 'success');
+        this.showNotification('Product added to wishlist.', 'success');
       },
       error => {
         console.error('Error adding to wishlist:', error);
-        // this.showNotification('Failed to add product to wishlist.', 'error');
+        this.showNotification('Failed to add product to wishlist.', 'error');
       }
     );
   }
@@ -207,19 +216,19 @@ export class ProductcardComponent implements OnInit {
     this.productService.removeFromWishlist(productId.toString()).subscribe(
       () => {
         this.productCardData.inWishlist = false;
-        // this.showNotification('Product removed from wishlist.', 'success'); 
+        this.showNotification('Product removed from wishlist.', 'success');
       },
       error => {
         console.error('Error removing from wishlist:', error);
-        // this.showNotification('Failed to remove product from wishlist.', 'error');
+        this.showNotification('Failed to remove product from wishlist.', 'error');
       }
     );
   }
-  
+
   fetchProductRating() {
     this.productService.getSingleProduct(this.productCardData.productId).subscribe(
       (product: any) => {
-        this.productCardData.reviews = product.rating; 
+        this.productCardData.reviews = product.rating;
       },
       error => {
         console.error('Error fetching product rating:', error);
@@ -237,7 +246,7 @@ export class ProductcardComponent implements OnInit {
     }
 
     for (let i = 0; i < remainingStars; i++) {
-      stars.push(0); 
+      stars.push(0);
     }
 
     return stars;

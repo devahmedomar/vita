@@ -24,7 +24,7 @@ export class RegisterComponent {
   public isPasswordVisible: boolean = false;
   registerBreadCrumbData: Ibreadcrumb = {
     prev: 'home',
-    title: 'my account',
+    title: 'ACCOUNT',
   };
   registerForm: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),

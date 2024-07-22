@@ -1,4 +1,6 @@
 {
+  "addr1":"LAAYOUNE : MADINAT EL WAHDA BLOC B NR 91 LAAYOUNE (M)",
+  "addr2":"Tétouan : Mezanine bloc B Bureau n 4 BOROUJ 16 Avenue des Far N° 873 Tétouan",
   "home_banner":"Élevez votre éclat chaque jour",
   "shop_now":"Achetez maintenant",
   "sale_title":"VENTE 30% DE RÉDUCTION",
@@ -210,7 +212,7 @@
   "something_went_wrong": "Quelque chose s'est mal passé. Essayez d'actualiser la page ou de vérifier votre connexion Internet.",
   "see_moment": "Nous vous reverrons dans un instant !",
 
-
+"Terms":"Termes",
   "terms_conditions_title_1": "Mentions légales",
   "terms_conditions_title_2": "Présentation",
   "terms_conditions_title_3": "Interprétation des termes",
@@ -288,4 +290,18 @@
   "about_us_desc4": "Assurance qualité: nous sélectionnons chaque produit avec soin, garantissant qu'il répond à nos normes de qualité strictes. Votre satisfaction est notre priorité absolue.\n\nApproche centrée sur le client: nous croyons dans l'établissement de relations durables avec nos clients. Notre service client dédié L'équipe est toujours prête à vous aider, des demandes de renseignements sur les produits au support après-vente.\n\nL'innovation dans les moindres détails: de la conception de notre site Web aux produits que nous proposons, l'innovation est au cœur de tout ce que nous faisons. Nous restons en avance sur les tendances , pour que vous puissiez le faire aussi.\n\nAchats sécurisés et fluides: votre sécurité en ligne est cruciale pour nous. Achetez en toute confiance, sachant que vos informations personnelles sont protégées par les dernières technologies de cryptage.",
   "about_us_desc5": "[Nom de votre entreprise] s'engage à avoir un impact positif sur l'environnement. Nous recherchons activement des produits respectueux de l'environnement, minimisons les déchets d'emballage et collaborons avec des fournisseurs partageant les mêmes idées et partageant notre engagement en faveur du développement durable.",
   "about_us_desc6": "Que vous soyez un pionnier, un passionné de technologie ou quelqu'un à la recherche de la décoration intérieure parfaite, nous vous invitons à rejoindre la communauté [Nom de votre entreprise]. Découvrez un monde de possibilités et laissez-nous redéfinir la façon dont vous achetez en ligne.\n"
+  ,"BREADCRUMB": {
+    "HOME": "Accueil",
+    "CART": "Panier",
+    "ABOUT":"À propos de nous",
+    "SHOP":"boutique",
+    "BLOG":"blog",
+    "CONTACT":"Contactez-nous",
+    "PROFILE":"Profile",
+    "ORDERS":"Mes commandes",
+    "FAVOURITES": "Favoris",
+    "ACCOUNT":"Mon Compte",
+    "gallery_post": "Publication de la Galerie",
+    "CHECKOUT": "Paiement"
+  }
 }

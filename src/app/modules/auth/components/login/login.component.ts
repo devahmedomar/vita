@@ -14,7 +14,7 @@ import { LoginService } from 'src/app/services/auth/login/login.service';
 export class LoginComponent {
   loginBreadCrumbData: Ibreadcrumb = {
     prev: 'home',
-    title: 'my account',
+    title: 'ACCOUNT',
   };
 
   email: string | undefined;

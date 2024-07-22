@@ -16,20 +16,20 @@
     >
       <ol class="breadcrumb">
         <li class="breadcrumb-item text-uppercase">
-          <a routerLink="/">Home</a>
+          <a routerLink="/">{{'BREADCRUMB.HOME'|translate}}</a>
         </li>
         <li class="breadcrumb-item active text-uppercase" aria-current="page">
-          <a routerLink="../">Blog</a>
+          <a routerLink="../">{{'BREADCRUMB.BLOG'|translate}}</a>
         </li>
         <li class="breadcrumb-item active text-uppercase" aria-current="page">
-          Gallery post
+          {{"BREADCRUMB.gallery_post"|translate}}
         </li>
       </ol>
     </nav>
   </div>
 </div>
 <!-- ======= Blog Single Section ======= -->
-<section id="blog" class="blog">
+<section id="blog" class="blog" data-dir="direction-sensitive">
   <div class="container">
     <div class="row">
       <div class="col-12 entries">
@@ -45,7 +45,7 @@
           <div *ngIf="blog.tags && blog.tags.length > 0">
             <span *ngFor="let tag of blog.tags" class="tag">{{ tag }}</span>
           </div>
-          
+
           <div class="entry-meta">
             <ul>
               <!-- <li class="d-flex align-items-center">
@@ -82,7 +82,7 @@
                 }"
               ></i>
             </a>
-            <a *ngIf="!isLoggedIn" class="me-3 text-dark disabled-action">
+            <a *ngIf="!isLoggedIn" (click)="notLoggedInAlert()" class="me-3 text-dark disabled-action">
               <i class="pi pi-thumbs-up"></i>
             </a>
 
@@ -101,7 +101,7 @@
                 }"
               ></i>
             </a>
-            <a *ngIf="!isLoggedIn" class="me-3 text-dark disabled-action">
+            <a *ngIf="!isLoggedIn" (click)="notLoggedInAlert()" class="me-3 text-dark disabled-action">
               <i class="pi pi-thumbs-down"></i>
             </a>
 
@@ -128,13 +128,13 @@
             </a>
           </div>
 
-          <div *ngIf="!isLoggedIn">
+          <!-- <div *ngIf="!isLoggedIn">
             <p class="text-danger my-2">
               Please <a routerLink="/auth/register">sign up </a>or
               <a routerLink="/auth/login">login </a>to like, or dislike this
               post.
             </p>
-          </div>
+          </div> -->
         </article>
 
         <!-- <div class="blog-author d-flex align-items-center">

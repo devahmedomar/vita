@@ -13,8 +13,8 @@ export class PlaceorderComponent {
   lastOrder: any | null = null;
   paymentMethod: string = 'Cash on delivery';
   placeorderBread:Ibreadcrumb={
-    prev:"home",
-    title:"check out"
+    prev:"HOME",
+    title:"CHECKOUT"
   }
 
   constructor(private orderService: OrderService, private route: ActivatedRoute, private router: Router) {}

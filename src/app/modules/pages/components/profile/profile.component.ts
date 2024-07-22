@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ProfileService } from '../../../../services/profile/profile.service';
 import { Ibreadcrumb } from 'src/app/models/ibreadcrumb';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProfileComponent implements OnInit {
   profileBreadCrumbData: Ibreadcrumb = {
-    title: 'My Profile',
+    title: 'PROFILE',
     prev: 'home',
   };
   profileForm: FormGroup = new FormGroup({});
@@ -19,7 +20,7 @@ export class ProfileComponent implements OnInit {
   selectedFile: File | null = null;
   profileImageUrl: string | null = null;
 
-  constructor(private fb: FormBuilder, private profileService: ProfileService,private toaster:ToastrService) {}
+  constructor(private fb: FormBuilder, private profileService: ProfileService, private toaster: ToastrService,private translate:TranslateService) { }
 
   ngOnInit(): void {
     this.profileForm = this.fb.group({
@@ -31,27 +32,24 @@ export class ProfileComponent implements OnInit {
       dateOfBirth: ['']
     });
 
-    const authToken = localStorage.getItem('eToken');
+    // const authToken = localStorage.getItem('eToken');
 
-    if (authToken) {
-      this.profileService.getProfile().subscribe(
-        response => {
-          // console.log('Profile data fetched:', response);
-          if (response) {
-            this.isUpdateMode = true;  // Set to true if profile data exists
-            this.profileForm.patchValue(response.data.user);  // Populate the form with the profile data
-            this.profileImageUrl = response.data.user.picture; // Assuming profile image URL is part of the response
-          }
-        },
-        error => {
-          console.error('Error fetching profile data', error);
-          this.toaster.error('Error fetching profile data')
+
+    this.profileService.getProfile().subscribe(
+      response => {
+        // console.log('Profile data fetched:', response);
+        if (response) {
+          this.isUpdateMode = true;  // Set to true if profile data exists
+          this.profileForm.patchValue(response.data.user);  // Populate the form with the profile data
+          this.profileImageUrl = response.data.user.picture; // Assuming profile image URL is part of the response
         }
-      );
-    } else {
-      console.error('User not authenticated');
-      this.toaster.error('User not authenticated Please Login First !')
-    }
+      },
+      error => {
+        console.error('Error fetching profile data', error);
+        this.toaster.error('Error fetching profile data')
+      }
+    );
+
   }
 
   onFileChange(event: any) {

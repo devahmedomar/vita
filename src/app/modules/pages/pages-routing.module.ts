@@ -9,6 +9,8 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { SearchComponent } from './components/search/search.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { TermsComponent } from './components/terms/terms.component';
+import { authGuard } from 'src/app/guards/auth.guard';
 
 const routes: Routes = [
   {path:"home",redirectTo:"",pathMatch:"full"},
@@ -16,11 +18,12 @@ const routes: Routes = [
   {path:"about",component:AboutComponent,title:"About Us"},
   {path:"contact",component:ContactComponent,title:"Contact Us"},
   {path:"faq",component:FaqComponent,title:"FAQ"},
+  {path:"terms",component:TermsComponent,title:"Terms"},
   {path:"privacy",component:PrivacyComponent,title:"Privacy"},
-  {path:"wishlist",component:WishlistComponent,title:"Wishlist"},
-  {path:"orders",component:OrdersComponent,title:"Orders"},
+  {path:"wishlist",component:WishlistComponent,title:"Wishlist", canActivate: [authGuard]},
+  {path:"orders",component:OrdersComponent,title:"Orders", canActivate: [authGuard]},
   {path:"search",component:SearchComponent,title:"Search"},
-  {path:"profile",component:ProfileComponent,title:"Profile"},
+  {path:"profile",component:ProfileComponent,title:"Profile", canActivate: [authGuard]},
 
 ];
 

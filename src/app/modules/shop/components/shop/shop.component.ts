@@ -4,6 +4,7 @@ import { Ibreadcrumb } from 'src/app/models/ibreadcrumb';
 import { iProduct } from 'src/app/models/iproduct';
 import { ProductService } from 'src/app/services/product/product.service';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-shop',
@@ -25,7 +26,8 @@ export class ShopComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private spinner: NgxSpinnerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private translate:TranslateService
   ) {}
 
   ngOnInit(): void {

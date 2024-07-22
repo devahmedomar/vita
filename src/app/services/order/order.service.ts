@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, Observable ,of} from 'rxjs';
 import { IOrder, IOrderItem } from 'src/app/models/iorder';
 
 @Injectable({
@@ -8,38 +10,46 @@ import { IOrder, IOrderItem } from 'src/app/models/iorder';
 })
 export class OrderService {
   private apiUrl = 'https://api.vitaparapharma.com/api/v2/user/order/';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private router:Router,private toaster:ToastrService) { }
 
   checkOrder(token: string, orderItems: IOrderItem[], coupon: string): Observable<IOrder> {
-    const url = `${this.apiUrl + 'check/order'}`; 
+    const url = `${this.apiUrl + 'check/order'}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
     const body = { orderItems, coupon };
     console.log(body);
-    
+
     return this.http.post<IOrder>(url, body, { headers });
   }
 
   addOrder(token: string, addressId: string, orderItems: IOrderItem[], coupon: string): Observable<IOrder> {
-    const url = `${this.apiUrl + 'new'}/on/${addressId}`; 
+    const url = `${this.apiUrl + 'new'}/on/${addressId}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
     const body = { orderItems, coupon };
     console.log(body);
-    
+
     return this.http.post<IOrder>(url, body, { headers });
   }
-
+  private handleAuthError() {
+    this.toaster.error("You Need To Login First")
+    // Redirect to login page
+    this.router.navigate(['/']);
+    // Return an observable that completes immediately
+    return of(null);
+  }
   getAllOrders(): Observable<any> {
-    const authToken = localStorage.getItem('eToken'); 
+    const authToken = localStorage.getItem('eToken');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${authToken}`
     });
-
+    // if (!authToken) {
+    //   return this.handleAuthError();
+    // }
     return this.http.get<any>(this.apiUrl + 'all', { headers }).pipe(
       catchError((error) => {
         throw 'Error fetching orders: ' + error;
@@ -54,5 +64,5 @@ export class OrderService {
     });
     return this.http.get<IOrder>(url, { headers });
   }
-  
+
 }

@@ -11,12 +11,12 @@ export class OrdersComponent implements OnInit {
   orders: any[] = [];
   ordersToShow: any[] = [];
   ordersBreadCrumbData: Ibreadcrumb = {
-    title: 'My Orders',
+    title: 'ORDERS',
     prev: 'home',
   };
 
   currentPage: number = 1;
-  ordersPerPage: number = 10; 
+  ordersPerPage: number = 10;
 
   constructor(private orderService: OrderService) {}
 

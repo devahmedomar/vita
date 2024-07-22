@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Observable, throwError ,of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +13,14 @@ export class ProfileService {
   private updateProfileImageUrl = 'https://api.vitaparapharma.com/api/v3/profile/image';
   private deleteProfileImageUrl = 'https://api.vitaparapharma.com/api/v3/profile/image';
 
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient,private toaster:ToastrService,private router:Router) { }
+  private handleAuthError() {
+    this.toaster.error("You Need To Login First")
+    // Redirect to login page
+    this.router.navigate(['/']);
+    // Return an observable that completes immediately
+    return of(null);
+  }
   updateProfile(profileData: {
     firstName?: string;
     lastName?: string;
@@ -35,9 +43,9 @@ export class ProfileService {
 
   getProfile(): Observable<any> {
     const authToken = localStorage.getItem('eToken');
-    if (!authToken) {
-      return throwError('User not authenticated');
-    }
+    // if (!authToken) {
+    //   return this.handleAuthError();
+    // }
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${authToken}`
     });

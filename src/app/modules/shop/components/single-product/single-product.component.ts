@@ -11,6 +11,7 @@ import { IReview } from 'src/app/models/ireview';
 import { ReviewService } from 'src/app/services/review/review.service';
 import { NgForm } from '@angular/forms';
 import { ProfileService } from 'src/app/services/profile/profile.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-single-product',
@@ -48,7 +49,8 @@ export class SingleProductComponent implements OnInit {
     private cartService: CartService,
     private spinner: NgxSpinnerService,
     private reviewService: ReviewService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private toaster:ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -134,8 +136,11 @@ export class SingleProductComponent implements OnInit {
       },
     });
   }
-
+  discount:number=0;
   hasDiscount() {
+    // this.discount =  ((this.singleProduct.priceBeforeDiscount - this.singleProduct.priceAfterDiscount) / this.singleProduct.priceBeforeDiscount) * 100;
+    const discount = ((this.singleProduct.priceBeforeDiscount - this.singleProduct.priceAfterDiscount) / this.singleProduct.priceBeforeDiscount) * 100;
+    this.discount = Math.round(discount * 100) / 100; // Round to two decimal places
     return this.singleProduct && this.singleProduct.discount;
   }
 
@@ -190,10 +195,14 @@ export class SingleProductComponent implements OnInit {
   showNotification(message: string, type: 'success' | 'error') {
     this.notificationMessage = message;
     this.notificationType = type;
+    if (this.notificationType=="success") {
 
-    setTimeout(() => {
-      this.clearNotification();
-    }, 3000);
+      this.toaster.success(this.notificationMessage)
+    }else{
+      this.toaster.error(this.notificationMessage)
+
+    }
+
   }
 
   clearNotification() {
@@ -242,10 +251,17 @@ export class SingleProductComponent implements OnInit {
   }
 
   toggleWishlist(productId: string) {
+    if (!this.isLoggedIn) {
+      this.showNotification('Please login first.', 'error');
+      return;
+    }
     if (this.isInWishlist) {
       this.removeFromWishlist(productId);
+      this.toaster.success("Removed Successfully From Wishlist")
+
     } else {
       this.addToWishlist(productId);
+      this.toaster.success("Added Successfully From Wishlist")
     }
   }
 
@@ -402,8 +418,8 @@ export class SingleProductComponent implements OnInit {
               }
             },
             (error) => {
-              console.error('Error adding review:', error);
-              this.showNotification('Error adding review', 'error');
+              // console.error('Error adding review:', error);
+              this.showNotification('You Must Login to leave comment review', 'error');
             }
           );
       }

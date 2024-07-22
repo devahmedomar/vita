@@ -1,10 +1,10 @@
 .card {
-  background-color: white !important;
+  background-color: red !important;
 }
 
 .product-card {
   box-shadow: rgba(99, 99, 99, 0.137) 0px 2px 8px 0px;
-  padding: 10px;
+  padding: 0px 0px 10px 0px;
   text-align: center;
   border: 0;
   position: relative;
@@ -17,7 +17,7 @@
 }
 
 .card img {
-  max-height: 195px;
+  /* max-height: 195px; */
 }
 
 .custom-notification {
@@ -62,5 +62,41 @@ i{
   text-align: right;
 }
 .pi-heart-fill {
-  color: red; 
+  color: red;
+}
+
+.product-card img {
+  margin: 0;
+  padding: 0;
+}
+
+.p-card-header {
+  margin: 0;
+  padding: 0;
+}
+
+.p-card-body {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.d-flex {
+  margin: 0;
+  padding: 0;
+}
+.card.flex.justify-content-center.product-card.position-relative.mb-5 {
+  margin: 0;
+  padding: 0;
+}
+
+.d-flex.align-items-center.wish {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  margin: 0 0 10px 0;
+  padding: 0;
+  display: block;
+  max-height: 220px;
 }

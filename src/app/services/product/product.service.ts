@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, map, Observable, of, Subscription, throwError } from 'rxjs';
 import { iProduct } from 'src/app/models/iproduct';
 import { environment } from 'src/environments/environment';
@@ -16,7 +17,8 @@ export class ProductService {
   constructor(
     private _HttpClient: HttpClient,
     private translate: TranslateService,
-    private router: Router
+    private router: Router,
+    private toaster:ToastrService
   ) {
     this.translate.use(localStorage.getItem('lang') || 'en');
 
@@ -90,13 +92,19 @@ export class ProductService {
       })
     );
   }
-
-  getWishlist(): Observable<string[]> {
+  private handleAuthError() {
+    this.toaster.error("You Need To Login First")
+    // Redirect to login page
+    this.router.navigate(['/']);
+    // Return an observable that completes immediately
+    return of(null);
+  }
+  getWishlist(): Observable<string[]|any> {
     const language = this.translate.currentLang;
     const authToken = localStorage.getItem('eToken');
-    if (!authToken) {
-      return throwError('User not authenticated');
-    }
+    // if (!authToken) {
+    //   return this.handleAuthError();
+    // }
 
     const headers = new HttpHeaders({
       Authorization: `Bearer ${authToken}`,

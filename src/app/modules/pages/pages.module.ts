@@ -26,6 +26,7 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { SearchComponent } from './components/search/search.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { TermsComponent } from './components/terms/terms.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     WishlistComponent,
     OrdersComponent,
     SearchComponent,
-    ProfileComponent
+    ProfileComponent,
+    TermsComponent
 
   ],
   imports: [

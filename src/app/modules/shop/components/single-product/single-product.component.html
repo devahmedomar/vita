@@ -9,7 +9,7 @@
         type="ball-spin-clockwise"
       ></ngx-spinner>
       <div class="col-md-5 position-relative">
-        <div class="sale-pos">22 %</div>
+        <div class="sale-pos" *ngIf="hasDiscount()" >{{discount}} %</div>
         <img [src]="singleProduct?.pictures[0]" alt="" class="w-100" />
       </div>
       <div class="col-md-7 px-3 py-2">
@@ -102,7 +102,7 @@
           >
             Remove from Cart
           </button>
-          <button class="btn-main" *ngIf="!isLoggedIn">
+          <button class="btn-main" *ngIf="!isLoggedIn" [disabled]="!isLoggedIn">
             Please login to add to cart
           </button>
 
@@ -279,7 +279,6 @@
                     [cancel]="false"
                     [stars]="5"
                     required
-                    [disabled]="!isLoggedIn"
                     [ngModelOptions]="{ standalone: true }"
                   ></p-rating>
                   <div
@@ -298,7 +297,6 @@
                     [(ngModel)]="newReview.comment"
                     required
                     height="150px"
-                    [disabled]="!isLoggedIn"
                     [ngModelOptions]="{ standalone: true }"
                   ></textarea>
                   <div
@@ -320,18 +318,19 @@
                     Comment cannot exceed 200 characters.
                   </div>
                 </div>
-                <div class="mt-4" *ngIf="!isLoggedIn">
+                <!-- <div class="mt-4" *ngIf="!isLoggedIn">
                   <p class="text-danger">
                     Please <a routerLink="/auth/register">sign up</a> or
                     <a routerLink="/auth/login">login</a> to leave a comment.
                   </p>
-                </div>
+                </div> -->
                 <button
                   *ngIf="!existingReview"
                   type="submit"
                   class="submitBtn"
-                  [disabled]="!isLoggedIn || reviewForm.invalid"
-                >
+
+                  >
+                  <!-- [disabled]="!isLoggedIn || reviewForm.invalid" -->
                   SUBMIT
                 </button>
                 <div
