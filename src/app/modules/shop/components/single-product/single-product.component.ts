@@ -1,6 +1,6 @@
 import { Iproductcard } from './../../../../models/iproductcard';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product/product.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Icategory } from 'src/app/models/icategory';
@@ -12,6 +12,7 @@ import { ReviewService } from 'src/app/services/review/review.service';
 import { NgForm } from '@angular/forms';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-single-product',
@@ -50,8 +51,10 @@ export class SingleProductComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private reviewService: ReviewService,
     private profileService: ProfileService,
-    private toaster:ToastrService
-  ) {}
+    private toaster: ToastrService,
+    private router: Router,
+    private translate: TranslateService
+  ) { }
 
   ngOnInit(): void {
 
@@ -70,8 +73,8 @@ export class SingleProductComponent implements OnInit {
     this.getSingleProduct();
     this.loadReviews();
 
-    if(this.isLoggedIn)
-    this.fetchUserReview();
+    if (this.isLoggedIn)
+      this.fetchUserReview();
 
     this.cartService.getSelectedQuantity().subscribe(quantity => {
       this.selectedQuantity = quantity;
@@ -136,14 +139,21 @@ export class SingleProductComponent implements OnInit {
       },
     });
   }
-  discount:number=0;
+  discount: number = 0;
   hasDiscount() {
     // this.discount =  ((this.singleProduct.priceBeforeDiscount - this.singleProduct.priceAfterDiscount) / this.singleProduct.priceBeforeDiscount) * 100;
     const discount = ((this.singleProduct.priceBeforeDiscount - this.singleProduct.priceAfterDiscount) / this.singleProduct.priceBeforeDiscount) * 100;
     this.discount = Math.round(discount * 100) / 100; // Round to two decimal places
     return this.singleProduct && this.singleProduct.discount;
   }
-
+  addtoCartNotLoggedIn() {
+    if (!this.isLoggedIn) {
+      this.translate.get('errorMsgs.notLoggedInCart').subscribe((translatedMsg: string) => {
+        this.toaster.error(translatedMsg);
+        this.router.navigate(['/auth/login']);
+      });
+    }
+  }
   toggleCartAction() {
     if (this.singleProduct && this.singleProduct.inCart) {
       this.onRemoveFromCart(this.singleProduct.productId);
@@ -195,10 +205,10 @@ export class SingleProductComponent implements OnInit {
   showNotification(message: string, type: 'success' | 'error') {
     this.notificationMessage = message;
     this.notificationType = type;
-    if (this.notificationType=="success") {
+    if (this.notificationType == "success") {
 
       this.toaster.success(this.notificationMessage)
-    }else{
+    } else {
       this.toaster.error(this.notificationMessage)
 
     }

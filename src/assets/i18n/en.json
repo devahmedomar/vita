@@ -305,6 +305,9 @@
       "gallery_post": "Gallery Post",
       "CHECKOUT": "CHECKOUT"
 
+    },
+    "errorMsgs":{
+      "notLoggedInCart":"Please Login First To add to cart"
     }
 
 }

@@ -3,9 +3,9 @@
     <div class="container d-block d-sm-flex justify-content-between justify-content-md-between">
       <div class="contact-info d-flex align-items-center">
         <i class="pi pi-envelope d-flex align-items-center"></i>
-        <a href="mailto:contact@example.com">contact&#64;example.com</a>
+        <a href="mailto:contact@vitaparapharma.com">contact&#64;vitaparapharma.com</a>
         <i class="pi pi-phone d-flex align-items-center ms-4"></i>
-        <span>+1 5589 55488 55</span>
+        <span>0708759037</span>
       </div>
       <div class="social-links d-md-flex align-items-center">
         <select class="form-select" (change)="changeLang($event)">
@@ -63,7 +63,7 @@
             <li><a class="dropdown-item" routerLink="/profile">{{ 'profile' | translate }}</a></li>
             <li><a class="dropdown-item" routerLink="/orders">{{ 'my_orders' | translate }}</a></li>
             <li><a class="dropdown-item" routerLink="/wishlist">{{ 'my_favorites' | translate }}</a></li>
-            <li><a class="dropdown-item" (click)="signOut()">{{ 'sign_out' | translate }}</a></li>
+            <li *ngIf="isLoggedIn$ | async"><a class="dropdown-item" (click)="signOut()">{{ 'sign_out' | translate }}</a></li>
           </ul>
         </div>
         <a routerLink="/cart" class="text-black">

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,12 +26,26 @@ export class BlogService implements OnDestroy {
     });
   }
 
-  getBlogs(): Observable<Blog> {
+  getBlogs(page: number, size: number, tag?: string | null): Observable<Blog | any> {
     const language = this.translate.currentLang;
     const headers = new HttpHeaders().set('Accept-Language', language);
-    return this._HttpClient.get<Blog>(this.apiUrl, { headers });
-  }
+    let params = new HttpParams().set('page', page.toString()).set('size', size.toString());
 
+    if (tag) {
+      params = params.set('tags', tag);
+    }
+
+    return this._HttpClient.get<Blog>(this.apiUrl, { headers, params });
+  }
+  getBlogsByTag(page: number, size: number, tag: string): Observable<Blog|any> {
+    const language = this.translate.currentLang;
+    const headers = new HttpHeaders().set('Accept-Language', language);
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('tags', tag);
+    return this._HttpClient.get<Blog>(this.apiUrl, { headers, params });
+  }
   getSingleBlog(blogId: any): Observable<any> {
     const language = this.translate.currentLang;
     const headers = new HttpHeaders().set('Accept-Language', language);

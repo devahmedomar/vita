@@ -490,7 +490,7 @@
   display: inline-block;
 }
 
-.blog .sidebar .tags ul a {
+.blog .sidebar .tags ul span {
   color: var(--secondaryColor);
   font-size: 14px;
   padding: 6px 14px;
@@ -623,4 +623,9 @@
 
 .read-more a{
   color: #80aa27;
+}
+/* Add this to blog.component.css */
+.tags ul li span.selected {
+  font-weight: bold;
+  color: blue;
 }

@@ -300,5 +300,8 @@
   "ACCOUNT":"حسابى",
   "gallery_post": "تفاصيل المنشور",
   "CHECKOUT": "الدفع"
+},
+"errorMsgs":{
+  "notLoggedInCart":"من فضلك قم بتسجيل الدخول أولاً"
 }
 }

@@ -74,6 +74,7 @@ export class SingleblogComponent implements OnInit {
             this.blog.likes++;
             this.alreadyLiked = true;
             this.updateLocalStorage();
+            this.toaster.success("Post Liked successfully")
           },
 
         });
@@ -83,6 +84,7 @@ export class SingleblogComponent implements OnInit {
             this.blog.likes--;
             this.alreadyLiked = false;
             this.updateLocalStorage();
+
           },
 
         });
@@ -110,6 +112,7 @@ export class SingleblogComponent implements OnInit {
             this.blog.dislikes++;
             this.alreadyDisliked = true;
             this.updateLocalStorage();
+            this.toaster.success("Post DisLiked successfully")
           },
 
         });

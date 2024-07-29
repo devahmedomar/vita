@@ -15,9 +15,9 @@ export class LatestArticlesComponent implements OnInit {
   private langChangeSubscription: Subscription=new Subscription();
   constructor(private _BlogService:BlogService, private router: Router,private translate: TranslateService){}
   getBlogs(){
-    this._BlogService.getBlogs().subscribe({
+    this._BlogService.getBlogs(0,6).subscribe({
       next:(res) => {
-        this.blogPosts = res.data.posts;
+        this.blogPosts = res.data.posts.content;
         this.blogPosts.sort((a, b) => {
           return new Date(b.creation).getTime() - new Date(a.creation).getTime();
         });

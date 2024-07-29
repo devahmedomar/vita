@@ -102,9 +102,7 @@
           >
             Remove from Cart
           </button>
-          <button class="btn-main" *ngIf="!isLoggedIn" [disabled]="!isLoggedIn">
-            Please login to add to cart
-          </button>
+
 
           <button
             class="btn-main"
@@ -114,6 +112,9 @@
             Out of Stock
           </button>
         </div>
+        <button class="notLoggedCartBtn" (click)="addtoCartNotLoggedIn()" *ngIf="!isLoggedIn">
+          Please login to add to cart
+        </button>
         <!-- <div *ngIf="notificationMessage" class="custom-notification" [ngClass]="{'success': notificationType === 'success', 'error': notificationType === 'error'}">
           <div class="message">{{ notificationMessage }}</div>
           <button class="close-button" (click)="clearNotification()">Close</button>

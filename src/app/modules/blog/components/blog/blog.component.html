@@ -15,10 +15,10 @@
         <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#80AA27" type="ball-spin-clockwise" *ngIf="loading"></ngx-spinner>
           <article
             class="entry row"
-            *ngFor="let post of paginatedBlogArr; let i = index"
+            *ngFor="let post of blogArr; let i = index"
           >
             <div class="entry-img col-md-4 position-relative">
-              <img [src]="post.picture" alt="" class="img-fluid h-100 w-100" />
+              <img loading="lazy" [src]="post.picture" alt="" class="img-fluid h-100 w-100" />
               <div class="layer">
                 {{ post.creation | date : "dd-MM-yyyy" }}
               </div>
@@ -81,7 +81,7 @@
               class="post-item clearfix"
               *ngFor="let blog of blogArr | slice : 0 : 4"
             >
-              <img [src]="blog.picture" alt="" height="70" />
+              <img loading="lazy" [src]="blog.picture" alt="" height="70" />
               <h4>
                 <a>{{ blog.title }}</a>
               </h4>
@@ -92,8 +92,8 @@
           <h3 class="sidebar-title">Tags</h3>
           <div class="sidebar-item tags">
             <ul>
-              <li *ngFor="let tag of tags">
-                <a>{{ tag }}</a>
+              <li *ngFor="let tag of tags" (click)="filterByTag(tag)">
+                <span [class.selected]="selectedTag === tag">{{ tag }}</span>
               </li>
             </ul>
           </div>
