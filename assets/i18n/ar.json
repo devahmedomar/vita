@@ -299,7 +299,8 @@
   "FAVOURITES":"المفضلة",
   "ACCOUNT":"حسابى",
   "gallery_post": "تفاصيل المنشور",
-  "CHECKOUT": "الدفع"
+  "CHECKOUT": "الدفع",
+  "NOTIFICATION":"الاشعارات"
 },
 "errorMsgs":{
   "notLoggedInCart":"من فضلك قم بتسجيل الدخول أولاً"
