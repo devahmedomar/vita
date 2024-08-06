@@ -51,6 +51,7 @@ export class LoginComponent {
         console.log(err);
         console.log(err.error.message);
         this.errorMsg = err.error.message;
+        this.toastr.error(this.errorMsg)
       },
     });
 

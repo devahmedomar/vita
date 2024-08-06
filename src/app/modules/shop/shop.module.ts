@@ -10,6 +10,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { TabViewModule } from 'primeng/tabview';
 import { ButtonModule } from 'primeng/button';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { PaginatorModule } from 'primeng/paginator';
+
 @NgModule({
   declarations: [
     ShopComponent,
@@ -24,7 +26,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     InputNumberModule,
     TabViewModule,
     ButtonModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    PaginatorModule
   ]
 })
 export class ShopModule { }

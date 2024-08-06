@@ -1,4 +1,4 @@
-button{
+/* button{
     background-color: #80AA27;
     color: #fff;
     padding: 5px 10px;
@@ -6,7 +6,7 @@ button{
 }
 button:hover, button:focus{
     opacity: 0.9;
-}
+} */
 
 ::ng-deep .ngx-spinner {
     display: flex !important;
@@ -32,4 +32,8 @@ button:hover, button:focus{
     border: 1px solid #80aa27;
     color: #80aa27;
     text-transform: uppercase;
+  }
+
+  ul{
+    margin-bottom: 0;
   }

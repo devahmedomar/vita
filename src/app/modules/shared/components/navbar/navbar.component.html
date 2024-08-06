@@ -25,28 +25,42 @@
 
   <nav class="navbar navbar-expand-lg bg-white">
     <div class="container">
-      <a class="navbar-brand"  routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <a class="navbar-brand" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <img src="assets/images/logo.svg" alt="Logo" />
       </a>
-      <button data-dir="direction-sensitive" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button data-dir="direction-sensitive" class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <section data-dir="direction-sensitive" class="d-flex right" [class.is-mobile]="isMobile" [class.is-desktop]="isDesktop">
-        <a (click)="toggleSearchBar()"><i class="pi pi-search text-3xl"></i></a>
+      <section data-dir="direction-sensitive" class="d-flex right" [class.is-mobile]="isMobile"
+        [class.is-desktop]="isDesktop">
+        <a (click)="toggleSearchBar()">
+          <!-- <i class="pi pi-search text-3xl"></i> -->
+          <i class="pi pi-search mr-3 p-text-secondary text-3xl" pBadge style="font-size: 1.5rem"></i>
+        </a>
 
-        <a (click)="toggleNotifications()"><i class="pi pi-bell text-3xl"></i></a>
-        <!-- <p-badge [value]="unreadNotificationsCount()" severity="danger"></p-badge> -->
+
+        <i (click)="toggleNotifications()" *ngIf="isLoggedIn$| async" class="pi pi-bell text-3xl mr-4 p-text-secondary" pBadge  [value]="unreadNotifications"></i>
+
+        <!-- <a ><i class="pi pi-bell text-3xl"  ></i></a> -->
 
         <div *ngIf="showNotifications" class="notification-dropdown">
           <div *ngIf="notifications.length > 0; else noNotifications">
-            <div class="notification-item" *ngFor="let notification of notifications">
+            <div class="notification-item" *ngFor="let notification of notifications" (click)="markAsRead(notification)"
+              [ngClass]="{'notification-unread': !notification.read, 'notification-read': notification.read}">
               <div class="notification-header">
-                <span class="notification-title">{{ notification.message }}</span>
-                <span *ngIf="!notification.read" class="notification-unread-dot"></span>
+                <div class="pe-2 mx-2">
+                  <img *ngIf="!notification.read" src="assets/images/icons/notify.svg" width="40" alt="">
+                  <img *ngIf="notification.read" src="assets/images/icons/notifyread.svg" width="40" alt="">
+                </div>
+                <div>
+                  <span class="notification-title">{{ notification.message }}</span>
+                  <div class="notification-time text-muted">{{ formatDate(notification.time) }}</div>
+                </div>
               </div>
-              <div class="notification-time text-muted">{{ formatDate(notification.time) }}</div>
+
             </div>
           </div>
           <ng-template #noNotifications>
@@ -54,22 +68,27 @@
           </ng-template>
         </div>
 
+
         <div class="dropdown">
           <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            <i class="pi pi-user text-3xl"></i>
+            aria-expanded="false" *ngIf="isLoggedIn$ | async">
+            <i class="pi pi-user text-3xl text-secondary mr-3" style="font-size: 1.5rem;"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
             <li><a class="dropdown-item" routerLink="/profile">{{ 'profile' | translate }}</a></li>
             <li><a class="dropdown-item" routerLink="/orders">{{ 'my_orders' | translate }}</a></li>
             <li><a class="dropdown-item" routerLink="/wishlist">{{ 'my_favorites' | translate }}</a></li>
-            <li *ngIf="isLoggedIn$ | async"><a class="dropdown-item" (click)="signOut()">{{ 'sign_out' | translate }}</a></li>
+            <li *ngIf="isLoggedIn$ | async"><a class="dropdown-item" (click)="signOut()">{{ 'sign_out' | translate
+                }}</a></li>
           </ul>
         </div>
-        <a routerLink="/cart" class="text-black">
-          <i class="pi pi-shopping-cart text-3xl">
+        <a routerLink="/cart" class="text-black" *ngIf="isLoggedIn$| async">
+          <!-- <i class="pi pi-shopping-cart text-2xl" style="font-size: 2rem">
             <p-badge [value]="cartCount$ | async"></p-badge>
-          </i>
+          </i> -->
+
+          <i class="pi pi-shopping-cart mr-4 p-text-secondary text-2xl" style="font-size: 1.5rem" pBadge  *ngIf="isLoggedIn$| async" [value]="cartCount$|async"></i>
+
         </a>
       </section>
 
@@ -78,16 +97,22 @@
         <i class="pi pi-search"></i>
       </div>
 
-      <div data-dir="direction-sensitive" class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mb-2 mb-lg-0">
+      <div data-dir="direction-sensitive" class="collapse navbar-collapse container" id="navbarSupportedContent">
+        <button class="btn btn-close d-lg-none" type="button" aria-label="Close" (click)="closeNavbar()"></button>
+        <ul *ngIf="currentMenu === 'main'" class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link" routerLink="/home" routerLinkActive="active">{{ 'home' | translate }}</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="/about" routerLinkActive="active">{{ 'about_us' | translate }}</a>
           </li>
-          <li class="dropdown nav-item">
-            <a href="#" class="nav-link"><span>{{ 'categories' | translate }}</span> <i class="pi pi-chevron-down"></i></a>
+          <li class="nav-item" *ngIf="isMobile">
+            <a class="nav-link" (click)="showCategories()">{{ 'categories' | translate }}</a>
+          </li>
+
+          <li class="dropdown nav-item" *ngIf="isDesktop">
+            <a href="#" class="nav-link"><span>{{ 'categories' | translate }}</span> <i
+                class="pi pi-chevron-down"></i></a>
             <ul class="dropdown-menu">
               <li *ngFor="let category of mainCategories" class="dropdown">
                 <a class="nav-link" (click)="navigateToMainCategory(category.categoryId)">
@@ -103,6 +128,8 @@
               </li>
             </ul>
           </li>
+
+
           <li class="nav-item">
             <a class="nav-link" routerLink="/shop" routerLinkActive="active">{{ 'shop' | translate }}</a>
           </li>
@@ -113,7 +140,32 @@
             <a class="nav-link" routerLink="/contact" routerLinkActive="active">{{ 'contact_us' | translate }}</a>
           </li>
         </ul>
+
+        <ul *ngIf="currentMenu === 'categories'" class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" (click)="showMainMenu()">{{ 'Back' | translate }}</a>
+          </li>
+          <li *ngFor="let category of mainCategories" class="nav-item">
+            <a class="nav-link" (click)="showSubcategories(category)">
+              {{ category.name }}
+            </a>
+          </li>
+        </ul>
+
+        <ul *ngIf="currentMenu === 'subcategories'" class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" (click)="backToCategories()">{{ 'Back' | translate }}</a>
+          </li>
+          <li *ngFor="let subCategory of selectedCategory?.subCategories" class="nav-item">
+            <a class="nav-link" (click)="navigateToSubCategory(subCategory.categoryId)">
+              {{ subCategory.name }}
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
+
+
+
 </section>

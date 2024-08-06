@@ -11,7 +11,7 @@ export class BreadcrumbComponent {
     title: "",
     prev: ""
   };
-  @Input() breadCrumbBgImage:string = "../../../../../assets/images/bgfooter.jpeg";
+  @Input() breadCrumbBgImage:string = "assets/images/bgfooter.jpeg";
   @Input() overlayOpacity: number=5;
   translatedTitle: string = '';
   translatedPrev: string = '';

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Ibreadcrumb } from 'src/app/models/ibreadcrumb';
 import { ForgetpassService } from 'src/app/services/auth/forget/forgetpass.service';
 
@@ -10,7 +11,7 @@ import { ForgetpassService } from 'src/app/services/auth/forget/forgetpass.servi
   styleUrls: ['./forgotpassword.component.css']
 })
 export class ForgotpasswordComponent {
-  constructor(private _Router:Router,private _ForgetpassService:ForgetpassService,private formBuilder: FormBuilder){}
+  constructor(private _Router:Router,private _ForgetpassService:ForgetpassService,private formBuilder: FormBuilder,private toastr:ToastrService){}
   forgotPasswordBreadCrumbData:Ibreadcrumb={
     prev:"home",
     title:"ACCOUNT"
@@ -32,6 +33,7 @@ export class ForgotpasswordComponent {
         },
         error:(err)=>{
           console.log(err);
+          this.toastr.error(err.error.message)
 
         }
       });

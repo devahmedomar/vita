@@ -1,17 +1,33 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, Observable ,of} from 'rxjs';
+import { catchError, Observable ,of, Subscription} from 'rxjs';
 import { IOrder, IOrderItem } from 'src/app/models/iorder';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
+  private langChangeSubscription: Subscription = new Subscription();
   private apiUrl = 'https://api.vitaparapharma.com/api/v2/user/order/';
-  constructor(private http: HttpClient,private router:Router,private toaster:ToastrService) { }
+  constructor(private http: HttpClient,private router:Router,private toaster:ToastrService,private translate: TranslateService) {
 
+    this.translate.use(localStorage.getItem('lang') || 'en');
+    this.langChangeSubscription = this.translate.onLangChange.subscribe(
+      (event) => {
+        this.refreshPage();
+        this.translate.use(localStorage.getItem('lang') || 'en')
+      }
+    );
+  }
+  private refreshPage() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigateByUrl(currentUrl);
+    });
+  }
   checkOrder(token: string, orderItems: IOrderItem[], coupon: string): Observable<IOrder> {
     const url = `${this.apiUrl + 'check/order'}`;
     const headers = new HttpHeaders({
@@ -57,11 +73,13 @@ export class OrderService {
     );
   }
 
-  getOrderById(token: string, orderId: number): Observable<IOrder> {
+  getOrderById( orderId: number): Observable<IOrder> {
     const url = `${this.apiUrl}/${orderId}`;
+    const authToken = localStorage.getItem('eToken');
+    const language = this.translate.currentLang;
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
+      'Authorization': `Bearer ${authToken}`
+    }).set('Accept-Language', language);
     return this.http.get<IOrder>(url, { headers });
   }
 

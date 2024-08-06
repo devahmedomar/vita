@@ -11,6 +11,7 @@ import { SearchComponent } from './components/search/search.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { TermsComponent } from './components/terms/terms.component';
 import { authGuard } from 'src/app/guards/auth.guard';
+import { OrderdetailsComponent } from './components/orderdetails/orderdetails.component';
 
 const routes: Routes = [
   {path:"home",redirectTo:"",pathMatch:"full"},
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path:"orders",component:OrdersComponent,title:"Orders", canActivate: [authGuard]},
   {path:"search",component:SearchComponent,title:"Search"},
   {path:"profile",component:ProfileComponent,title:"Profile", canActivate: [authGuard]},
+  {path:"order-details/:orderId",component:OrderdetailsComponent,title:"Notifications", canActivate: [authGuard]}
 
 ];
 

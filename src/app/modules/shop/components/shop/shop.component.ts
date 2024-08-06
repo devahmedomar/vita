@@ -5,17 +5,34 @@ import { iProduct } from 'src/app/models/iproduct';
 import { ProductService } from 'src/app/services/product/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-
+interface PageEvent {
+  first?: number;
+  rows?: number;
+  page?: number;
+  pageCount?: number;
+}
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
+  current_page: number = 1;
+  total_records: number = 1;
   shopBreadCrumbData: Ibreadcrumb = {
     title: 'Shop',
     prev: 'home'
   };
+  first: number = 0;
+
+  rows: number = 10;
+
+  onPageChange(event: PageEvent) {
+    this.first = event.first!;
+    this.rows = event.rows!;
+    this.current_page = Math.floor(event.first / event.rows) + 1;
+    this.fetchProducts();
+  }
   products: iProduct[] = [];
   paginatedProducts: iProduct[] = [];
   pageIndex = 0;
@@ -27,39 +44,40 @@ export class ShopComponent implements OnInit {
     private productService: ProductService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
-    private translate:TranslateService
-  ) {}
+    private translate: TranslateService
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const mainCategoryId = +params['mainCategory'];
       const subCategoryId = +params['category'];
 
-      this.clearProductData();
+      // this.clearProductData();
 
       if (mainCategoryId) {
         this.fetchProductsByMainCategory(mainCategoryId);
+        console.log("main");
+
       } else if (subCategoryId) {
         this.fetchProductsBySubCategory(subCategoryId);
+        console.log("sub");
+
       } else {
         this.fetchProducts();
+        console.log("all");
+
       }
     });
   }
 
-  clearProductData(): void {
-    this.products = [];
-    this.paginatedProducts = [];
-    this.totalItems = 0;
-    this.pageIndex = 0;
-  }
 
   fetchProducts(): void {
     this.spinner.show();
-    this.productService.getAllProducts().subscribe(
+    this.productService.getAllProducts(this.rows, this.current_page).subscribe(
       (data: any) => {
         if (data && data.success) {
           this.products = data.data.products;
+          this.total_records = data.data.count;
           this.totalItems = this.products.length;
           this.paginateAndSort();
         } else {
@@ -76,12 +94,12 @@ export class ShopComponent implements OnInit {
 
   fetchProductsBySubCategory(categoryId: number): void {
     this.spinner.show();
-    this.productService.getProductsBySubCategory(categoryId).subscribe(
+    this.productService.getProductsBySubCategory(categoryId, this.rows, this.current_page).subscribe(
       (data: any) => {
         if (data && data.success && Array.isArray(data.data.products)) {
           this.products = data.data.products;
-          this.totalItems = this.products.length;
-          this.paginateAndSort();
+          this.total_records = this.products.length;
+          // this.paginateAndSort();
         } else {
           console.error('Error fetching products or unexpected data format');
         }
@@ -96,10 +114,12 @@ export class ShopComponent implements OnInit {
 
   fetchProductsByMainCategory(mainCategoryId: number): void {
     this.spinner.show();
-    this.productService.getProductsByMainCategory(mainCategoryId).subscribe(
-      (data: any[]) => {
-        this.products = data;
-        this.totalItems = this.products.length;
+    this.productService.getProductsByMainCategory(mainCategoryId, this.rows, this.current_page).subscribe(
+      (data: any) => {
+        this.products = data.data.products;
+        this.total_records = this.products.length;
+        console.log(this.products, this.total_records);
+
         this.paginateAndSort();
         this.spinner.hide();
       },
@@ -111,9 +131,11 @@ export class ShopComponent implements OnInit {
   }
 
   paginateAndSort(): void {
-    const startIndex = this.pageIndex * this.pageSize;
-    this.paginatedProducts = this.products.slice(startIndex, startIndex + this.pageSize);
+
     this.sortProducts();
+    // const startIndex = (this.current_page - 1) * this.rows;
+    // this.products = this.products.slice(startIndex, startIndex + this.rows);
+    // console.log(this.products,startIndex,this.rows);
   }
 
   sortProducts(): void {
@@ -139,48 +161,48 @@ export class ShopComponent implements OnInit {
   }
 
   sortByPopularity(): void {
-    this.paginatedProducts.sort((a, b) => b.stockQuantity - a.stockQuantity);
+    this.products.sort((a, b) => b.stockQuantity - a.stockQuantity);
   }
 
   sortByAverageRating(): void {
-    this.paginatedProducts.sort((a, b) => b.rating - a.rating);
+    this.products.sort((a, b) => b.rating - a.rating);
   }
 
   sortByLatest(): void {
-    this.paginatedProducts.sort((a, b) => b.productId - a.productId);
+    this.products.sort((a, b) => b.productId - a.productId);
   }
 
   sortByPriceLowToHigh(): void {
-    this.paginatedProducts.sort((a, b) => a.price - b.price);
+    this.products.sort((a, b) => a.priceBeforeDiscount - b.priceBeforeDiscount);
   }
 
   sortByPriceHighToLow(): void {
-    this.paginatedProducts.sort((a, b) => b.price - a.price);
+    this.products.sort((a, b) => b.priceBeforeDiscount - a.priceBeforeDiscount);
   }
 
   onSortOptionChange(event: any): void {
     if (event && event.target && event.target.value) {
       this.selectedSortOption = event.target.value;
-      this.pageIndex = 0;
+      console.log(this.selectedSortOption);
       this.paginateAndSort();
     }
   }
 
-  nextPage(): void {
-    if (this.pageIndex < this.totalPages - 1) {
-      this.pageIndex++;
-      this.paginateAndSort();
-      this.scrollToTop();
-    }
-  }
+  // nextPage(): void {
+  //   if (this.pageIndex < this.totalPages - 1) {
+  //     this.pageIndex++;
+  //     this.paginateAndSort();
+  //     this.scrollToTop();
+  //   }
+  // }
 
-  prevPage(): void {
-    if (this.pageIndex > 0) {
-      this.pageIndex--;
-      this.paginateAndSort();
-      this.scrollToTop();
-    }
-  }
+  // prevPage(): void {
+  //   if (this.pageIndex > 0) {
+  //     this.pageIndex--;
+  //     this.paginateAndSort();
+  //     this.scrollToTop();
+  //   }
+  // }
 
   scrollToTop(): void {
     const productsSection = document.getElementById('products');

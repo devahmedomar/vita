@@ -27,6 +27,7 @@ import { OrdersComponent } from './components/orders/orders.component';
 import { SearchComponent } from './components/search/search.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { TermsComponent } from './components/terms/terms.component';
+import { OrderdetailsComponent } from './components/orderdetails/orderdetails.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { TermsComponent } from './components/terms/terms.component';
     OrdersComponent,
     SearchComponent,
     ProfileComponent,
-    TermsComponent
+    TermsComponent,
+    OrderdetailsComponent
 
   ],
   imports: [

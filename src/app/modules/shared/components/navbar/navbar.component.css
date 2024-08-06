@@ -353,6 +353,33 @@ nav section.right i:not(:last-child) {
 .dropdown-toggle::after {
   display: none;
 }
+.notification-dropdown {
+  --sb-track-color: #ffffff;
+  --sb-thumb-color: #d8f7ec;
+  --sb-size: 10px;
+}
+
+.notification-dropdown::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+.notification-dropdown::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 4px;
+}
+
+.notification-dropdown::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 4px;
+  border: 2px solid #ffffff;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .notification-dropdown {
+      scrollbar-color: var(--sb-thumb-color)
+                     var(--sb-track-color);
+  }
+}
 
 .notification-dropdown {
   position: absolute;
@@ -366,11 +393,12 @@ nav section.right i:not(:last-child) {
   z-index: 1000;
   max-height: 520px;
   overflow-y: auto;
+  padding: 10px 3px;
 }
 
 .notification-item {
   padding: 15px;
-  border-bottom: 1px solid #eee;
+  /* border-bottom: 1px solid #eee; */
 }
 
 .notification-header {
@@ -395,6 +423,30 @@ nav section.right i:not(:last-child) {
   display: inline-block;
   margin-left: 8px;
 }
+.notification-unread-icon{}
+.notification-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.notification-unread {
+  font-weight: bold;
+  background-color: #ecf8f4;
+}
+
+.notification-read {
+  font-weight: normal;
+  background-color: #fff;
+}
+
+.notification-unread-dot {
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 8px;
+}
 
 .notification-empty {
   padding: 15px;
@@ -404,4 +456,48 @@ nav section.right i:not(:last-child) {
 
 .pi-bell {
   margin-right: -0.50px!important;
+}
+
+.btn-close {
+  --bs-btn-close-color: #fff; /* White color for the close icon */
+  --bs-btn-close-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e"); /* White color for the background SVG */
+  --bs-btn-close-opacity: 0.6;
+  --bs-btn-close-hover-opacity: 0.9;
+  --bs-btn-close-focus-shadow: 0; /* Adjusted shadow color */
+  --bs-btn-close-focus-opacity: 1;
+  --bs-btn-close-disabled-opacity: 0.1;
+  --bs-btn-close-white-filter: invert(1) grayscale(100%) brightness(200%);
+  box-sizing: content-box;
+  width: 1em;
+  height: 1em;
+  padding: .25em .25em;
+  color: var(--bs-btn-close-color);
+  background: transparent var(--bs-btn-close-bg) center / 1em auto no-repeat;
+  border: 0;
+  border-radius: .375rem;
+  opacity: var(--bs-btn-close-opacity);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+
+.navbar-nav .dropdown-menu {
+  display: none;
+}
+
+.navbar-nav .dropdown.show .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu-sub {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  display: none;
+  margin-top: -0.25rem;
+}
+
+.dropdown-menu-sub.show {
+  display: block;
 }

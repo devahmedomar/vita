@@ -158,7 +158,7 @@ ul{
 
 
 
-button:disabled{
+.btn-main:disabled{
   background-color: #B8D687;
 }
 

@@ -52,25 +52,25 @@ export class ProductService {
     return this._HttpClient.get<any>(this.apiUrl,{headers});
   }
 
-  getAllProducts(): Observable<iProduct[]> {
+  getAllProducts(size:number,page:number): Observable<iProduct[]> {
     const language = this.translate.currentLang;
     const headers = new HttpHeaders().set('Accept-Language', language);
-    return this._HttpClient.get<iProduct[]>(this.ProductUrl + '/all',{headers});
+    return this._HttpClient.get<iProduct[]>(`https://api.vitaparapharma.com/api/v4/public/product/all?size=${size}&page=${page}`,{headers});
   }
 
-  getProductsBySubCategory(categoryId: number): Observable<any[]> {
+  getProductsBySubCategory(categoryId: number,size:number,page:number): Observable<any[]> {
     const language = this.translate.currentLang;
     const headers = new HttpHeaders().set('Accept-Language', language);
     this.apiUrl =
-      environment.baseUrl + 'v4/public/product/category/' + categoryId;
+      environment.baseUrl + `v4/public/product/category/` + categoryId+`?size=${size}&page=${page}`;
     return this._HttpClient.get<any[]>(this.apiUrl,{headers});
   }
 
-  getProductsByMainCategory(mainCategoryId: number): Observable<any[]> {
+  getProductsByMainCategory(mainCategoryId: number,size:number,page:number): Observable<any[]> {
     const language = this.translate.currentLang;
     const headers = new HttpHeaders().set('Accept-Language', language);
     this.apiUrl =
-      environment.baseUrl + 'v4/public/product/main/category/' + mainCategoryId;
+      environment.baseUrl + 'v4/public/product/main/category/' + mainCategoryId+`?size=${size}&page=${page}`;
     return this._HttpClient.get<any>(this.apiUrl,{headers}).pipe(
       map((response) => {
         if (
@@ -79,7 +79,7 @@ export class ProductService {
           response.data &&
           Array.isArray(response.data.products)
         ) {
-          return response.data.products;
+          return response;
         } else {
           throw new Error('Invalid response format or empty response');
         }
@@ -105,6 +105,7 @@ export class ProductService {
     // if (!authToken) {
     //   return this.handleAuthError();
     // }
+    // console.log(authToken);
 
     const headers = new HttpHeaders({
       Authorization: `Bearer ${authToken}`,
@@ -136,6 +137,7 @@ export class ProductService {
 
   addToWishlist(productId: string): Observable<any> {
     const authToken = localStorage.getItem('eToken');
+    // console.log(authToken);
     if (!authToken) {
       return throwError('User not authenticated');
     }
@@ -147,6 +149,8 @@ export class ProductService {
     const url = `${environment.baseUrl}v1/user/wishlist/add/${productId}`;
     return this._HttpClient.put(url, null, { headers }).pipe(
       map((response: any) => {
+        // console.log(response);
+
         return response;
       }),
       catchError((error) => {

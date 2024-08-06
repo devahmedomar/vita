@@ -1,0 +1,119 @@
+.status-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.status-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  text-align: center;
+}
+
+.status-circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #d3d3d3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.status-circle .checkmark {
+  color: green;
+  font-size: 16px;
+  position: absolute;
+}
+
+.status-line {
+  height: 2px;
+  background-color: #d3d3d3;
+  flex: 1;
+}
+
+.status-line.active {
+  background-color: green;
+}
+
+.status-item.active .status-circle {
+  border-color: green;
+}
+
+.status-item.active p {
+  color: green;
+  font-weight: bold;
+}
+
+.status-item p {
+  margin: 0;
+  font-size: 12px;
+  color: #333;
+}
+
+.status-item p.active {
+  color: green;
+}
+h5.order-id {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #4caf50; /* Green color for order ID */
+}
+.order-details {
+  background-color: white; /* White background for order details */
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for elevation */
+}
+
+.order-price, .order-shipping, .order-date {
+  font-size: 16px;
+}
+
+.order-shipping span {
+  color: #999; /* Muted color for pending state */
+}
+
+.order-id {
+  color: #4caf50; /* Green for order ID */
+}
+
+p.order-price {
+  color: #4caf50; /* Green color for total price */
+}
+
+.product-details {
+  background-color: white; /* White background for product details */
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for elevation */
+}
+
+.product-img {
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+.product-name {
+  font-weight: bold;
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.product-price {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.product-quantity {
+  font-size: 14px;
+  color: #333;
+}

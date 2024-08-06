@@ -121,6 +121,7 @@ export class BlogComponent implements OnInit {
   resetSearch(): void {
     this.term = '';
     this.noResults = false;
+    this.currentPage=1;
     this.paginate();
     this.updateSafeBlogContent();
   }
@@ -129,10 +130,12 @@ export class BlogComponent implements OnInit {
     const filteredBlogs = this.blogArr.filter((blog) =>
       blog.title.toLowerCase().includes(this.term.toLowerCase())
     );
-    this.term = '';
+    this.blogArr = (filteredBlogs);
+
 
     if (filteredBlogs.length === 0) {
       this.noResults = true;
+      this.paginatedBlogArr=[];
       this.fetchData(this.selectedTag);
     } else {
       this.noResults = false;

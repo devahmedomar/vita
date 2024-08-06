@@ -141,7 +141,7 @@ export class SingleblogComponent implements OnInit {
   }
 
   getFacebookShareUrl(blogId:number): string {
-    const blogUrl = `https://Vita-domain.com/blog/${blogId}`;
+    const blogUrl = `https://www.vitaparapharma.com/blog/${blogId}`;
     const shareUrl = `https://www.facebook.com/sharer.php?u=${encodeURIComponent(blogUrl)}`;
     return shareUrl;
   }

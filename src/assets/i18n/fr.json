@@ -302,7 +302,8 @@
     "FAVOURITES": "Favoris",
     "ACCOUNT":"Mon Compte",
     "gallery_post": "Publication de la Galerie",
-    "CHECKOUT": "Paiement"
+    "CHECKOUT": "Paiement",
+    "NOTIFICATION":"notification"
   },
   "errorMsgs":{
     "notLoggedInCart":"Veuillez vous connecter d'abord pour ajouter au panier"

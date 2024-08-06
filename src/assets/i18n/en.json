@@ -303,11 +303,13 @@
       "FAVOURITES":"FAVOURITES",
       "ACCOUNT":"MY ACCOUNT",
       "gallery_post": "Gallery Post",
-      "CHECKOUT": "CHECKOUT"
+      "CHECKOUT": "CHECKOUT",
+      "NOTIFICATION": "notification"
 
     },
     "errorMsgs":{
       "notLoggedInCart":"Please Login First To add to cart"
-    }
+    },
+    "no_notifications":"There is No Notifications To Show"
 
 }

@@ -226,7 +226,10 @@ export class SingleProductComponent implements OnInit {
       next: (wishlist: any[]) => {
         // console.log('Wishlist:', wishlist);
         this.isInWishlist = wishlist.some(
-          (item) => item.toString() === this.productId.toString()
+          (item) => {
+            console.log(item);
+
+            return item.toString() === this.productId.toString()}
         );
         // console.log('isInWishlist:', this.isInWishlist);
       },

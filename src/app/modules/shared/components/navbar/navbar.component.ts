@@ -1,5 +1,5 @@
 import { INotification } from 'src/app/models/inotification';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
@@ -8,22 +8,26 @@ import { LoginService } from 'src/app/services/auth/login/login.service';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { Collapse } from 'bootstrap';
+import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   mainCategories: IMainCategory[] | undefined;
+  selectedCategory: IMainCategory | null = null;
+  currentMenu: 'main' | 'categories' | 'subcategories' = 'main';
   cartCount$: Observable<number>;
   isLoggedIn$: Observable<boolean>;
   notifications: INotification[] = [];
   showNotifications = false;
-  isMobile: boolean = false;
-  isDesktop: boolean = true;
-  lang: string = '';
-  isRTL: boolean = false;
+  isMobile = false;
+  isDesktop = true;
+  lang = '';
+  isRTL = false;
   private langChangeSubscription: Subscription = new Subscription();
 
   constructor(
@@ -32,7 +36,8 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private loginService: LoginService,
     private notificationService: NotificationService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private elementRef: ElementRef
   ) {
     this.cartCount$ = this.cartService.cartCount$;
     this.isLoggedIn$ = this.loginService.isLoggedIn$();
@@ -50,6 +55,7 @@ export class NavbarComponent implements OnInit {
       this.fetchCategories();
       this.updateDirection(event.lang);
     });
+    this.getNotifiyUnread();
   }
 
   ngOnDestroy(): void {
@@ -58,10 +64,31 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  markAsRead(notification: INotification) {
+    if (!notification.read) {
+      notification.read = true;
+      this.notificationService.markAsRead(notification.id).subscribe(
+        () => console.log('Notification marked as read'),
+        (error) => console.error('Error marking notification as read', error)
+      );
+    }
+    this.navigateToOrderDetails(+notification.identifier);
+    this.getNotifiyUnread();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    const clickedInside = this.elementRef.nativeElement.contains(event.target);
+    if (!clickedInside && this.showNotifications) {
+      this.showNotifications = false;
+    }
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     this.checkScreenSize();
   }
+
   checkScreenSize() {
     this.isDesktop = window.innerWidth >= 991.98;
     this.isMobile = window.innerWidth <= 991.98;
@@ -93,6 +120,10 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  navigateToOrderDetails(orderId: number) {
+    this.router.navigate(['/order-details', orderId]);
+  }
+
   toggleNotifications(): void {
     this.showNotifications = !this.showNotifications;
   }
@@ -114,15 +145,23 @@ export class NavbarComponent implements OnInit {
   }
 
   navigateToSubCategory(categoryId: number) {
+
     this.router.navigate(['/shop'], { queryParams: { category: categoryId } });
+    this.closeNavbar();
+    this.currentMenu = 'main';
   }
 
   navigateToMainCategory(mainCategoryId: number): void {
-    this.router.navigate(['/shop'], {
-      queryParams: { mainCategory: mainCategoryId },
-    });
+    this.router.navigate(['/shop'], { queryParams: { mainCategory: mainCategoryId } });
   }
-
+  unreadNotifications:number=0;
+  getNotifiyUnread() {
+this.notificationService.getUnreadNotifications().subscribe({
+  next:(res)=>{
+this.unreadNotifications = res.data.unread;
+  }
+})
+  }
   changeLang(event: Event) {
     const selectedLanguage = (event.target as HTMLSelectElement).value;
     localStorage.setItem('lang', selectedLanguage);
@@ -137,4 +176,37 @@ export class NavbarComponent implements OnInit {
       (el as HTMLElement).setAttribute('dir', direction);
     });
   }
+
+  closeNavbar() {
+    const navbar = document.getElementById('navbarSupportedContent');
+    if (navbar) {
+      const bsCollapse = Collapse.getInstance(navbar);
+      if (bsCollapse) {
+        bsCollapse.hide();
+      } else {
+        new Collapse(navbar).hide();
+      }
+    }
+  }
+
+  // New methods for handling menu navigation
+  showMainMenu() {
+    this.currentMenu = 'main';
+    this.selectedCategory = null;
+  }
+
+  showCategories() {
+    this.currentMenu = 'categories';
+    this.selectedCategory = null;
+  }
+
+  showSubcategories(category: IMainCategory) {
+    this.selectedCategory = category;
+    this.currentMenu = 'subcategories';
+  }
+
+  backToCategories() {
+    this.currentMenu = 'categories';
+  }
+
 }

@@ -1,0 +1,55 @@
+<app-navbar></app-navbar>
+<app-breadcrumb [breadcrumbData]="orderDetailsBreadCrumbData"></app-breadcrumb>
+<!-- <h1>{{orderId}}</h1> -->
+
+<div class="container order-details" *ngIf="orderDetails">
+  <div class="row my-4">
+    <div class="col-12">
+      <h5 class="order-id">Order ID : #{{orderDetails.orderId}}</h5>
+      <p class="order-date">{{orderDetails.orderDate | date:'longDate'}}</p>
+      <p class="order-price">Total Price : {{orderDetails.totalAmount}} $</p>
+      <p class="order-shipping">Shipping Date : <span class="text-muted">{{orderDetails.shipmentDate}}</span></p>
+      <p class="order-shipping">Shipping Address : {{orderDetails.country}} - {{orderDetails.city}} -
+        {{orderDetails.region}}</p>
+    </div>
+  </div>
+
+  <div class="row status-container my-4">
+    <div class="col status-item" [class.active]="orderDetails.orderStatus === 'Prepared'">
+      <div class="status-circle">
+        <span *ngIf="orderDetails.orderStatus === 'Prepared'" class="checkmark">✔</span>
+      </div>
+      <p>Prepared</p>
+    </div>
+    <div class="status-line" [class.active]="orderDetails.orderStatus !== 'Prepared'"></div>
+    <div class="col status-item" [class.active]="orderDetails.orderStatus === 'Shipped'">
+      <div class="status-circle">
+        <span *ngIf="orderDetails.orderStatus === 'Shipped'" class="checkmark">✔</span>
+      </div>
+      <p>Shipped</p>
+    </div>
+    <div class="status-line" [class.active]="orderDetails.orderStatus === 'Delivered'"></div>
+    <div class="col status-item" [class.active]="orderDetails.orderStatus === 'Delivered'">
+      <div class="status-circle">
+        <span *ngIf="orderDetails.orderStatus === 'Delivered'" class="checkmark">✔</span>
+      </div>
+      <p>Delivered</p>
+    </div>
+  </div>
+
+
+  <div class="row product-details my-4" *ngFor="let item of orderDetails.orderItems">
+    <div class="col-3">
+      <img [src]="item.pictureUrl" alt="Product Image" class="product-img img-fluid">
+    </div>
+    <div class="col-9">
+      <p class="product-name">{{item.productName}}</p>
+      <p class="product-price">Unit Price : {{item.unitPrice}}$</p>
+      <p class="product-price">Total Price : {{item.totalPrice}}$</p>
+      <p class="product-quantity">Quantity: {{item.quantity}}</p>
+    </div>
+  </div>
+</div>
+
+
+<app-footer></app-footer>
